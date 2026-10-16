@@ -1,0 +1,74 @@
+[
+ {
+  "f": "line00.wav",
+  "start": 3.9,
+  "dur": 1.82,
+  "ends": 5.72,
+  "latest": 5.6,
+  "fits": false
+ },
+ {
+  "f": "line01.wav",
+  "start": 6.3,
+  "dur": 3.5,
+  "ends": 9.8,
+  "latest": 10,
+  "fits": true
+ },
+ {
+  "f": "line02.wav",
+  "start": 10.8,
+  "dur": 4.1,
+  "ends": 14.9,
+  "latest": 16.6,
+  "fits": true
+ },
+ {
+  "f": "line03.wav",
+  "start": 17.8,
+  "dur": 4.55,
+  "ends": 22.35,
+  "latest": 23.6,
+  "fits": true
+ },
+ {
+  "f": "line04.wav",
+  "start": 24.8,
+  "dur": 3.17,
+  "ends": 27.98,
+  "latest": 30.6,
+  "fits": true
+ },
+ {
+  "f": "line05.wav",
+  "start": 31.8,
+  "dur": 2.83,
+  "ends": 34.63,
+  "latest": 37.6,
+  "fits": true
+ },
+ {
+  "f": "line06.wav",
+  "start": 38.8,
+  "dur": 3.73,
+  "ends": 42.52,
+  "latest": 44.6,
+  "fits": true
+ },
+ {
+  "f": "line07.wav",
+  "start": 45.8,
+  "dur": 3.85,
+  "ends": 49.65,
+  "latest": 51.6,
+  "fits": true
+ },
+ {
+  "f": "line08.wav",
+  "start": 53.2,
+  "dur": 2.6,
+  "ends": 55.8,
+  "latest": 58,
+  "fits": true
+ }
+]

@@ -1,0 +1,20 @@
+{
+  "name": "pitaka-showreel",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio src/index.jsx",
+    "render:vertical": "remotion render src/index.jsx ReelVertical ../out/.raw-vertical.mp4 --codec=h264 --crf=17 --audio-codec=aac --audio-bitrate=256k --concurrency=4 && remotion ffmpeg -y -loglevel error -i ../out/.raw-vertical.mp4 -c copy -movflags +faststart ../out/pitaka-reel-vertical.mp4 && rm ../out/.raw-vertical.mp4",
+    "render:horizontal": "remotion render src/index.jsx ReelHorizontal ../out/.raw-horizontal.mp4 --codec=h264 --crf=17 --audio-codec=aac --audio-bitrate=256k --concurrency=4 && remotion ffmpeg -y -loglevel error -i ../out/.raw-horizontal.mp4 -c copy -movflags +faststart ../out/pitaka-reel-horizontal.mp4 && rm ../out/.raw-horizontal.mp4",
+    "render:all": "npm run render:vertical && npm run render:horizontal",
+    "render:appstore": "node appstore.mjs"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.536",
+    "@remotion/google-fonts": "^4.0.536",
+    "puppeteer-core": "^23.11.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.536"
+  }
+}

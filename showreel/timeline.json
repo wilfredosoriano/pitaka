@@ -1,0 +1,16 @@
+{
+  "fps": 60,
+  "duration": 59,
+  "wipe": 0.6,
+  "scenes": [
+    {"id": "brand",  "start": 0,    "end": 6.0},
+    {"id": "title",  "start": 5.4,  "end": 10.5},
+    {"id": "s1",     "start": 9.9,  "end": 17.5},
+    {"id": "s2",     "start": 16.9, "end": 24.5},
+    {"id": "s3",     "start": 23.9, "end": 31.5},
+    {"id": "s4",     "start": 30.9, "end": 38.5},
+    {"id": "s5",     "start": 37.9, "end": 45.5},
+    {"id": "s6",     "start": 44.9, "end": 52.5},
+    {"id": "outro",  "start": 51.9, "end": 59.0}
+  ]
+}

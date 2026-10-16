@@ -177,6 +177,27 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 }
 /* ---------- Phase 2: guided tour ---------- */
 .tour{position:fixed;inset:0;z-index:30}
+.switch{width:51px;height:31px;border-radius:16px;background:var(--track);position:relative;flex-shrink:0;transition:background .2s}
+.switch::after{content:'';position:absolute;top:3px;left:3px;width:25px;height:25px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+.switch[aria-checked="true"]{background:var(--fill)}
+.switch[aria-checked="true"]::after{transform:translateX(20px);background:var(--on)}
+.lock{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:calc(24px + env(safe-area-inset-top,0px)) 24px calc(20px + env(safe-area-inset-bottom,0px));overflow:auto}
+.lock .lt{font-size:20px;font-weight:600;text-align:center}
+.lock .lm{font-size:14px;color:var(--muted);text-align:center;min-height:20px;margin-top:6px}
+.lock .lm.err{color:var(--red)}
+.pdots{display:flex;gap:18px}
+.pdots i{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--ink)}
+.pdots i.on{background:var(--ink)}
+.pdots.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}}
+.keys{display:grid;grid-template-columns:repeat(3,76px);gap:16px 26px}
+.keys button{width:76px;height:76px;border-radius:50%;background:var(--card);font-size:28px;font-weight:500;display:flex;align-items:center;justify-content:center}
+.keys button:active{background:var(--track)}
+.keys button:disabled{opacity:.35}
+.keys .k0{grid-column:2}
+.keys .kd{background:none}
+.lock .lnk{height:44px;padding:0 14px;font-size:14px;font-weight:500;color:var(--muted)}
+.lock .lbox{max-width:340px;width:100%;display:flex;flex-direction:column;gap:12px;text-align:center}
 .tour-ring{position:fixed;border-radius:16px;box-shadow:0 0 0 3px #fff,0 0 0 9999px rgba(0,0,0,.6);pointer-events:none}
 .tour-tip{position:fixed;width:min(320px,calc(100vw - 32px));background:var(--card2);color:var(--ink);border-radius:20px;padding:16px 16px 14px;box-shadow:0 10px 40px rgba(0,0,0,.3)}
 .tour-tip .t15{font-size:16px}
@@ -332,6 +353,7 @@ const I={
  wallet:'<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',
  set:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
  plus:'<path d="M12 5v14M5 12h14"/>',
+ lock:'<rect x="4" y="11" width="16" height="10" rx="2.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
  out:'<path d="M7 17 17 7M8 7h9v9"/>',
  inn:'<path d="M17 7 7 17M16 17H7V8"/>',
  xfer:'<path d="M7 4 3 8l4 4"/><path d="M3 8h18"/><path d="m17 20 4-4-4-4"/><path d="M21 16H3"/>',
@@ -383,12 +405,15 @@ const LOGO=s=>`<svg width="${s}" height="${s}" viewBox="4 3 56 56" fill="current
 // Banks, e-wallets and pay later apps you can pick for a wallet. Only ones with a card image in icons/<id>.png are listed.
 const PROVS={ewallet:[['gcash','GCash'],['maya','Maya']],
  bank:[['bdo','BDO'],['bpi','BPI'],['metrobank','Metrobank'],['unionbank','UnionBank'],['securitybank','Security Bank'],['landbank','Landbank'],['gotyme','GoTyme'],['maribank','MariBank'],['rcbc','RCBC'],['eastwest','EastWest'],['cimb','CIMB'],['tonik','Tonik'],['pnb','PNB']],
- paylater:[['billease','BillEase'],['spaylater','SPayLater'],['atome','Atome'],['lazpaylater','Lazada PayLater']]};
+ paylater:[['maya-cc','Maya Credit Card'],['maya-easy-credit','Maya Easy Credit'],['billease','BillEase'],['spaylater','SPayLater'],['atome','Atome'],['lazpaylater','Lazada PayLater']]};
+// Cards from the same company share its logo (icons/logos/<id>.png)
+const LOGO_OF={'maya-cc':'maya','maya-easy-credit':'maya'};
+const logoSrc=p=>`icons/logos/${LOGO_OF[p]||p||'default'}.png`;
 const PROV=Object.fromEntries(Object.entries(PROVS).flatMap(([t,l])=>l.map(([id,n])=>[id,{n,t}])));
 const VERSION='1.0';
 const RELS=['Family','Friend','Partner','Work','Other'];
 // Pay later wallets hold debt: their balance goes below zero as you spend, and a transfer into them pays it down
-const TYPES={cash:{l:'Cash',i:'cash'},bank:{l:'Bank',i:'bank'},ewallet:{l:'E-wallet',i:'phone'},paylater:{l:'Pay later',i:'card'}};
+const TYPES={cash:{l:'Cash',i:'cash'},bank:{l:'Bank',i:'bank'},ewallet:{l:'E-wallet',i:'phone'},paylater:{l:'Credit',i:'card'}};
 const CATS0=[['food','Food','food'],['transport','Transport','bus'],['groceries','Groceries','cart'],['bills','Bills','bolt'],['load','Load & data','signal'],['shopping','Shopping','bag'],['health','Health','heart'],['others','Others','dots']];
 // Icons you can pick for your own categories
 const CICONS=['star','gift','book','paw','home','plane','game','shirt','coffee','fit','smile','wrench','users','heart','bag','phone'];
@@ -484,11 +509,11 @@ const standalone=()=>window.matchMedia('(display-mode: standalone)').matches||na
 /* ---------- pieces ---------- */
 // The wallet's logo (icons/logos/<id>.png) on a white tile. Transfers show the "from" wallet.
 // Wallets without a bank (Cash, or no bank picked) use icons/logos/default.png; a missing bank logo falls back to it too, then to the type icon
-function txLogo(id){const w=W(id),ic=sv(I[(TYPES[w?.type]||TYPES.cash).i],18),src=`icons/logos/${w?.prov||'default'}.png`;
+function txLogo(id){const w=W(id),ic=sv(I[(TYPES[w?.type]||TYPES.cash).i],18),src=logoSrc(w?.prov);
  return `<span class="txlogo lg">${ic}<img src="${src}" alt="" onerror="if(!this.src.endsWith('/default.png'))this.src='icons/logos/default.png';else this.remove()"></span>`}
 // Spending shows its category (icons/categories/<id>.png; your own categories use their outline icon) with the wallet's logo as a small corner badge
 function txCat(t){const c=catOf(t),own=c.startsWith('c_'),w=W(t.wallet);
- return `<span class="txic"><span class="txcat">${sv(I[CAT[c].i],18)}${own?'':`<img src="icons/categories/${c}.png" alt="" onerror="this.remove()">`}</span><span class="txbadge"><img src="icons/logos/${w?.prov||'default'}.png" alt="" onerror="if(!this.src.endsWith('/default.png'))this.src='icons/logos/default.png';else this.remove()"></span></span>`}
+ return `<span class="txic"><span class="txcat">${sv(I[CAT[c].i],18)}${own?'':`<img src="icons/categories/${c}.png" alt="" onerror="this.remove()">`}</span><span class="txbadge"><img src="${logoSrc(w?.prov)}" alt="" onerror="if(!this.src.endsWith('/default.png'))this.src='icons/logos/default.png';else this.remove()"></span></span>`}
 // Tapping an entry shows it as a receipt first; Edit, Log again and Delete live there
 function openReceipt(id){const t=S.tx.find(x=>x.id===id);if(!t)return;sheet={type:'receipt',id};const d=new Date(t.at),k=t.kind,w=W(t.wallet);
  const head=k==='expense'?`<span class="rc-cat">${sv(I[CAT[catOf(t)].i],26)}${catOf(t).startsWith('c_')?'':`<img src="icons/categories/${catOf(t)}.png" alt="" onerror="this.remove()">`}</span>`:`<span class="rc-logo">${txLogo(t.wallet)}</span>`;
@@ -535,7 +560,7 @@ function walletCard(w,i){const ty=TYPES[w.type]||TYPES.cash;const b=bal(w.id);co
   <span class="wc-top"><span class="wc-badge">${sv(I[ty.i],17)}</span><span class="wc-name">${esc(w.name)}</span><span class="wc-nfc">${NFC}</span></span>
   <span class="wc-iname">${esc(w.name)}</span>
   <span class="wc-bal">${S.hide?'₱ •••••':w.type==='paylater'?(w.limit?`${peso(plInfo(w,b).avail)}<small> available</small>`:b<0?`Owe ${peso(-b)}`:'Paid up'):peso(b)}</span>
-  <span class="wc-type">${w.type==='ewallet'?'E-WALLET':w.type==='paylater'?'PAY LATER · YOU OWE':ty.l.toUpperCase()+' ACCOUNT'}</span>
+  <span class="wc-type">${w.type==='ewallet'?'E-WALLET':w.type==='paylater'?'CREDIT · YOU OWE':ty.l.toUpperCase()+' ACCOUNT'}</span>
   <span class="wc-foot"><span>${w.goal?`<span class="wc-cap">GOAL</span><span class="wc-num">${S.hide?'•••• ••••':`${goalInfo(w).pct}% of ${peso(w.goal)}`}</span>`:w.type==='paylater'&&w.limit?`<span class="wc-cap">OWE</span><span class="wc-num">${S.hide?'•••• ••••':`${peso(plInfo(w,b).owed)} of ${peso(w.limit)}`}</span>`:`<span class="wc-cap">SPENT IN ${monthName(n.getFullYear(),n.getMonth()).toUpperCase()}</span><span class="wc-num">${S.hide?'•••• ••••':peso(sp)}</span>`}</span><span class="wc-mark" aria-hidden="true"><i></i><i></i></span></span>
  </button>
  <div class="wc-face wc-back" data-a="wflip" data-id="${w.id}"><span class="wc-stripe" aria-hidden="true"></span>
@@ -746,11 +771,11 @@ function people(){
 function wallets(){
  const hasPL=S.wallets.some(w=>w.type==='paylater'),tab=hasPL?S.wtab||'money':'money',pl=tab==='paylater';
  const list=S.wallets.filter(w=>(w.type==='paylater')===pl);
- const sw=hasPL?`<div class="wtabs" role="tablist" aria-label="Wallet group"><button role="tab" aria-selected="${!pl}" class="${pl?'':'on'}" data-a="wtab" data-v="money">Money</button><button role="tab" aria-selected="${pl}" class="${pl?'on':''}" data-a="wtab" data-v="paylater">Pay later</button></div>`:'';
+ const sw=hasPL?`<div class="wtabs" role="tablist" aria-label="Wallet group"><button role="tab" aria-selected="${!pl}" class="${pl?'':'on'}" data-a="wtab" data-v="money">Money</button><button role="tab" aria-selected="${pl}" class="${pl?'on':''}" data-a="wtab" data-v="paylater">Credit</button></div>`:'';
  let hero;
  if(pl){let owed=0,lim=0,avail=0,anyLim=false;list.forEach(w=>{const f=plInfo(w,bal(w.id));owed+=f.owed;if(w.limit){anyLim=true;lim+=w.limit;avail+=f.avail}});
   hero=`<section class="blk">${sw}<div class="cap">${anyLim?'Available credit':'You owe'}</div><div class="amt">${S.hide?'₱•••••':peso(anyLim?avail:owed)}</div>
-   <div class="cap" style="margin-top:4px">${anyLim?`Owe ${S.hide?'₱•••':peso(owed)} of ${S.hide?'₱•••':peso(lim)} limit`:'Add a credit limit to a pay later wallet to see what\'s available'}</div>
+   <div class="cap" style="margin-top:4px">${anyLim?`Owe ${S.hide?'₱•••':peso(owed)} of ${S.hide?'₱•••':peso(lim)} limit`:'Add a credit limit to a credit wallet to see what\'s available'}</div>
    <div class="g2" style="margin-top:18px"><button class="pill" data-a="plpay">${sv(I.xfer,18)}Pay bill</button><button class="pill" data-a="plspend">${sv(I.out,18)}Spend</button></div></section>`}
  else hero=`<section class="blk">${sw}<div class="cap">All wallets</div><div class="amt">${S.hide?'₱•••••':peso(total())}</div><div class="cap" style="margin-top:4px">${list.length} ${list.length===1?'wallet':'wallets'}</div></section>`;
  return `<header class="row"><h1 class="h1">Wallets</h1><button class="rb" data-a="addwallet" aria-label="Add wallet">${sv(I.plus)}</button></header>
@@ -758,7 +783,7 @@ function wallets(){
  ${list.length?`<div class="wgrid" id="wgrid">${list.map(w=>{const ty=TYPES[w.type]||TYPES.cash,b=bal(w.id);
   const amt=S.hide?'₱•••':w.type==='paylater'?(w.limit?`${peso(plInfo(w,b).avail)} left`:b<0?`Owe ${peso(-b)}`:'Paid up'):peso(b);
   return `<button class="mcard" data-a="wallet" data-id="${w.id}" data-card="${w.prov||'default'}" aria-label="${esc(w.name)}, ${S.hide?'balance hidden':amt}. Press and hold to move"><span class="mc-ico">${sv(I[ty.i],18)}</span><span class="mc-name">${esc(w.name)}</span><span class="mc-bal">${amt}</span>${w.goal?`<span class="mc-goal" aria-label="${goalInfo(w).pct}% of goal"><i style="width:${goalInfo(w).pct}%"></i></span>`:''}</button>`}).join('')}</div>
- <p class="tiny" style="margin:-8px 4px 0">${list.length>1?'Press and hold a card to move it. Home shows your wallets in this order. ':''}${pl?'Buying with pay later counts as spending. Pay the bill with a transfer from your bank, so it isn\'t counted twice.':'Each balance is the starting amount, minus what you spent from it, plus money added or moved in.'}</p>`
+ <p class="tiny" style="margin:-8px 4px 0">${list.length>1?'Press and hold a card to move it. Home shows your wallets in this order. ':''}${pl?'Buying on credit counts as spending. Pay the bill with a transfer from your bank, so it isn\'t counted twice.':'Each balance is the starting amount, minus what you spent from it, plus money added or moved in.'}</p>`
   :emptyCard('wallet','No wallets yet','Add your cash, bank or e-wallet to start.','Add wallet','addwallet')}`;
 }
 
@@ -778,6 +803,10 @@ function settings(){
   <button class="rb" style="border:none" data-a="cats" aria-label="Edit categories">${sv(I.edit,18)}</button></div>
  <div class="card row"><div><div class="sub" style="font-size:14px">Category limits</div><div style="font-size:16px;font-weight:600;margin-top:2px">${(n=>n?`${n} ${n===1?'category':'categories'}`:'Not set')(Object.keys(S.cbud).length)}</div></div>
   <button class="rb" style="border:none" data-a="cbud" aria-label="Set category limits">${sv(Object.keys(S.cbud).length?I.edit:I.plus,18)}</button></div>
+ <div class="card" style="padding:12px"><div class="sub" style="display:flex;gap:8px;align-items:center;padding:2px 4px 10px;font-size:14px">${sv(I.lock,18)}Privacy</div>
+  <div class="inner"><div class="li"${LK?'':' style="border:none"'}><span>PIN lock</span><button class="switch" role="switch" aria-checked="${!!LK}" aria-label="PIN lock" data-a="lockset"></button></div>
+  ${LK?`<button class="li" style="width:100%;border:none" data-a="pinchange"><span>Change PIN</span>${sv(I.edit,18)}</button>`:''}</div>
+  <p class="tiny" style="margin:10px 4px 2px">Asks for a 4-digit PIN when you open Pitaka, or come back after a minute away. The PIN stays on this device and isn't saved in backups.</p></div>
  <div class="card" style="padding:12px"><div class="sub" style="display:flex;gap:8px;align-items:center;padding:2px 4px 10px;font-size:14px">${sv(I.down,18)}Backup</div>
   <div class="inner"><button class="li" style="width:100%" data-a="backup"><span>Save backup file</span>${sv(I.down,18)}</button>
   <label class="li" style="width:100%;cursor:pointer"><span>Restore from backup file</span>${sv(I.up,18)}<input type="file" id="restore" accept="application/json,.json" hidden></label></div>
@@ -815,12 +844,12 @@ const TOURS={
  main:[
   {el:'[data-tour="spend"]',t:'Log spending',d:'Tap Spend each time you buy something. It comes out of the wallet you pick.'},
   {el:'[data-tour="income"]',t:'Add money',d:'Got paid or received cash? Add it and that wallet goes up.'},
-  {el:'[data-tour="transfer"]',t:'Move money',d:'Withdrew cash, topped up GCash, paid a pay later bill or saved? Move it between wallets.'},
+  {el:'[data-tour="transfer"]',t:'Move money',d:'Withdrew cash, topped up GCash, paid a credit card bill or saved? Move it between wallets.'},
   {el:'[data-tour="bills"]',t:'Bills due',d:'Monthly bills show here when they are due. Log or skip them in one tap.'},
   {el:'[data-tour="month"]',t:'This month',d:"What you've spent so far. Set a budget to see how much is left each day."},
   {el:'#deck',t:'Your wallets',d:'Swipe to switch wallets. Tap a card to flip it for its details and QR code.'},
   {el:'[data-tour="recent"]',t:'Tap an entry',d:'See its receipt, then edit it, log it again, or delete it.'},
-  {el:'.nav [data-page="wallets"]',t:'Wallets',d:'Your cards, pay later apps and savings goals.'},
+  {el:'.nav [data-page="wallets"]',t:'Wallets',d:'Your cards, credit and savings goals.'},
   {el:'.nav [data-page="people"]',t:'People',d:'Save QR codes of family and friends so sending them money is quick.'},
   {el:'.nav [data-page="settings"]|[data-tour="settings"]',t:'Settings',d:'Budgets, recurring bills, backup, appearance, and Show tips again.'}
  ],
@@ -836,9 +865,9 @@ const TOURS={
   {el:'.sheet [data-tour="repeat"]',t:'Repeat every month',d:'For bills and subscriptions. Pitaka reminds you on Home when it is due.'}
  ],
  wallets:[
-  {el:'.wtabs',t:'Money and pay later',d:'Switch between your wallets and your pay later apps.'},
+  {el:'.wtabs',t:'Money and credit',d:'Switch between your wallets and your credit cards or pay later apps.'},
   {el:'#wgrid',t:'Your cards',d:'Tap a card to see or edit it. Press and hold to move it; Home follows this order.'},
-  {el:'main header [data-a="addwallet"]',t:'Add a wallet',d:'Cash, bank, e-wallet or pay later. You can add a savings goal too.'}
+  {el:'main header [data-a="addwallet"]',t:'Add a wallet',d:'Cash, bank, e-wallet or credit. You can add a savings goal too.'}
  ],
  receipt:[
   {el:'.sheet [data-a="txedit"]',t:'Edit',d:'Change the amount, category, wallet or date.'},
@@ -1192,8 +1221,8 @@ function drawWallet(){
  ${w?`<div class="card" style="padding:12px"><div class="sub" style="padding:4px 4px 10px;font-size:14px">Recent in this wallet</div><div class="inner">${recent.length?recent.map(txRow).join(''):'<div class="li"><span class="sub">Nothing logged yet</span></div>'}</div></div>`:''}
  <div><label class="lbl" for="wl-name">Wallet name</label><input class="field" id="wl-name" maxlength="30" placeholder="BDO savings" value="${esc(D.name)}" autocomplete="off"></div>
  <div><span class="lbl">Type</span><div class="chips">${Object.entries(TYPES).map(([k,t])=>`<button class="sel${D.wtype===k?' on':''}" data-a="wtype" data-v="${k}">${sv(I[t.i],16)}${t.l}</button>`).join('')}</div></div>
- ${PROVS[D.wtype]?`<div><span class="lbl">Which ${{bank:'bank',ewallet:'e-wallet',paylater:'app'}[D.wtype]}? (optional)</span><div class="pgrid" role="radiogroup" aria-label="Card design">${[['','None'],...PROVS[D.wtype]].map(([id,n])=>`<button class="ptile${D.prov===id?' on':''}" role="radio" aria-checked="${D.prov===id}" data-a="wprov" data-v="${id}"><span class="pthumb" data-card="${id||'default'}"></span>${n}</button>`).join('')}</div><div class="tiny" style="margin-top:8px">Pick None if yours isn't listed.</div></div>`:''}
- ${D.wtype==='paylater'?`<div><label class="lbl" for="wl-lim">Credit limit</label><input class="field" id="wl-lim" inputmode="decimal" placeholder="₱10,000.00" value="${esc(D.lim)}" style="font-weight:600;font-variant-numeric:tabular-nums"><div class="tiny" style="margin-top:6px">The most the app lets you use. Pay later isn't counted in your total balance.</div></div>`:''}
+ ${PROVS[D.wtype]?`<div><span class="lbl">Which ${{bank:'bank',ewallet:'e-wallet',paylater:'card or app'}[D.wtype]}? (optional)</span><div class="pgrid" role="radiogroup" aria-label="Card design">${[['','None'],...PROVS[D.wtype]].map(([id,n])=>`<button class="ptile${D.prov===id?' on':''}" role="radio" aria-checked="${D.prov===id}" data-a="wprov" data-v="${id}"><span class="pthumb" data-card="${id||'default'}"></span>${n}</button>`).join('')}</div><div class="tiny" style="margin-top:8px">Pick None if yours isn't listed.</div></div>`:''}
+ ${D.wtype==='paylater'?`<div><label class="lbl" for="wl-lim">Credit limit</label><input class="field" id="wl-lim" inputmode="decimal" placeholder="₱10,000.00" value="${esc(D.lim)}" style="font-weight:600;font-variant-numeric:tabular-nums"><div class="tiny" style="margin-top:6px">The most you can use. Credit isn't counted in your total balance.</div></div>`:''}
  <div><label class="lbl" for="wl-amt">${D.wtype==='paylater'?'What you owe right now':'Balance right now'}</label><input class="field" id="wl-amt" inputmode="decimal" placeholder="₱0.00" value="${esc(D.amt)}" style="font-weight:600;font-variant-numeric:tabular-nums">
  <div class="tiny" style="margin-top:6px">${D.wtype==='paylater'?'Enter 0 if you don\'t owe anything yet. Spending from it adds to what you owe. To pay it off, transfer money into it.':w?'Change this only if it doesn\'t match your real balance. Your history stays the same.':'Check your bank app or count your cash.'}</div></div>
  ${D.wtype!=='paylater'?`<div><span class="lbl" style="font-size:14px;font-weight:600;color:var(--ink)">Savings goal (optional)</span><div class="g2"><div><label class="lbl" for="wl-goal">Goal amount</label><input class="field" id="wl-goal" inputmode="decimal" placeholder="₱50,000.00" value="${esc(D.goal)}" style="font-weight:600;font-variant-numeric:tabular-nums"></div><div><label class="lbl" for="wl-gby">Reach it by</label><div class="datewrap${D.gby?' has':''}"><input class="field" id="wl-gby" type="date" value="${esc(D.gby)}" min="${dkey(new Date())}"><span class="dateph" aria-hidden="true">Pick a date</span></div></div></div>
@@ -1223,6 +1252,55 @@ function saveWallet(){
  if(D.back){persist();render();const e=D.back;if(!D.id){e[e.ddf||'wallet']=S.wallets.at(-1).id;if(e.kind==='transfer'&&e.to===e.wallet)e.to=''}sheet=e;drawEntry();toast(D.id?'Changes saved':'Wallet added');return}
  persist();closeSheet();render();toast(D.id?'Changes saved':'Wallet added');
 }
+
+/* PIN lock: kept apart from the app data, so backups never carry it and a restore never locks you out */
+const LKEY='pitaka:lock';
+let LK=(()=>{try{const l=JSON.parse(localStorage.getItem(LKEY)||'null');return l&&l.hash&&l.salt?l:null}catch(e){return null}})();
+function saveLock(){try{LK?localStorage.setItem(LKEY,JSON.stringify(LK)):localStorage.removeItem(LKEY)}catch(e){}}
+async function pinHash(pin,salt){const d=new TextEncoder().encode(salt+':'+pin);
+ if(crypto.subtle){const h=await crypto.subtle.digest('SHA-256',d);return [...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,'0')).join('')}
+ let x=2166136261;for(const c of d)x=Math.imul(x^c,16777619)>>>0;return 'f'+x.toString(16)}
+let lockSt=null,lockTick;
+const LOCK_T={unlock:'Enter your PIN',set:'Create a 4-digit PIN',confirm:'Enter the PIN again',off:'Enter your current PIN',change:'Enter your current PIN'};
+function showLock(mode){document.activeElement?.blur?.();lockSt={mode,pin:'',first:'',msg:'',err:false};drawLock()}
+function hideLock(){lockSt=null;clearTimeout(lockTick);$('#lock')?.remove()}
+function drawLock(shake){
+ if(!lockSt)return;clearTimeout(lockTick);let el=$('#lock');
+ if(!el){document.body.insertAdjacentHTML('beforeend','<div class="lock" id="lock" role="dialog" aria-modal="true" aria-label="PIN lock"></div>');el=$('#lock')}
+ const st=lockSt,wait=st.mode!=='set'&&st.mode!=='confirm'&&LK?.until>Date.now();
+ if(st.forgot){el.innerHTML=`<div class="logo">${LOGO(40)}</div><div class="lbox"><div class="lt">Forgot your PIN?</div>
+  <p class="sub" style="font-size:15px;margin:0 0 8px">Pitaka has no account, so the PIN can't be reset or recovered. To use Pitaka again, erase everything on this device, then restore your latest backup file.</p>
+  <button class="cta" style="background:var(--red);color:#fff" data-a="pinerase">${st.sure?'Yes, erase everything':'Erase all data'}</button><button class="sec" data-a="pinback">Back</button></div>`;return}
+ const msg=wait?`Too many tries. Try again in ${Math.ceil((LK.until-Date.now())/1000)}s`:st.msg;
+ el.innerHTML=`<div class="logo">${LOGO(40)}</div><div><div class="lt">${LOCK_T[st.mode]}</div><div class="lm${st.err||wait?' err':''}" aria-live="polite">${esc(msg)}</div></div>
+  <div class="pdots${shake?' shake':''}" aria-label="${st.pin.length} of 4 digits entered">${[0,1,2,3].map(i=>`<i class="${i<st.pin.length?'on':''}"></i>`).join('')}</div>
+  <div class="keys">${[1,2,3,4,5,6,7,8,9,0].map(n=>`<button class="${n===0?'k0':''}" data-a="pin" data-v="${n}"${wait?' disabled':''}>${n}</button>`).join('')}<button class="kd" data-a="pin" data-v="del" aria-label="Delete">${sv(I.back,26)}</button></div>
+  ${st.mode==='unlock'?'<button class="lnk" data-a="pinforgot">Forgot PIN?</button>':'<button class="lnk" data-a="pincancel">Cancel</button>'}`;
+ if(wait)lockTick=setTimeout(()=>{if(LK&&LK.until<=Date.now()){LK.until=0;saveLock()}drawLock()},1000);
+}
+function pinKey(v){const st=lockSt;if(!st||st.busy||(st.mode!=='set'&&st.mode!=='confirm'&&LK?.until>Date.now()))return;
+ if(v==='del')st.pin=st.pin.slice(0,-1);else if(st.pin.length<4){st.pin+=v;st.msg='';st.err=false}
+ drawLock();if(st.pin.length===4){st.busy=true;setTimeout(()=>pinDone().finally(()=>{st.busy=false}),140)}}
+async function pinDone(){const st=lockSt,p=st.pin;
+ if(st.mode==='set'){Object.assign(st,{mode:'confirm',first:p,pin:''});drawLock();return}
+ if(st.mode==='confirm'){
+  if(p!==st.first){Object.assign(st,{mode:'set',first:'',pin:'',msg:"PINs didn't match. Try again.",err:true});drawLock(true);return}
+  const salt=[...crypto.getRandomValues(new Uint8Array(16))].map(b=>b.toString(16).padStart(2,'0')).join('');
+  LK={salt,hash:await pinHash(p,salt),fails:0,until:0};saveLock();const ch=st.change;hideLock();render();toast(ch?'PIN changed':'PIN lock is on');return}
+ // unlock, off, change: check the current PIN
+ if(await pinHash(p,LK.salt)===LK.hash){LK.fails=0;LK.until=0;saveLock();
+  if(st.mode==='unlock')hideLock();
+  else if(st.mode==='off'){LK=null;saveLock();hideLock();render();toast('PIN lock is off')}
+  else{Object.assign(st,{mode:'set',pin:'',change:true});drawLock()}
+  return}
+ LK.fails=(LK.fails||0)+1;if(LK.fails>=5){LK.fails=0;LK.until=Date.now()+30000}saveLock();
+ Object.assign(st,{pin:'',msg:'Wrong PIN',err:true});drawLock(true);
+}
+// Lock again when the app comes back after a minute or more away
+let hiddenAt=0;
+function awayCheck(){if(!LK||!S.name||$('#lock'))return;if(hiddenAt&&Date.now()-hiddenAt>60000)showLock('unlock');hiddenAt=0}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')hiddenAt=Date.now();else awayCheck()});
+addEventListener('pageshow',e=>{if(e.persisted)awayCheck()});
 
 /* confirm */
 let confirmFn=null;
@@ -1257,6 +1335,14 @@ document.addEventListener('click',e=>{
   case 'billsave':saveBill();break;
   case 'billdel':{const r=S.rec.find(x=>x.id===sheet.id),at=S.rec.indexOf(r);S.rec.splice(at,1);persist();render();openBills();toast('Bill stopped',()=>{S.rec.splice(at,0,r)});break}
   case 'billnew':openEntry('expense');if(sheet?.type==='entry'){sheet.rep=true;drawEntry()}break;
+  case 'pin':pinKey(b.dataset.v);break;
+  case 'lockset':showLock(LK?'off':'set');break;
+  case 'pinchange':showLock('change');break;
+  case 'pincancel':hideLock();break;
+  case 'pinforgot':lockSt.forgot=true;lockSt.sure=false;drawLock();break;
+  case 'pinback':lockSt.forgot=false;drawLock();break;
+  case 'pinerase':if(!lockSt.sure){lockSt.sure=true;drawLock();break}
+   S=blank();try{localStorage.removeItem(KEY)}catch(e){}LK=null;saveLock();applyTheme('auto');page='home';filter='all';query='';hideLock();closeSheet();render();toast('All data erased');break;
   case 'snooze':S.backupSnooze=new Date().toISOString();persist();render();toast("We'll remind you next week");break;
   case 'find':if(page!=='history')histBack=page;page='history';render();scrollTo(0,0);$('#q')?.focus();break;
   case 'hide':S.hide=!S.hide;persist();render();break;
@@ -1325,7 +1411,7 @@ document.addEventListener('click',e=>{
   case 'savename':{const n=$('#n-name').value.trim();if(!n){$('#n-err').textContent='Enter your name';return}S.name=n;persist();closeSheet();render();toast('Name saved');break}
   case 'theme':S.theme=b.dataset.v;applyTheme(S.theme);persist();render();break;
   case 'backup':{if(sheet?.type==='bkask')closeSheet();S.lastBackup=new Date().toISOString();delete S.backupSnooze;persist();render();const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const u=URL.createObjectURL(blob);const l=document.createElement('a');l.href=u;l.download=`pitaka-backup-${dkey(new Date())}.json`;document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);toast('Backup file saved');break}
-  case 'erase':ask('Erase all data?','This deletes your name, wallets and every entry on this device. Save a backup file first if you might need it.','Erase all data',()=>{const old=S;S=blank();try{localStorage.removeItem(KEY)}catch(e){}applyTheme('auto');page='home';filter='all';query='';toast('All data erased',()=>{S=old;applyTheme(S.theme)})});break;
+  case 'erase':ask('Erase all data?','This deletes your name, wallets and every entry on this device. Save a backup file first if you might need it.','Erase all data',()=>{const old=S,oldLK=LK;S=blank();try{localStorage.removeItem(KEY)}catch(e){}LK=null;saveLock();applyTheme('auto');page='home';filter='all';query='';toast('All data erased',()=>{S=old;LK=oldLK;saveLock();applyTheme(S.theme)})});break;
  }
 });
 document.addEventListener('input',e=>{
@@ -1352,6 +1438,7 @@ document.addEventListener('change',e=>{
  r.readAsText(f);
 });
 document.addEventListener('keydown',e=>{
+ if($('#lock')){if(/^[0-9]$/.test(e.key)||e.key==='Backspace'){e.preventDefault();pinKey(e.key==='Backspace'?'del':e.key)}return}
  if(e.key==='Escape'&&$('#scrim'))closeSheet();
  if(e.key==='Enter'&&e.target.matches('.field')){const c=e.target.closest('.sheet,.welcome')?.querySelector('.cta');if(c){e.preventDefault();c.click()}}
 });
@@ -1359,7 +1446,7 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{});
 
 // Ask the browser not to clear Pitaka's storage on its own (iOS Safari can after 7 days without a visit)
 function keepData(){try{navigator.storage?.persist?.().catch(()=>{})}catch(e){}}
-applyTheme(S.theme);render();if(S.name){keepData();setTimeout(monthlyBackup,1500)}
+applyTheme(S.theme);if(LK&&S.name)showLock('unlock');render();if(S.name){keepData();setTimeout(monthlyBackup,1500)}
 // Look for a new version on every launch and whenever the app comes back to the front (iOS keeps Home Screen apps alive).
 // When a new version takes over, reload once so the page and images all come from it, not from the old saved copy.
 if('serviceWorker' in navigator&&location.protocol==='https:'){

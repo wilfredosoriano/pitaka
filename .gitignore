@@ -16,3 +16,11 @@ CLAUDE.local.md
 # Dependencies and logs, if ever added
 node_modules/
 *.log
+
+# showreel build output and deps
+showreel/**/node_modules/
+showreel/out/
+showreel/vo/*.wav
+showreel/remotion/public/audio/
+showreel/sfx/
+showreel/remotion/public/app/

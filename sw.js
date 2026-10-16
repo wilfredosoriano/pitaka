@@ -1,4 +1,4 @@
-const CACHE='pitaka-v28';
+const CACHE='pitaka-v31';
 const CORE=['./','index.html','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','apple-touch-icon.png'];
 // QR reader and drawer, loaded by the page only when a QR is used; saved here so they work offline
 const LIBS=['https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js','https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js'];
