@@ -1,0 +1,1372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Pitaka">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f0f0f" media="(prefers-color-scheme: dark)">
+<!-- Share previews (Messenger, Facebook, Viber, X...) need absolute URLs on the live domain -->
+<title>Pitaka: Know where your money goes</title>
+<meta name="description" content="Track your cash, bank and e-wallets. Log spending and balances update for you. Works offline.">
+<link rel="canonical" href="https://pitaka-ko.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pitaka">
+<meta property="og:locale" content="en_PH">
+<meta property="og:title" content="Pitaka: Know where your money goes">
+<meta property="og:description" content="Track your cash, bank and e-wallets. Log spending and balances update for you. Works offline.">
+<meta property="og:url" content="https://pitaka-ko.vercel.app/">
+<meta property="og:image" content="https://pitaka-ko.vercel.app/og-image.png">
+<meta property="og:image:secure_url" content="https://pitaka-ko.vercel.app/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pitaka wallet logo with the tagline: Track your cash, bank and e-wallets">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pitaka: Know where your money goes">
+<meta name="twitter:description" content="Track your cash, bank and e-wallets. Log spending and balances update for you. Works offline.">
+<meta name="twitter:image" content="https://pitaka-ko.vercel.app/og-image.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap">
+<script>
+/* Apply the saved appearance before first paint */
+try{var _s=JSON.parse(localStorage.getItem('pitaka:v1')||'{}');if(_s.theme==='light'||_s.theme==='dark')document.documentElement.setAttribute('data-theme',_s.theme)}catch(e){}
+</script>
+<style>
+*{box-sizing:border-box}
+:root{--bg:#fff;--card:#f4f4f3;--card2:#fff;--ink:#000;--muted:#6b6b6b;--faint:#8f8f8f;--line:#e4e4e2;--fill:#000;--on:#fff;--track:#e0e0de;--blue-bg:#e4eefc;--blue:#2259b8;--green-bg:#e3f4e7;--green:#1b6e36;--amber-bg:#fcefd9;--amber:#7f4b00;--red-bg:#fce8e6;--red:#b42318;color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f0f0f;--card:#1c1c1c;--card2:#262626;--ink:#fff;--muted:#a8a8a8;--faint:#8a8a8a;--line:#2e2e2e;--fill:#fff;--on:#000;--track:#363636;--blue-bg:#17294a;--blue:#8db6f5;--green-bg:#133420;--green:#7fd49a;--amber-bg:#3a2a0c;--amber:#f2c46d;--red-bg:#3e1714;--red:#f4a39a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f0f0f;--card:#1c1c1c;--card2:#262626;--ink:#fff;--muted:#a8a8a8;--faint:#8a8a8a;--line:#2e2e2e;--fill:#fff;--on:#000;--track:#363636;--blue-bg:#17294a;--blue:#8db6f5;--green-bg:#133420;--green:#7fd49a;--amber-bg:#3a2a0c;--amber:#f2c46d;--red-bg:#3e1714;--red:#f4a39a;color-scheme:dark}
+html,body{background:var(--bg)}
+html,body,a,button,input,select,textarea,label,[role="button"]{touch-action:manipulation}
+*{scrollbar-width:none;-ms-overflow-style:none}
+*::-webkit-scrollbar{display:none;width:0;height:0}
+body{margin:0;color:var(--ink);font-family:'Onest',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.4;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:none;padding:0}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.app{max-width:480px;margin:0 auto;padding:12px 16px 128px;display:flex;flex-direction:column;gap:18px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.h1{font-size:24px;font-weight:600;letter-spacing:-.02em;margin:0}
+.h2{font-size:17px;font-weight:600;margin:0}
+.t15{font-size:15px;font-weight:600}
+.sub{font-size:12.5px;color:var(--muted)}
+.tiny{font-size:11.5px;color:var(--faint)}
+.av{width:44px;height:44px;border-radius:22px;background:var(--card);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px}
+.rb{width:44px;height:44px;border-radius:22px;border:1px solid var(--line);background:var(--card2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rb.ghost{border:none;background:none}
+.blk{background:var(--fill);color:var(--on);border-radius:24px;padding:18px}
+.cap{font-size:12.5px;opacity:.8}
+.amt{font-size:30px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.pill{background:var(--bg);color:var(--ink);border-radius:26px;height:48px;padding:0 16px;font-size:14px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap}
+.pill.sm{height:38px;font-size:13px}
+.card{background:var(--card);border-radius:20px;padding:16px;display:block;width:100%;text-align:left}
+.card.row{display:flex}
+.inner{background:var(--card2);border-radius:14px;padding:2px 14px}
+.li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.li:last-child{border-bottom:none}
+.bar{height:6px;border-radius:3px;background:var(--track);overflow:hidden}
+.bar>i{display:block;height:6px;border-radius:3px;background:var(--ink)}
+.chip{font-size:12px;font-weight:500;padding:5px 11px;border-radius:14px;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.c-blue{background:var(--blue-bg);color:var(--blue)}.c-green{background:var(--green-bg);color:var(--green)}.c-amber{background:var(--amber-bg);color:var(--amber)}.c-red{background:var(--red-bg);color:var(--red)}
+.cta{background:var(--fill);color:var(--on);border-radius:16px;height:54px;width:100%;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px}
+.sec{border:1px solid var(--line);border-radius:16px;height:48px;width:100%;font-size:14px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--card2)}
+.danger{color:var(--red)}
+.sel{border:1px solid var(--line);border-radius:18px;height:38px;padding:0 14px;font-size:13px;font-weight:500;background:var(--card2);display:inline-flex;align-items:center;gap:6px}
+.sel.on{background:var(--fill);color:var(--on);border-color:transparent}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.ico{width:42px;height:42px;border-radius:14px;background:var(--card2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lbl{display:block;font-size:12.5px;color:var(--muted);margin-bottom:6px}
+.field{width:100%;height:50px;border-radius:14px;border:1px solid var(--line);background:var(--card);padding:0 14px;font-size:16px;-webkit-appearance:none;appearance:none}
+.err{font-size:13px;color:var(--red)}.err:empty{display:none}
+.search{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:28px;padding:4px 4px 4px 14px;color:var(--faint)}
+.search input{flex:1;border:none;background:none;height:40px;font-size:16px;color:var(--ink);outline:none;min-width:0}
+.dot{width:22px;height:22px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.dot.on{background:var(--fill);color:var(--on)}.dot.off{background:var(--track)}
+.seg{flex:1;height:4px;background:var(--track);position:relative}
+.seg>i{position:absolute;left:0;top:0;height:4px;background:var(--ink)}
+.navwrap{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;padding:0 16px calc(12px + env(safe-area-inset-bottom,0px));pointer-events:none;z-index:5}
+.nav{pointer-events:auto;display:flex;align-items:center;gap:4px;background:var(--card2);border:1px solid var(--line);border-radius:34px;padding:6px;box-shadow:0 6px 24px rgba(0,0,0,.08)}
+.nav button{height:50px;min-width:50px;border-radius:25px;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--muted);padding:0 13px;font-size:13px;font-weight:600}
+.nav button.on{background:var(--fill);color:var(--on)}
+.nav button .t{display:none}.nav button.on .t{display:inline}
+.nav .div{width:1px;height:28px;background:var(--line);margin:0 4px;flex-shrink:0}
+.nav .act{width:50px;height:50px;min-width:50px;border-radius:25px;padding:0;background:var(--track);color:var(--ink)}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center;z-index:10}
+.sheet{background:var(--bg);width:100%;max-width:480px;border-radius:26px 26px 0 0;padding:10px 16px calc(20px + env(safe-area-inset-bottom,0px));max-height:92%;overflow:auto;display:flex;flex-direction:column;gap:16px}
+.sheet>*{flex-shrink:0}
+.grab{width:44px;height:4px;border-radius:2px;background:var(--track);margin:0 auto}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--card);border-radius:16px;padding:4px}
+.tabs button{height:42px;border-radius:12px;font-weight:600;font-size:14px;color:var(--muted)}
+.tabs button.on{background:var(--card2);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);top:calc(14px + env(safe-area-inset-top,0px));background:var(--fill);color:var(--on);padding:12px 18px;border-radius:24px;font-size:14px;font-weight:500;z-index:20;max-width:calc(100% - 32px);text-align:center}
+.sw{-webkit-appearance:none;appearance:none;width:50px;height:30px;border-radius:15px;background:var(--track);position:relative;flex-shrink:0;margin:0;cursor:pointer}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .15s}
+.sw:checked{background:var(--fill)}.sw:checked::after{left:23px;background:var(--on)}
+.welcome{max-width:480px;margin:0 auto;min-height:100vh;padding:28px 20px 32px;display:flex;flex-direction:column;justify-content:center;gap:18px}
+.logo{width:72px;height:72px;border-radius:20px;background:var(--fill);color:var(--on);display:flex;align-items:center;justify-content:center}
+.seg3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+.seg3 button{height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:600;color:var(--muted)}
+.seg3 button.on{background:var(--card2);color:var(--ink)}
+.empty{text-align:center;padding:26px 16px;display:flex;flex-direction:column;align-items:center;gap:10px}
+@media (prefers-reduced-motion:no-preference){.sheet{animation:up .22s ease-out}@keyframes up{from{transform:translateY(40px);opacity:.6}to{transform:none;opacity:1}}}
+/* Pitaka additions, built from existing tokens */
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+.in{color:var(--green)}
+.eye{width:36px;height:36px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;color:var(--on);opacity:.8}
+.wcard{display:flex;flex-direction:column;gap:12px}
+.lirow{width:100%;text-align:left}
+.lirow .nm{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lirow .amt2{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ellip{min-width:0;overflow:hidden}
+.link{font-size:13px;font-weight:500;color:var(--muted);height:44px;padding:0 4px}
+.link.ink{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.big{font-size:24px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat .t15{font-variant-numeric:tabular-nums;margin-top:4px}
+.catrow{flex-direction:column;align-items:stretch;gap:8px}
+.catrow .bar>i{min-width:3px}
+.mbar{display:flex;align-items:center;justify-content:space-between;padding:4px}
+.mbar .rb:disabled{opacity:.35;cursor:default}
+.toast{display:flex;align-items:center;gap:14px}
+.toast button{font-weight:700;text-decoration:underline;text-underline-offset:3px;color:var(--on);padding:4px 0}
+.flip{transform:rotate(180deg)}
+ /* ---------- Phase 2: responsive layout ---------- */
+.cols,.cols>div,.grid,.masonry{display:contents}
+.nav .brandmark,.nav .nav-set{display:none}
+@media (min-width:768px){
+ .app{max-width:760px;padding-left:24px;padding-right:24px}
+ .cols{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;align-items:start}
+ .cols>div{display:flex;flex-direction:column;gap:18px;min-width:0}
+ .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+ .masonry{display:block;columns:2;column-gap:18px}
+ .masonry>*{break-inside:avoid;margin:0 0 18px}
+ .scrim{align-items:center;padding:24px}
+ .sheet{border-radius:26px;max-width:520px;max-height:min(86vh,860px);padding:16px 20px 20px}
+ .sheet .grab{display:none}
+ .deck .sizer,.wc{max-width:380px}
+}
+@media (min-width:768px) and (prefers-reduced-motion:no-preference){
+ .sheet{animation:pop .18s ease-out}
+ @keyframes pop{from{transform:scale(.97);opacity:0}to{transform:none;opacity:1}}
+}
+@media (min-width:1024px){
+ body.nav-on{padding-left:248px}
+ body.nav-on .toast{left:calc(50% + 124px)}
+ .app{max-width:1080px;padding:28px 40px 48px}
+ .welcome{max-width:480px}
+ .navwrap{top:0;bottom:0;right:auto;width:248px;padding:0;display:block}
+ .nav{flex-direction:column;align-items:stretch;height:100%;border-radius:0;border:none;border-right:1px solid var(--line);box-shadow:none;background:var(--bg);padding:calc(20px + env(safe-area-inset-top,0px)) 14px 20px;gap:4px}
+ .nav .brandmark{display:flex;align-items:center;gap:10px;padding:2px 10px 22px;font-size:20px;font-weight:600;letter-spacing:-.02em}
+ .nav .brandmark .mark{width:34px;height:34px;border-radius:10px;background:var(--fill);color:var(--on);display:flex;align-items:center;justify-content:center}
+ .nav button{justify-content:flex-start;height:46px;border-radius:14px;padding:0 14px;gap:12px;font-size:14.5px}
+ .nav button .t{display:inline}
+ .nav .nav-set{display:flex}
+ .nav .div{display:none}
+ .nav .act{width:auto;height:46px;border-radius:14px;padding:0 14px;justify-content:flex-start;background:var(--card);margin-top:auto}
+}
+@media (hover:hover){
+ .nav button:not(.on):hover{background:var(--card);color:var(--ink)}
+ .nav .act:hover{background:var(--track)}
+ button.card:hover,.lirow:hover{opacity:.82}
+}
+/* ---------- Phase 2: guided tour ---------- */
+.tour{position:fixed;inset:0;z-index:30}
+.tour-ring{position:fixed;border-radius:16px;box-shadow:0 0 0 3px #fff,0 0 0 9999px rgba(0,0,0,.6);pointer-events:none}
+.tour-tip{position:fixed;width:min(320px,calc(100vw - 32px));background:var(--card2);color:var(--ink);border-radius:20px;padding:16px 16px 14px;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+.tour-tip .t15{font-size:16px}
+.tour-d{font-size:14px;color:var(--muted);margin:6px 0 14px;line-height:1.45}
+.tour-arrow{position:absolute;width:14px;height:14px;background:var(--card2);transform:rotate(45deg);border-radius:2px}
+.tour-skip{height:40px;padding:0 12px;font-size:14px;color:var(--muted);font-weight:500}
+.tour-next{height:40px;padding:0 20px;border-radius:20px;background:var(--fill);color:var(--on);font-size:14px;font-weight:600}
+@media (prefers-reduced-motion:no-preference){.tour-ring,.tour-tip{transition:top .2s ease,left .2s ease,width .2s ease,height .2s ease}}
+.icopick{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px}
+.icopick button{aspect-ratio:1;min-height:40px;border-radius:14px;border:1px solid var(--line);background:var(--card2);display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.icopick button.on{background:var(--fill);color:var(--on);border-color:transparent}
+.about .li.tiny{display:block;line-height:1.5}.about a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
+.cbalert{margin-top:12px;border-top:1px solid var(--line)}.cbalert .li{padding:10px 0}
+/* wallet card deck: swipe left/right, next cards peek out behind */
+.deck{position:relative;isolation:isolate;touch-action:pan-y;user-select:none;-webkit-user-select:none;margin-right:-4px}
+.deck .sizer{width:calc(100% - 56px);aspect-ratio:1.6;max-height:230px;visibility:hidden}
+.wc{position:absolute;top:0;left:0;width:calc(100% - 56px);aspect-ratio:1.6;max-height:230px;transform-origin:right center;will-change:transform,opacity;perspective:1200px}
+/* the card flips around its vertical axis: front shows the balance, back has Details and QR */
+.wc-in{position:absolute;inset:0;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;transition:transform .6s cubic-bezier(.3,.7,.2,1)}
+.wc.turned .wc-in{transform:rotateY(180deg)}
+.wc-face{position:absolute;inset:0;border-radius:24px;padding:18px 20px;display:flex;flex-direction:column;text-align:left;color:var(--on);overflow:hidden;-webkit-backface-visibility:hidden;backface-visibility:hidden;
+ background:var(--fill);background:linear-gradient(135deg,var(--fill) 40%,color-mix(in srgb,var(--fill) 78%,var(--on)) 100%);
+ border:1px solid color-mix(in srgb,var(--on) 12%,transparent);box-shadow:0 18px 32px -16px rgba(0,0,0,.55),0 2px 6px rgba(0,0,0,.12)}
+.wc-back{transform:rotateY(180deg);cursor:pointer}
+/* Card with its own design image: the design owns the top and right (logo, chip, network mark), so all our text sits bottom left in white */
+.wc-iname{display:none}
+.wc-front.img{background:#111 center/cover no-repeat;border-color:rgba(255,255,255,.14);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.wc-front.img::before{background:linear-gradient(to top,rgba(0,0,0,.55),rgba(0,0,0,0) 62%)}
+.wc-front.img .wc-top,.wc-front.img .wc-mark,.wc-front.img .wc-type{display:none}
+.wc-front.img .wc-iname{display:block;margin-top:auto;font-size:13px;font-weight:600;max-width:70%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wc-front.img .wc-bal{margin-top:0;font-size:22px;max-width:70%}
+.wc-front.img .wc-foot{margin-top:1px;width:70%;justify-content:flex-start}
+.wc-front.img .wc-foot>span:first-child{display:flex;gap:6px;align-items:baseline}
+.wc-bal small{font-size:.55em;font-weight:500;opacity:.85;letter-spacing:0}
+.wc-front.img .wc-cap{font-size:9.5px;opacity:.8;white-space:nowrap}.wc-front.img .wc-num{font-size:11px;margin-top:0}
+.wtabs{display:inline-flex;gap:2px;padding:3px;border-radius:20px;background:color-mix(in srgb,var(--on) 14%,transparent);margin-bottom:14px}
+.wtabs button{height:32px;padding:0 14px;border-radius:16px;font-size:13px;font-weight:600;color:var(--on);opacity:.75}
+.wtabs button.on{background:var(--on);color:var(--fill);opacity:1}
+.rc-wrap{background:var(--card);border-radius:20px;padding:16px 16px 22px}
+.rc{background:#fff;color:#111;border-radius:12px 12px 0 0;padding:20px 18px 14px;font-variant-numeric:tabular-nums}
+.rc-edge{height:8px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0h12L6 8z' fill='%23fff'/%3E%3C/svg%3E") 0 0/12px 8px repeat-x}
+.rc-top{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px}
+.rc-cat{position:relative;width:56px;height:56px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#f4f4f3;color:#6b6b6b;margin-bottom:6px}
+.rc-cat img{position:absolute;inset:0;width:100%;height:100%}
+.rc-logo{margin-bottom:6px}.rc-logo .txlogo{width:56px;height:56px;border-radius:16px}.rc-logo .txlogo img{padding:8px}
+.rc-nm{font-size:16px;font-weight:600}
+.rc-amt{font-size:30px;font-weight:600;letter-spacing:-.02em}.rc-amt.in{color:#1b6e36}
+.rc-date{font-size:12.5px;color:#6b6b6b}
+.rc-cut{border-top:1.5px dashed #d6d6d4;margin:14px 0}
+.rc-row{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:14px;padding:6px 0}
+.rc-row>span:first-child{color:#6b6b6b}
+.rc-w{display:flex;align-items:center;gap:8px;font-weight:500;min-width:0}.rc-w .txlogo{width:26px;height:26px;border-radius:7px}.rc-w .txlogo img{padding:3px}
+.rc-note{font-size:12.5px;color:#7f4b00;background:#fcefd9;border-radius:10px;padding:8px 10px;margin-top:6px}
+.rc-total{font-weight:600;font-size:15px}.rc-total>span:first-child{color:#111}
+.rc-foot{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11.5px;color:#8f8f8f;margin-top:12px}
+.mc-goal{display:block;height:4px;border-radius:2px;background:rgba(255,255,255,.35);margin-top:6px;overflow:hidden}.mc-goal i{display:block;height:100%;border-radius:2px;background:#fff}
+.datewrap{position:relative}
+/* Safari shows an empty date field as blank, so show our own hint until a date is picked */
+.dateph{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--faint);pointer-events:none}
+.datewrap.has .dateph{display:none}
+.datewrap:not(.has) input::-webkit-datetime-edit{color:transparent}
+.txic{position:relative;width:36px;height:36px;flex-shrink:0}
+.txcat{width:36px;height:36px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:var(--card);color:var(--muted);position:relative}
+.txcat img{position:absolute;inset:0;width:100%;height:100%}
+.txbadge{position:absolute;right:-4px;bottom:-4px;width:18px;height:18px;border-radius:6px;background:#fff;box-shadow:0 0 0 2px var(--card2);overflow:hidden}
+.txbadge img{width:100%;height:100%;padding:2px;box-sizing:border-box;object-fit:contain;display:block}
+.txlogo{position:relative;width:36px;height:36px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--card);color:var(--muted);overflow:hidden}
+.txlogo.lg{background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
+.txlogo img{position:absolute;inset:0;width:100%;height:100%;padding:5px;box-sizing:border-box;object-fit:contain;background:#fff}
+.tiny.over{color:var(--amber);margin-top:6px}.tiny.over:empty{display:none}
+.kindseg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.kindseg .sel{justify-content:center;padding:0 6px;min-width:0}
+.dd{border:1px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden}
+.dd-btn{width:100%;min-height:58px;display:flex;align-items:center;gap:12px;padding:10px 14px;text-align:left}
+.dd-btn>svg{margin-left:auto;transform:rotate(90deg);color:var(--muted);flex-shrink:0;transition:transform .2s}
+.dd.open .dd-btn>svg{transform:rotate(-90deg)}
+.dd .nm{display:block;font-weight:500;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dd .tiny{display:block;margin-top:1px}
+.dd-btn .txlogo:not(.lg){background:var(--card2)}
+.dd-list{border-top:1px solid var(--line);background:var(--card2);max-height:300px;overflow:auto}
+.dd-opt{width:100%;display:flex;align-items:center;gap:12px;padding:10px 14px;text-align:left;border-bottom:1px solid var(--line)}
+.dd-opt:last-child{border-bottom:none}
+.dd-opt>svg{margin-left:auto;flex-shrink:0;color:var(--ink)}
+.dd-opt[aria-selected="true"] .nm{font-weight:600}
+.dd-empty{display:flex;flex-direction:column;gap:10px;padding:14px;text-align:center}
+.wgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (min-width:768px){.wgrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}}
+@media (min-width:1024px){.wgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.mcard{position:relative;aspect-ratio:1.6;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:10px 11px;text-align:left;color:var(--on);
+ background:var(--fill);background:linear-gradient(135deg,var(--fill) 40%,color-mix(in srgb,var(--fill) 78%,var(--on)) 100%);
+ -webkit-touch-callout:none;user-select:none;-webkit-user-select:none;touch-action:pan-y;transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .2s}
+/* default.png has a transparent background, so the card behind it takes the theme's grey instead of black */
+.wc-front.img[data-card="default"],.mcard.img[data-card="default"]{background-color:var(--card);border-color:var(--line)}
+.mcard.img{background:#111 center/cover no-repeat;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.mcard.img::before{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6),rgba(0,0,0,0) 65%)}
+.mcard>*{position:relative}
+.mc-ico{position:absolute;top:10px;left:11px;opacity:.85;display:flex}.mcard.img .mc-ico{display:none}
+.mc-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mc-bal{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.mcard.lift{z-index:5;transition:box-shadow .2s;box-shadow:0 18px 32px -12px rgba(0,0,0,.5);cursor:grabbing}
+@media (prefers-reduced-motion:reduce){.mcard{transition:none}}
+.wprev{width:100%;max-width:340px;margin:0 auto;border-radius:18px;padding:16px 18px;cursor:default}
+.wprev .mc-name{font-size:14px}.wprev .mc-bal{font-size:22px}
+.pgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 10px}
+@media (max-width:340px){.pgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ptile{display:flex;flex-direction:column;gap:6px;text-align:center;font-size:12px;font-weight:500;color:var(--muted);min-width:0}
+.ptile .pthumb{display:block;width:100%;align-self:stretch;aspect-ratio:1.6;border-radius:8px;background:var(--card) center/cover no-repeat;box-shadow:0 0 0 1px var(--line)}
+.ptile.on{color:var(--ink);font-weight:600}.ptile.on .pthumb{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--fill)}
+.wthumb{width:48px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.wthumb.img{background:center/cover no-repeat;box-shadow:0 0 0 1px var(--line)}.wthumb.img svg{display:none}
+.wc-face::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 80% at 0% 0%,rgba(255,255,255,.18),rgba(255,255,255,0) 55%),linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,0) 40%)}
+.wc-face>*{position:relative;width:100%;align-self:stretch}
+.wc-face>.wc-stripe{position:absolute;left:0;right:0;top:20px;height:34px;width:auto;background:color-mix(in srgb,var(--on) 18%,transparent)}
+.wc-bk-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:44px}
+.wc-hint{font-size:11.5px;opacity:.65;white-space:nowrap;color:var(--on);padding:4px 0}
+.wc-acts{display:flex;gap:22px;margin-top:auto}
+.wc-act{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--on);min-width:44px}
+.wc-ic{width:44px;height:44px;border-radius:22px;border:1.5px solid color-mix(in srgb,var(--on) 45%,transparent);display:flex;align-items:center;justify-content:center}
+@media (hover:hover){.wc-act:hover .wc-ic{background:color-mix(in srgb,var(--on) 14%,transparent)}}
+/* QR codes stay black on white in both themes so any bank app can scan them */
+.qrcard{background:var(--card);border-radius:20px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.qrbox{width:min(100%,260px);aspect-ratio:1;background:#fff;border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#6b6b6b;font-size:12.5px}
+.qrbox svg{width:100%;height:100%;display:block}
+.deck.anim .wc{transition:transform .42s cubic-bezier(.2,.8,.2,1),opacity .42s ease}
+.wc-top{display:flex;align-items:center;gap:10px}
+.wc-badge{width:34px;height:34px;border-radius:17px;border:1.5px solid color-mix(in srgb,var(--on) 45%,transparent);display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:.9}
+.wc-name{flex:1;min-width:0;font-size:16px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wc-nfc{opacity:.85;display:flex}
+.wc-bal{margin-top:auto;font-size:26px;font-weight:600;letter-spacing:-.01em;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wc-type{font-size:12.5px;font-weight:500;letter-spacing:.06em;opacity:.85;margin-top:2px}
+.wc-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;gap:10px}
+.wc-cap{display:block;font-size:10.5px;letter-spacing:.14em;opacity:.6}
+.wc-num{display:block;font-size:15px;font-weight:600;letter-spacing:.1em;font-variant-numeric:tabular-nums;margin-top:2px;white-space:nowrap}
+.wc-mark{display:flex;flex-shrink:0}.wc-mark i{width:26px;height:26px;border-radius:13px;background:var(--on);opacity:.8}.wc-mark i+i{margin-left:-10px;opacity:.45}
+.wdots{display:flex;justify-content:center;gap:2px;margin-top:12px}
+.wdots button{padding:8px 3px;display:flex}
+.wdots i{display:block;width:6px;height:6px;border-radius:3px;background:var(--track);transition:width .3s,background .3s}
+.wdots button.on i{width:22px;background:var(--fill)}
+@media (prefers-reduced-motion:reduce){.deck.anim .wc,.wdots i,.wc-in{transition:none}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+'use strict';
+const KEY='pitaka:v1';
+const APP='Pitaka';
+/* ---------- icons ---------- */
+const sv=(p,s=20)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+const I={
+ home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>',
+ hist:'<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/>',
+ wallet:'<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',
+ set:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',
+ out:'<path d="M7 17 17 7M8 7h9v9"/>',
+ inn:'<path d="M17 7 7 17M16 17H7V8"/>',
+ xfer:'<path d="M7 4 3 8l4 4"/><path d="M3 8h18"/><path d="m17 20 4-4-4-4"/><path d="M21 16H3"/>',
+ eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+ eyeoff:'<path d="M3 3l18 18"/><path d="M10.6 5.1A10 10 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3.2 4"/><path d="M6.6 6.6A17 17 0 0 0 2 12s3.5 7 10 7a10 10 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/>',
+ search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+ x:'<path d="M18 6 6 18M6 6l12 12"/>',
+ chev:'<path d="m9 18 6-6-6-6"/>',
+ cash:'<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/>',
+ bank:'<path d="M3 21h18M5 21V10M19 21V10M9.5 21V10M14.5 21V10"/><path d="M2 10 12 4l10 6z"/>',
+ phone:'<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/>',
+ qr:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM21 14v.01M14 21h.01M17.5 21H21v-3.5"/>',
+ img:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/>',
+ copy:'<rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/>',
+ users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>',
+ gift:'<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v9H5v-9M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/>',
+ book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/>',
+ paw:'<circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.05Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10z"/>',
+ plane:'<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
+ game:'<rect x="2" y="6" width="20" height="12" rx="6"/><path d="M6 12h4M8 10v4M15 11h.01M18 13h.01"/>',
+ shirt:'<path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/>',
+ coffee:'<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="M6 2v2M10 2v2M14 2v2"/>',
+ fit:'<path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/>',
+ smile:'<circle cx="12" cy="12" r="9"/><path d="M9 15a4 4 0 0 0 6 0M9 9.5h.01M15 9.5h.01"/>',
+ wrench:'<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+ card:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/>',
+ info:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>',
+ check:'<path d="M20 6 9 17l-5-5"/>',
+ star:'<path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4L1.5 9.6 9 8.9z"/>',
+ edit:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+ trash:'<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>',
+ receipt:'<path d="M5 3v18l2.5-1.5L10 21l2-1.5 2 1.5 2.5-1.5L19 21V3l-2.5 1.5L14 3l-2 1.5L10 3 7.5 4.5z"/><path d="M9 9h6M9 13h6"/>',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+ moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>',
+ down:'<path d="M12 3v12M7 10l5 5 5-5M5 21h14"/>',
+ up:'<path d="M12 21V9M7 14l5-5 5 5M5 3h14"/>',
+ chart:'<path d="M3 21h18"/><path d="M6 17v-6M11 17V5M16 17v-9"/>',
+ back:'<path d="m15 18-6-6 6-6"/>',
+ food:'<path d="M7 3v8M4 3v5a3 3 0 0 0 6 0V3M7 11v10"/><path d="M17 21V3c-2 1-3 4-3 7s1 4 3 4"/>',
+ bus:'<rect x="4" y="3" width="16" height="15" rx="3"/><path d="M4 11h16M8 21v-3M16 21v-3M8 15h.01M16 15h.01"/>',
+ cart:'<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.5 12h12L22 7H6"/>',
+ bolt:'<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+ signal:'<path d="M4 20v-3M9 20v-7M14 20V9M19 20V4"/>',
+ bag:'<path d="M5 8h14l-1 13H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+ heart:'<path d="M12 20s-8-4.6-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 9c0 6.4-8 11-8 11z"/>',
+ dots:'<circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>'
+};
+const LOGO=s=>`<svg width="${s}" height="${s}" viewBox="4 3 56 56" fill="currentColor" aria-hidden="true"><circle cx="22" cy="9" r="6"/><path d="M13 18H43a9 9 0 0 1 9 9v2H46a9 9 0 0 0 0 18h6v2a9 9 0 0 1-9 9H13a9 9 0 0 1-9-9V27a9 9 0 0 1 9-9z"/><path fill-rule="evenodd" d="M46 32h8a6 6 0 0 1 0 12h-8a6 6 0 0 1 0-12zM50 35.5a2.5 2.5 0 1 0 0 5a2.5 2.5 0 1 0 0-5z"/></svg>`;
+// Banks, e-wallets and pay later apps you can pick for a wallet. Only ones with a card image in icons/<id>.png are listed.
+const PROVS={ewallet:[['gcash','GCash'],['maya','Maya']],
+ bank:[['bdo','BDO'],['bpi','BPI'],['metrobank','Metrobank'],['unionbank','UnionBank'],['securitybank','Security Bank'],['landbank','Landbank'],['gotyme','GoTyme'],['maribank','MariBank'],['rcbc','RCBC'],['eastwest','EastWest'],['cimb','CIMB'],['tonik','Tonik'],['pnb','PNB']],
+ paylater:[['billease','BillEase'],['spaylater','SPayLater'],['atome','Atome'],['lazpaylater','Lazada PayLater']]};
+const PROV=Object.fromEntries(Object.entries(PROVS).flatMap(([t,l])=>l.map(([id,n])=>[id,{n,t}])));
+const VERSION='1.0';
+const RELS=['Family','Friend','Partner','Work','Other'];
+// Pay later wallets hold debt: their balance goes below zero as you spend, and a transfer into them pays it down
+const TYPES={cash:{l:'Cash',i:'cash'},bank:{l:'Bank',i:'bank'},ewallet:{l:'E-wallet',i:'phone'},paylater:{l:'Pay later',i:'card'}};
+const CATS0=[['food','Food','food'],['transport','Transport','bus'],['groceries','Groceries','cart'],['bills','Bills','bolt'],['load','Load & data','signal'],['shopping','Shopping','bag'],['health','Health','heart'],['others','Others','dots']];
+// Icons you can pick for your own categories
+const CICONS=['star','gift','book','paw','home','plane','game','shirt','coffee','fit','smile','wrench','users','heart','bag','phone'];
+// The live list: built-ins (with your names), then your own categories, Others always last. Rebuilt by refreshCats() on every render.
+let CATS=[],CAT={};
+function refreshCats(){const own=S.ccat.map(c=>[c.id,c.l,c.i]),base=CATS0.map(([id,l,i])=>[id,S.cname[id]||l,i]);
+ CATS=[...base.filter(c=>c[0]!=='others'),...own,base.find(c=>c[0]==='others')];CAT=Object.fromEntries(CATS.map(([id,l,i])=>[id,{l,h:esc(l),i}]))}
+// First match wins, so food comes before transport ("grabfood" vs "grab")
+const KW=[
+ ['food',/jollibee|mcdo|mcdonald|kfc|chowking|inasal|greenwich|mang inasal|lunch|dinner|breakfast|merienda|snack|coffee|kape|starbucks|milk ?tea|food|resto|kain|ulam|carinderia|pizza|burger|panda|bakery|tinapay/],
+ ['transport',/jeep|bus\b|mrt|lrt|tricycle|trike|grab|angkas|joyride|move ?it|taxi|gas\b|gasoline|petrol|diesel|toll|parking|fare|pamasahe|beep|p2p/],
+ ['groceries',/grocer|palengke|market|puregold|savemore|hypermarket|walter|7-?eleven|alfamart|ministop|sari/],
+ ['bills',/meralco|maynilad|manila water|water bill|electric|rent|upa|wifi|internet|pldt|converge|netflix|spotify|youtube|disney|insurance|sss|philhealth|pag-?ibig|postpaid|bill|loan|amort/],
+ ['load',/\bload|globe|smart|\btnt\b|gomo|dito|\bdata\b|promo/],
+ ['shopping',/shopee|lazada|tiktok|zalora|uniqlo|clothes|shirt|shoes|mall|shopping|gift/],
+ ['health',/mercury|watsons|pharma|botika|medicine|gamot|doctor|clinic|hospital|dentist|check-?up|vitamin|laborator/]
+];
+const kwCat=n=>{n=String(n||'').toLowerCase();for(const[c,r]of KW)if(r.test(n))return c;return'others'};
+const catOf=t=>CAT[t.cat]?t.cat:'others';
+const ANDROID=/Android/i.test(navigator.userAgent);
+const IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+
+/* ---------- state ---------- */
+const blank=()=>({app:'pitaka',v:2,name:'',wallets:[],tx:[],theme:'auto',hide:false,tips:{},budget:0,cbud:{},people:[],ccat:[],cname:{},rec:[]});
+// Check every field so a damaged or hand-edited file can't break the app. Returns the clean state and how many rows were skipped.
+/* ---------- QR Ph ---------- */
+// QR Ph is the EMVCo payment format: two-digit tag, two-digit length, value, ending with a CRC checksum in tag 63
+function tlv(p){const o={};let i=0;while(i<p.length){const id=p.slice(i,i+2),ln=p.slice(i+2,i+4);if(!/^\d\d$/.test(id)||!/^\d\d$/.test(ln)||i+4+ +ln>p.length)return null;o[id]=p.slice(i+4,i+4+ +ln);i+=4+ +ln}return o}
+function crc16(str){let c=0xffff;for(const b of new TextEncoder().encode(str)){c^=b<<8;for(let j=0;j<8;j++)c=c&0x8000?(c<<1)^0x1021:c<<1;c&=0xffff}return c.toString(16).toUpperCase().padStart(4,'0')}
+function validQR(p){return typeof p==='string'&&p.length<=600&&p.startsWith('000201')&&p.slice(-8,-4)==='6304'&&crc16(p.slice(0,-4))===p.slice(-4).toUpperCase()&&!!tlv(p)}
+function cleanQR(q){if(!q||!validQR(q.p))return null;return{id:typeof q.id==='string'&&q.id?q.id:Math.random().toString(36).slice(2,11),label:typeof q.label==='string'?q.label.trim().slice(0,30):'',p:q.p,acct:typeof q.acct==='string'?q.acct.trim().slice(0,40):''}}
+function normalize(d){
+ const s=blank(),int=n=>Number.isSafeInteger(n),day=v=>typeof v==='string'&&!isNaN(Date.parse(v))?v:undefined;
+ s.name=typeof d.name==='string'?d.name.trim().slice(0,30):'';
+ s.theme=['light','dark','auto'].includes(d.theme)?d.theme:'auto';
+ s.hide=!!d.hide;s.wtab=d.wtab==='paylater'?'paylater':'money';s.tips=d.tips&&typeof d.tips==='object'?d.tips:{};
+ s.budget=int(d.budget)&&d.budget>0?d.budget:0;
+ const base=new Set(CATS0.map(c=>c[0])),cids=new Set(base);
+ s.ccat=(Array.isArray(d.ccat)?d.ccat:[]).filter(c=>c&&typeof c.id==='string'&&/^c_[a-z0-9]{4,16}$/.test(c.id)&&!cids.has(c.id)&&typeof c.l==='string'&&c.l.trim()&&cids.add(c.id)).slice(0,30)
+  .map(c=>({id:c.id,l:c.l.trim().slice(0,20),i:CICONS.includes(c.i)?c.i:'star'}));
+ if(d.cname&&typeof d.cname==='object')for(const c of base)if(typeof d.cname[c]==='string'&&d.cname[c].trim())s.cname[c]=d.cname[c].trim().slice(0,20);
+ if(d.cbud&&typeof d.cbud==='object')for(const c of cids)if(int(d.cbud[c])&&d.cbud[c]>0)s.cbud[c]=d.cbud[c];
+ if(typeof d.bkAsk==='string'&&/^\d{4}-\d{2}$/.test(d.bkAsk))s.bkAsk=d.bkAsk;
+ s.lastBackup=day(d.lastBackup);s.backupSnooze=day(d.backupSnooze);
+ const ws=Array.isArray(d.wallets)?d.wallets:[],ts=Array.isArray(d.tx)?d.tx:[],ids=new Set();
+ s.wallets=ws.filter(w=>w&&typeof w.id==='string'&&w.id&&!ids.has(w.id)&&typeof w.name==='string'&&w.name.trim()&&int(w.start)&&ids.add(w.id))
+  .map(w=>{const r={id:w.id,name:w.name.trim().slice(0,30),type:TYPES[w.type]?w.type:'cash',start:w.start},q=cleanQR(w.qr);if(r.type!=='paylater'&&int(w.goal)&&w.goal>0){r.goal=w.goal;if(typeof w.gby==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(w.gby))r.gby=w.gby}if(r.type==='paylater'&&int(w.limit)&&w.limit>0)r.limit=w.limit;const pv=w.prov==='seabank'?'maribank':w.prov;if(w.prov==='seabank'&&r.name==='SeaBank')r.name='MariBank';if(PROV[pv]&&PROV[pv].t===r.type)r.prov=pv;if(q)r.qr={p:q.p,acct:q.acct};return r});
+ const pids=new Set();
+ s.people=(Array.isArray(d.people)?d.people:[]).filter(x=>x&&typeof x.id==='string'&&x.id&&!pids.has(x.id)&&typeof x.name==='string'&&x.name.trim()&&pids.add(x.id))
+  .map(x=>({id:x.id,name:x.name.trim().slice(0,40),rel:RELS.includes(x.rel)?x.rel:'',qrs:(Array.isArray(x.qrs)?x.qrs:[]).map(cleanQR).filter(Boolean)}));
+ s.tx=ts.filter(t=>t&&typeof t.id==='string'&&['expense','income','transfer'].includes(t.kind)&&int(t.amt)&&t.amt>0&&ids.has(t.wallet)&&day(t.at)&&(t.kind!=='transfer'||(ids.has(t.to)&&t.to!==t.wallet)))
+  .map(t=>{const r={id:t.id,kind:t.kind,name:typeof t.name==='string'?t.name.slice(0,60):'',amt:t.amt,wallet:t.wallet,at:new Date(t.at).toISOString()};
+   if(t.kind==='transfer')r.to=t.to;if(t.kind==='expense')r.cat=cids.has(t.cat)?t.cat:kwCat(r.name);return r});
+ if(ids.has(d.lastWallet))s.lastWallet=d.lastWallet;
+ s.rec=(Array.isArray(d.rec)?d.rec:[]).filter(r=>r&&typeof r.id==='string'&&typeof r.name==='string'&&r.name.trim()&&int(r.amt)&&r.amt>0&&ids.has(r.wallet)&&int(r.day)&&r.day>=1&&r.day<=31)
+  .map(r=>({id:r.id,name:r.name.trim().slice(0,60),amt:r.amt,wallet:r.wallet,cat:cids.has(r.cat)?r.cat:'bills',day:r.day,...(typeof r.last==='string'&&/^\d{4}-\d{2}$/.test(r.last)?{last:r.last}:{})}));
+ return{s,dropped:ws.length-s.wallets.length+ts.length-s.tx.length};
+}
+function load(){try{const r=localStorage.getItem(KEY);if(r){const d=JSON.parse(r);if(d&&d.app==='pitaka')return normalize(d).s}}catch(e){}return blank()}
+let S=load();
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast("Couldn't save on this device")}}
+let page='home',filter='all',query='',sheet=null,im=null,undoFn=null;
+
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const uid=()=>Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-4);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const toC=s=>{const t=String(s??'').replace(/[₱,\s]/g,'');if(!t)return NaN;const n=Number(t);return isFinite(n)?Math.round(n*100):NaN};
+const fmt=c=>(Math.abs(c)/100).toLocaleString('en-PH',{minimumFractionDigits:2,maximumFractionDigits:2});
+const peso=c=>(c<0?'−':'')+'₱'+fmt(c);
+const plain=c=>c?(c/100).toFixed(2).replace(/\.00$/,''):'';
+const pad=n=>String(n).padStart(2,'0');
+const dkey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const tm=d=>d.toLocaleTimeString('en-PH',{hour:'numeric',minute:'2-digit'});
+function dayLabel(k){const t=new Date();if(k===dkey(t))return'Today';t.setDate(t.getDate()-1);if(k===dkey(t))return'Yesterday';const[y,m,d]=k.split('-').map(Number);const dt=new Date(y,m-1,d);return dt.toLocaleDateString('en-PH',{weekday:'short',day:'numeric',month:'short',...(y!==new Date().getFullYear()?{year:'numeric'}:{})})}
+const W=id=>S.wallets.find(w=>w.id===id);
+const wname=id=>W(id)?.name||'Deleted wallet';
+function bal(id){const w=W(id);let b=w?w.start:0;for(const t of S.tx){if(t.kind==='expense'&&t.wallet===id)b-=t.amt;else if(t.kind==='income'&&t.wallet===id)b+=t.amt;else if(t.kind==='transfer'){if(t.wallet===id)b-=t.amt;if(t.to===id)b+=t.amt}}return b}
+// Pay later works like a credit card: it isn't money you have, so it stays out of the total.
+// Buying with it is still spending; paying the bill (a transfer from your bank) is what lowers the total.
+const total=()=>S.wallets.reduce((a,w)=>a+(w.type==='paylater'?0:bal(w.id)),0);
+const sorted=()=>[...S.tx].sort((a,b)=>b.at.localeCompare(a.at));
+let tT;function toast(m,undo){$('.toast')?.remove();undoFn=undo||null;document.body.insertAdjacentHTML('beforeend',`<div class="toast" role="status"><span>${esc(m)}</span>${undo?'<button data-a="undo">Undo</button>':''}</div>`);clearTimeout(tT);tT=setTimeout(()=>{$('.toast')?.remove();undoFn=null},undo?6000:3000)}
+// Category for a name: what you picked last time for the same name, else a keyword guess
+function guessCat(n){const k=String(n||'').trim().toLowerCase();if(!k)return null;const p=sorted().find(t=>t.kind==='expense'&&t.name.toLowerCase()===k);return p?catOf(p):kwCat(k)}
+const sum=a=>a.reduce((x,t)=>x+t.amt,0);
+const inMonth=(t,y,m,maxDay)=>{const d=new Date(t.at);return d.getFullYear()===y&&d.getMonth()===m&&(!maxDay||d.getDate()<=maxDay)};
+const monthName=(y,m)=>new Date(y,m,1).toLocaleDateString('en-PH',{month:'long'});
+const shortDate=v=>new Date(v).toLocaleDateString('en-PH',{month:'short',day:'numeric',...(new Date(v).getFullYear()!==new Date().getFullYear()?{year:'numeric'}:{})});
+function applyTheme(t){const r=document.documentElement;if(t==='light'||t==='dark')r.setAttribute('data-theme',t);else r.removeAttribute('data-theme')}
+const standalone=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+
+/* ---------- pieces ---------- */
+// The wallet's logo (icons/logos/<id>.png) on a white tile. Transfers show the "from" wallet.
+// Wallets without a bank (Cash, or no bank picked) use icons/logos/default.png; a missing bank logo falls back to it too, then to the type icon
+function txLogo(id){const w=W(id),ic=sv(I[(TYPES[w?.type]||TYPES.cash).i],18),src=`icons/logos/${w?.prov||'default'}.png`;
+ return `<span class="txlogo lg">${ic}<img src="${src}" alt="" onerror="if(!this.src.endsWith('/default.png'))this.src='icons/logos/default.png';else this.remove()"></span>`}
+// Spending shows its category (icons/categories/<id>.png; your own categories use their outline icon) with the wallet's logo as a small corner badge
+function txCat(t){const c=catOf(t),own=c.startsWith('c_'),w=W(t.wallet);
+ return `<span class="txic"><span class="txcat">${sv(I[CAT[c].i],18)}${own?'':`<img src="icons/categories/${c}.png" alt="" onerror="this.remove()">`}</span><span class="txbadge"><img src="icons/logos/${w?.prov||'default'}.png" alt="" onerror="if(!this.src.endsWith('/default.png'))this.src='icons/logos/default.png';else this.remove()"></span></span>`}
+// Tapping an entry shows it as a receipt first; Edit, Log again and Delete live there
+function openReceipt(id){const t=S.tx.find(x=>x.id===id);if(!t)return;sheet={type:'receipt',id};const d=new Date(t.at),k=t.kind,w=W(t.wallet);
+ const head=k==='expense'?`<span class="rc-cat">${sv(I[CAT[catOf(t)].i],26)}${catOf(t).startsWith('c_')?'':`<img src="icons/categories/${catOf(t)}.png" alt="" onerror="this.remove()">`}</span>`:`<span class="rc-logo">${txLogo(t.wallet)}</span>`;
+ const nm=t.name||(k==='transfer'?'Transfer':k==='income'?'Money in':'Spending');
+ const amt=k==='expense'?`−${peso(t.amt)}`:k==='income'?`+${peso(t.amt)}`:peso(t.amt);
+ const wrow=(lbl,id)=>`<div class="rc-row"><span>${lbl}</span><span class="rc-w">${txLogo(id)}${esc(wname(id))}</span></div>`;
+ openSheet(`${sheetHead({expense:'Spending',income:'Money in',transfer:'Transfer'}[k])}
+ <div class="rc-wrap"><div class="rc">
+  <div class="rc-top">${head}<div class="rc-nm">${esc(nm)}</div><div class="rc-amt${k==='income'?' in':''}">${amt}</div>
+   <div class="rc-date">${d.toLocaleDateString('en-PH',{weekday:'short',month:'long',day:'numeric',year:'numeric'})} · ${tm(d)}</div></div>
+  <div class="rc-cut"></div>
+  ${k==='expense'?`<div class="rc-row"><span>Category</span><span>${CAT[catOf(t)].h}</span></div>`:''}
+  ${k==='transfer'?wrow('From',t.wallet)+wrow('To',t.to):wrow(k==='income'?'Added to':'Paid with',t.wallet)}
+  ${k==='expense'&&w?.type==='paylater'?`<div class="rc-note">Added to what you owe on ${esc(w.name)}</div>`:''}
+  <div class="rc-cut"></div>
+  <div class="rc-row rc-total"><span>${k==='expense'?'Total spent':k==='income'?'Total received':'Amount moved'}</span><span>${peso(t.amt)}</span></div>
+  <div class="rc-foot">${LOGO(14)}Logged in Pitaka</div>
+ </div><div class="rc-edge" aria-hidden="true"></div></div>
+ <button class="cta" data-a="txedit">${sv(I.edit,18)}Edit</button>
+ <div class="g2"><button class="sec" data-a="txagain">${sv(I.plus,18)}Log again</button><button class="sec danger" data-a="delentry">${sv(I.trash,18)}Delete</button></div>`);maybeTour('receipt',true)}
+function txRow(t){
+ const d=new Date(t.at);let right,sub;
+ if(t.kind==='expense'){right=`<span class="amt2">−${'₱'+fmt(t.amt)}</span>`;sub=`${CAT[catOf(t)].h} · ${esc(wname(t.wallet))}, ${tm(d)}`}
+ else if(t.kind==='income'){right=`<span class="amt2 in">+${'₱'+fmt(t.amt)}</span>`;sub=`${esc(wname(t.wallet))}, ${tm(d)}`}
+ else{right=`<span class="amt2" style="color:var(--muted)">₱${fmt(t.amt)}</span>`;sub=`${esc(wname(t.wallet))} to ${esc(wname(t.to))}, ${tm(d)}`}
+ const nm=t.name||(t.kind==='transfer'?'Transfer':t.kind==='income'?'Money in':'Spending');
+ return `<button class="li lirow" data-a="tx" data-id="${t.id}"><span style="display:flex;gap:12px;align-items:center;min-width:0">${t.kind==='expense'?txCat(t):txLogo(t.wallet)}<span class="ellip"><div class="nm">${esc(nm)}</div><div class="tiny" style="margin-top:2px">${sub}</div></span></span>${right}</button>`;
+}
+const NFC='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8.5 9.5a4 4 0 0 1 0 5"/><path d="M12 7a7.5 7.5 0 0 1 0 10"/><path d="M15.5 4.5a11 11 0 0 1 0 15"/></svg>';
+let wi=0,deckDragged=false;
+let flipped=null; // id of the wallet whose card shows its back
+// Pay later: with a credit limit, the main number is what's still available; what you owe is secondary.
+// The limit is never counted as your money: the total only subtracts what you owe.
+// Savings goal on a money wallet: progress is simply its balance against the goal
+function goalInfo(w){const b=Math.max(0,bal(w.id)),g=w.goal,pct=Math.min(100,Math.floor(b/g*100)),left=Math.max(0,g-b);let monthly=0,when='';
+ if(w.gby&&left){const[y,m]=w.gby.split('-').map(Number),now=new Date(),months=Math.max(1,(y-now.getFullYear())*12+(m-1-now.getMonth())+1);monthly=Math.ceil(left/months/100)*100;when=new Date(y,m-1,1).toLocaleDateString('en-PH',{month:'long',year:'numeric'})}
+ return{b,g,pct,left,monthly,when}}
+const saved=()=>S.wallets.reduce((a,w)=>a+(w.goal?Math.max(0,bal(w.id)):0),0);
+function plInfo(w,b){const owed=Math.max(0,-b),lim=w.limit||0;return{owed,lim,avail:lim?Math.max(0,lim-owed):0}}
+function walletCard(w,i){const ty=TYPES[w.type]||TYPES.cash;const b=bal(w.id);const n=new Date();
+ const sp=sum(S.tx.filter(t=>t.kind==='expense'&&t.wallet===w.id&&inMonth(t,n.getFullYear(),n.getMonth())));
+ return `<div class="wc${flipped===w.id?' turned':''}" data-i="${i}" data-id="${w.id}"><div class="wc-in">
+ <button class="wc-face wc-front" data-a="wcard" data-i="${i}" data-id="${w.id}" data-card="${w.prov||'default'}" aria-label="${esc(w.name)}, ${S.hide?'balance hidden':peso(b)}. Flip card">
+  <span class="wc-top"><span class="wc-badge">${sv(I[ty.i],17)}</span><span class="wc-name">${esc(w.name)}</span><span class="wc-nfc">${NFC}</span></span>
+  <span class="wc-iname">${esc(w.name)}</span>
+  <span class="wc-bal">${S.hide?'₱ •••••':w.type==='paylater'?(w.limit?`${peso(plInfo(w,b).avail)}<small> available</small>`:b<0?`Owe ${peso(-b)}`:'Paid up'):peso(b)}</span>
+  <span class="wc-type">${w.type==='ewallet'?'E-WALLET':w.type==='paylater'?'PAY LATER · YOU OWE':ty.l.toUpperCase()+' ACCOUNT'}</span>
+  <span class="wc-foot"><span>${w.goal?`<span class="wc-cap">GOAL</span><span class="wc-num">${S.hide?'•••• ••••':`${goalInfo(w).pct}% of ${peso(w.goal)}`}</span>`:w.type==='paylater'&&w.limit?`<span class="wc-cap">OWE</span><span class="wc-num">${S.hide?'•••• ••••':`${peso(plInfo(w,b).owed)} of ${peso(w.limit)}`}</span>`:`<span class="wc-cap">SPENT IN ${monthName(n.getFullYear(),n.getMonth()).toUpperCase()}</span><span class="wc-num">${S.hide?'•••• ••••':peso(sp)}</span>`}</span><span class="wc-mark" aria-hidden="true"><i></i><i></i></span></span>
+ </button>
+ <div class="wc-face wc-back" data-a="wflip" data-id="${w.id}"><span class="wc-stripe" aria-hidden="true"></span>
+  <span class="wc-bk-top"><span class="wc-name">${esc(w.name)}</span><button class="wc-hint" data-a="wflip" data-id="${w.id}">Flip back</button></span>
+  <span class="wc-acts"><button class="wc-act" data-a="wallet" data-id="${w.id}"><span class="wc-ic">${sv(I.receipt,20)}</span>Details</button><button class="wc-act" data-a="wqr" data-id="${w.id}"><span class="wc-ic">${sv(I.qr,20)}</span>${w.qr?'QR code':'Add QR'}</button></span>
+ </div></div></div>`}
+// Only the front card's visible face can be reached with Tab
+function cardTabs(c,front){const t=c.classList.contains('turned');c.querySelector('.wc-front').tabIndex=front&&!t?0:-1;c.querySelectorAll('.wc-back button').forEach(b=>b.tabIndex=front&&t?0:-1)}
+function flipCard(id){flipped=flipped===id?null:id;const d=$('#deck');if(!d)return;
+ d.querySelectorAll('.wc').forEach(c=>c.classList.toggle('turned',c.dataset.id===flipped));deckPos(d,wi);
+ const c=d.querySelector(`.wc[data-id="${id}"]`);if(c&&document.activeElement?.closest('.wc')===c)(flipped?c.querySelector('.wc-act'):c.querySelector('.wc-front')).focus({preventScroll:true})}
+function unflip(){if(!flipped)return;flipped=null;document.querySelectorAll('.wc.turned').forEach(c=>c.classList.remove('turned'))}
+function walletDeck(){wi=Math.max(0,Math.min(wi,S.wallets.length-1));
+ return `<div class="deck" id="deck" role="group" aria-roledescription="carousel" aria-label="Wallets"><div class="sizer"></div>${S.wallets.map(walletCard).join('')}</div>
+ ${S.wallets.length>1?`<div class="wdots">${S.wallets.map((w,i)=>`<button class="${i===wi?'on':''}" data-a="wdot" data-i="${i}" aria-label="Show ${esc(w.name)}"><i></i></button>`).join('')}</div>`:''}`}
+// Lay out every card from a fractional position: 0 = first card in front. Cards ahead peek out to the right, smaller and faded; passed cards slide off to the left.
+function deckPos(deck,pos){const cards=deck.querySelectorAll('.wc'),W=deck.clientWidth;
+ cards.forEach((c,i)=>{const o=i-pos;let tx,sc,op,r=0;
+  if(o<0){tx=o*W*1.05;sc=1+o*.04;op=Math.max(0,1+o*.9);r=o*6}
+  else{const k=Math.min(o,2);tx=k*28;sc=1-k*.09;op=o>2?Math.max(0,1-(o-2)*2)*.4:1-k*.3}
+  c.style.transform=`translateX(${tx}px) scale(${sc}) rotate(${r}deg)`;c.style.opacity=op;c.style.zIndex=o<0?200:100-Math.round(o*10);
+  c.style.pointerEvents=op<.05?'none':'';const front=Math.round(pos)===i;cardTabs(c,front);c.setAttribute('aria-hidden',front?'false':'true')});
+ const near=Math.round(pos);document.querySelectorAll('.wdots button').forEach((d,i)=>d.classList.toggle('on',i===near))}
+function deckGo(){const d=$('#deck');if(!d)return;if(flipped&&S.wallets[wi]?.id!==flipped)unflip();d.classList.add('anim');deckPos(d,wi)}
+function setupDeck(deck){const n=S.wallets.length;deckPos(deck,wi);if(n<2)return;
+ let x0,y0,t0,id=null,drag=false,dx=0;
+ deck.addEventListener('pointerdown',e=>{if(e.button)return;id=e.pointerId;x0=e.clientX;y0=e.clientY;t0=performance.now();drag=false;dx=0});
+ deck.addEventListener('pointermove',e=>{if(e.pointerId!==id)return;dx=e.clientX-x0;const dy=e.clientY-y0;
+  if(!drag){if(Math.abs(dx)<8||Math.abs(dx)<Math.abs(dy)){if(Math.abs(dy)>10)id=null;return}drag=true;unflip();deck.classList.remove('anim');try{deck.setPointerCapture(id)}catch(_){}}
+  let p=wi-dx/(deck.clientWidth*.8);if(p<0)p/=3;else if(p>n-1)p=n-1+(p-n+1)/3;deckPos(deck,p)});
+ const end=e=>{if(e.pointerId!==id)return;id=null;if(!drag)return;deckDragged=true;setTimeout(()=>deckDragged=false,50);
+  const v=dx/Math.max(1,performance.now()-t0),W=deck.clientWidth;
+  if((dx<-W*.22||v<-.5)&&wi<n-1)wi++;else if((dx>W*.22||v>.5)&&wi>0)wi--;deckGo()};
+ deck.addEventListener('pointerup',end);deck.addEventListener('pointercancel',end);
+ deck.addEventListener('keydown',e=>{if(e.target.closest('.wc-back'))return;if(e.key==='ArrowRight'&&wi<n-1){wi++;deckGo();deck.querySelectorAll('.wc-front')[wi].focus()}else if(e.key==='ArrowLeft'&&wi>0){wi--;deckGo();deck.querySelectorAll('.wc-front')[wi].focus()}})}
+// Wallets grid: press and hold a card, drag it to a new spot, let go to save the order (Home's cards follow it)
+let gridDrag=false,gridSuppress=false;
+function setupGrid(g){let st=null;
+ const cancel=()=>{if(st){clearTimeout(st.timer);st=null}};
+ g.addEventListener('pointerdown',e=>{const el=e.target.closest('.mcard');if(!el||e.button||S.wallets.length<2)return;
+  st={el,pid:e.pointerId,x0:e.pageX,y0:e.pageY,px:e.pageX,py:e.pageY,drag:false};st.timer=setTimeout(start,e.pointerType==='mouse'?250:400)});
+ g.addEventListener('pointermove',e=>{if(!st||e.pointerId!==st.pid)return;
+  if(!st.drag){if(Math.hypot(e.pageX-st.x0,e.pageY-st.y0)>8)cancel();return}
+  st.px=e.pageX;st.py=e.pageY;move()});
+ const end=e=>{if(!st||e.pointerId!==st.pid)return;clearTimeout(st.timer);if(st.drag)drop();else st=null};
+ g.addEventListener('pointerup',end);g.addEventListener('pointercancel',end);
+ g.addEventListener('contextmenu',e=>{if(e.target.closest('.mcard'))e.preventDefault()});
+ function start(){const cards=[...g.querySelectorAll('.mcard')];
+  st.drag=true;gridDrag=gridSuppress=true;st.cards=cards;st.orig=st.target=cards.indexOf(st.el);
+  st.slots=cards.map(c=>{const r=c.getBoundingClientRect();return{x:r.left+scrollX,y:r.top+scrollY,w:r.width,h:r.height}});
+  st.el.classList.add('lift');try{st.el.setPointerCapture(st.pid)}catch(_){}navigator.vibrate?.(10);move();
+  const tick=()=>{if(!st?.drag)return;const y=st.py-scrollY,before=scrollY;if(y<90)scrollBy(0,-8);else if(y>innerHeight-130)scrollBy(0,8);
+   const dy=scrollY-before;if(dy){st.py+=dy;move()}requestAnimationFrame(tick)};requestAnimationFrame(tick)}
+ function move(){const{el,slots,orig}=st,dx=st.px-st.x0,dy=st.py-st.y0,o=slots[orig];
+  el.style.transform=`translate(${dx}px,${dy}px) scale(1.05)`;
+  const cx=o.x+o.w/2+dx,cy=o.y+o.h/2+dy;let t=0,best=Infinity;slots.forEach((s,k)=>{const d=Math.hypot(s.x+s.w/2-cx,s.y+s.h/2-cy);if(d<best){best=d;t=k}});
+  if(t===st.target)return;st.target=t;
+  // everyone else slides to where they'd sit if the card were dropped at t
+  const order=st.cards.map((_,k)=>k).filter(k=>k!==orig);order.splice(t,0,orig);
+  order.forEach((idx,k)=>{if(idx===orig)return;const a=slots[idx],b=slots[k];st.cards[idx].style.transform=b===a?'':`translate(${b.x-a.x}px,${b.y-a.y}px)`})}
+ function drop(){const{el,slots,orig,target}=st,a=slots[orig],b=slots[target],st0=st.cards;st=null;gridDrag=false;
+  el.classList.remove('lift');el.style.transform=`translate(${b.x-a.x}px,${b.y-a.y}px)`;
+  setTimeout(()=>{if(target!==orig){const ids=st0.map(c=>c.dataset.id),[m]=ids.splice(orig,1);ids.splice(target,0,m);reorderShown(ids);persist()}render();setTimeout(()=>gridSuppress=false,50)},220)}
+ // Keyboard: Alt + arrow keys move the focused card
+ g.addEventListener('keydown',e=>{const el=e.target.closest('.mcard');if(!el||!e.altKey)return;const cols=getComputedStyle(g).gridTemplateColumns.split(' ').length,step={ArrowLeft:-1,ArrowRight:1,ArrowUp:-cols,ArrowDown:cols}[e.key];if(!step)return;e.preventDefault();
+  const ids=[...g.querySelectorAll('.mcard')].map(c=>c.dataset.id),i=ids.indexOf(el.dataset.id),j=Math.max(0,Math.min(ids.length-1,i+step));if(i===j)return;
+  const[m]=ids.splice(i,1);ids.splice(j,0,m);reorderShown(ids);persist();render();$(`#wgrid .mcard[data-id="${m}"]`)?.focus()})}
+// The grid may show only one group; put those wallets in the new order using the slots they already hold
+function reorderShown(ids){const set=new Set(ids),by=Object.fromEntries(S.wallets.map(w=>[w.id,w]));let k=0;S.wallets=S.wallets.map(w=>set.has(w.id)?by[ids[k++]]:w)}
+// While dragging a card, the page must not scroll under the finger (iOS needs a non-passive touchmove)
+document.addEventListener('touchmove',e=>{if(gridDrag)e.preventDefault()},{passive:false});
+addEventListener('click',e=>{if(gridSuppress&&e.target.closest('#wgrid')){e.stopPropagation();e.preventDefault()}},true);
+// A drag that ends on a card shouldn't also open it
+addEventListener('click',e=>{if(deckDragged&&e.target.closest('#deck')){e.stopPropagation();e.preventDefault()}},true);
+addEventListener('resize',()=>{const d=$('#deck');if(d){d.classList.remove('anim');deckPos(d,wi)}});
+function budgetBar(spent,cur){
+ const left=S.budget-spent,now=new Date();
+ const dl=new Date(now.getFullYear(),now.getMonth()+1,0).getDate()-now.getDate()+1;
+ const line=left<0?`<span style="color:var(--red)">Over budget by ${peso(-left)}</span>`
+  :cur?`${peso(left)} left · about ${peso(Math.floor(left/dl/100)*100)} a day for ${dl} ${dl===1?'day':'days'}`:`${peso(left)} under budget`;
+ return `<div class="bar" style="margin:12px 0 8px" role="img" aria-label="${Math.round(spent/S.budget*100)}% of budget used"><i style="width:${Math.min(100,spent/S.budget*100)}%${left<0?';background:var(--red)':''}"></i></div><div class="sub">${line}</div>`;
+}
+// Category budgets: spending this month per category, and the ones close to or over their limit
+function catSpent(c,y,m,skip){return sum(S.tx.filter(t=>t.kind==='expense'&&t.id!==skip&&catOf(t)===c&&inMonth(t,y,m)))}
+function catLine(c,spent,cur){const left=S.cbud[c]-spent;return left<0?`<span style="color:var(--red)">Over by ${peso(-left)}</span>`:`${peso(left)} ${cur?'left':'under'}`}
+function catAlerts(){const n=new Date(),y=n.getFullYear(),m=n.getMonth();
+ const hot=Object.keys(S.cbud).map(c=>({c,sp:catSpent(c,y,m)})).filter(x=>x.sp>=S.cbud[x.c]*.8).sort((a,b)=>b.sp/S.cbud[b.c]-a.sp/S.cbud[a.c]);
+ return hot.length?`<div class="cbalert">${hot.map(({c,sp})=>`<button class="li lirow" data-a="catgo" data-v="${c}"><span style="display:flex;gap:10px;align-items:center;min-width:0"><span style="display:flex;color:${sp>S.cbud[c]?'var(--red)':'var(--amber)'}">${sv(I[CAT[c].i],18)}</span><span class="nm">${CAT[c].h}</span></span><span class="tiny" style="white-space:nowrap">${catLine(c,sp,true)}</span></button>`).join('')}</div>`:''}
+function monthCard(){
+ const now=new Date(),y=now.getFullYear(),m=now.getMonth();
+ const spent=sum(S.tx.filter(t=>t.kind==='expense'&&inMonth(t,y,m)));
+ return `<div class="card" data-tour="month"><div class="row"><span class="sub" style="font-size:14px">Spent in ${monthName(y,m)}</span><button class="link" style="height:auto;display:flex;align-items:center;gap:2px" data-a="go" data-p="insights">Insights${sv(I.chev,14)}</button></div>
+ <div class="big" style="margin-top:4px">${peso(spent)}${S.budget?`<span class="sub" style="font-size:14px;font-weight:400;letter-spacing:0"> of ${peso(S.budget)}</span>`:''}</div>
+ ${S.budget?budgetBar(spent,true):`<button class="link ink" style="height:auto;padding:8px 0 0" data-a="budget">Set a monthly budget</button>`}${catAlerts()}</div>`;
+}
+// Recurring bills: each has a day of the month; "last" is the month it was logged or skipped
+const ymLocal=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}`;
+function billDue(r){const n=new Date(),y=n.getFullYear(),m=n.getMonth(),cur=ymLocal(n);if((r.last||'')>=cur)return null;
+ const dd=Math.min(r.day,new Date(y,m+1,0).getDate()),diff=dd-n.getDate();if(diff>3)return null;
+ return{dd,diff,label:diff<0?`${-diff} ${diff===-1?'day':'days'} late`:diff===0?'Due today':diff===1?'Due tomorrow':`Due in ${diff} days`,date:new Date(y,m,dd)}}
+function billsCard(){const due=S.rec.map(r=>({r,d:billDue(r)})).filter(x=>x.d&&W(x.r.wallet)).sort((a,b)=>a.d.diff-b.d.diff);if(!due.length)return'';
+ return `<div data-tour="bills"><div class="row" style="margin-bottom:10px"><h2 class="h2">Bills due</h2></div><div class="card" style="padding:12px"><div class="inner">${due.map(({r,d})=>`<div class="li bill">
+  <button class="lirow" data-a="billlog" data-id="${r.id}" style="display:flex;gap:12px;align-items:center;min-width:0;flex:1">${txCat({kind:'expense',cat:r.cat,wallet:r.wallet})}<span class="ellip"><div class="nm">${esc(r.name)}</div><div class="tiny" style="margin-top:2px${d.diff<0?';color:var(--red)':''}">${d.label} · ${peso(r.amt)}</div></span></button>
+  <span style="display:flex;gap:4px;align-items:center"><button class="link" style="height:36px" data-a="billskip" data-id="${r.id}">Skip</button><button class="sel on" style="height:34px" data-a="billlog" data-id="${r.id}">Log</button></span></div>`).join('')}</div></div></div>`}
+function backupNudge(){
+ if(S.tx.length<5)return'';
+ const last=S.lastBackup?Date.parse(S.lastBackup):Math.min(...S.tx.map(t=>Date.parse(t.at)));
+ const days=Math.floor((Date.now()-last)/864e5);
+ if(days<14||(S.backupSnooze&&Date.now()-Date.parse(S.backupSnooze)<7*864e5))return'';
+ return `<div class="card"><div style="display:flex;gap:12px;align-items:center"><span class="ico">${sv(I.down)}</span><div><div class="t15">${S.lastBackup?`Last backup was ${days} days ago`:"You haven't saved a backup yet"}</div><div class="sub" style="margin-top:2px">Your entries live only on this phone. A backup file keeps them safe.</div></div></div>
+ <div class="g2" style="margin-top:12px"><button class="sec" style="height:44px" data-a="snooze">Later</button><button class="cta" style="height:44px;font-size:14px;border-radius:16px" data-a="backup">Save backup</button></div></div>`;
+}
+function emptyCard(icon,title,text,btn,act){return `<div class="card empty"><span class="ico">${sv(I[icon])}</span><div class="t15">${title}</div><div class="sub" style="max-width:28ch">${text}</div>${btn?`<button class="cta" style="height:44px;width:auto;padding:0 20px;font-size:14px" data-a="${act}">${btn}</button>`:''}</div>`}
+
+/* ---------- screens ---------- */
+function welcome(){return `<main class="welcome">
+ <div class="logo">${LOGO(40)}</div>
+ <div><h1 class="h1" style="font-size:32px;font-weight:700;margin-bottom:8px">Pitaka</h1>
+ <p class="sub" style="font-size:16px;margin:0;max-width:30ch">Track your cash, bank and e-wallets. Log spending and balances update for you.</p></div>
+ <div><label class="lbl" for="w-name">Your name</label><input class="field" id="w-name" placeholder="Alex" autocomplete="given-name" maxlength="30"></div>
+ <div><label class="lbl" for="w-cash">Cash on hand right now (optional)</label><input class="field" id="w-cash" inputmode="decimal" placeholder="₱0.00"></div>
+ <div class="err" id="w-err"></div>
+ <button class="cta" data-a="start">Get started</button>
+ <p class="tiny" style="text-align:center;margin:0">Everything stays on this device. No account needed.</p>
+</main>`}
+
+// Tablets and up get a two-column layout. Phones keep their one-column order untouched.
+const WIDE=matchMedia('(min-width:768px)');
+WIDE.addEventListener?.('change',()=>{if(S.name)render()});
+function home(){
+ const tk=dkey(new Date());
+ const spent=S.tx.filter(t=>t.kind==='expense'&&dkey(new Date(t.at))===tk).reduce((a,t)=>a+t.amt,0);
+ const recent=sorted().slice(0,5);
+ const head=`<header class="row">
+  <div style="display:flex;gap:12px;align-items:center;min-width:0">
+  <div class="ellip"><div class="t15">Hello, ${esc(S.name)}</div><div class="sub">${spent?`Spent ${peso(spent)} today`:'Nothing spent today'}</div></div></div>
+  <div style="display:flex;gap:8px"><button class="rb" data-a="find" aria-label="Search history">${sv(I.search)}</button><button class="rb" data-a="go" data-p="settings" data-tour="settings" aria-label="Settings">${sv(I.set)}</button></div>
+ </header>`;
+ const hero=`<section class="blk">
+  <div class="row" style="align-items:flex-start">
+   <div><div class="cap" style="display:flex;align-items:center;gap:2px">Total balance<button class="eye" data-a="hide" aria-label="${S.hide?'Show':'Hide'} balances">${sv(S.hide?I.eyeoff:I.eye,18)}</button></div>
+   <div class="amt">${S.hide?'₱•••••':peso(total())}</div>${S.wallets.some(w=>w.goal)?`<div class="cap" style="margin-top:2px">${S.hide?'₱•••':peso(saved())} in savings</div>`:''}</div>
+   <button class="pill sm" data-a="new" data-k="income" data-tour="income">Add money</button>
+  </div>
+  <div class="g2" style="margin-top:18px">
+   <button class="pill" data-a="new" data-k="expense" data-tour="spend">${sv(I.out,18)}Spend</button>
+   <button class="pill" data-a="new" data-k="transfer" data-tour="transfer">${sv(I.xfer,18)}Transfer</button>
+  </div>
+ </section>`;
+ const wal=`<div><div class="row" style="margin-bottom:10px"><h2 class="h2">Wallets</h2><button class="link" data-a="go" data-p="wallets">Manage</button></div>
+ ${S.wallets.length?walletDeck():emptyCard('wallet','No wallets yet','Add your cash, bank or e-wallet to start.','Add wallet','addwallet')}</div>`;
+ const rec=`<div><div class="row" style="margin-bottom:10px"><h2 class="h2">Recent</h2>${recent.length?'<button class="link" data-a="go" data-p="history">See all</button>':''}</div>
+ ${recent.length?`<div class="card" style="padding:12px" data-tour="recent"><div class="inner">${recent.map(txRow).join('')}</div></div>`:emptyCard('receipt','Nothing logged yet','Tap Spend when you buy something. It comes out of the wallet you pick.','Log spending','new')}</div>`;
+ if(WIDE.matches)return `${head}<div class="cols"><div>${hero}${wal}${rec}</div><div>${backupNudge()}${billsCard()}${monthCard()}</div></div>`;
+ return `${head}${backupNudge()}${hero}${billsCard()}${monthCard()}${wal}${rec}`;
+}
+
+function history(){
+ const q=query.trim().toLowerCase();
+ const list=sorted().filter(t=>(filter==='all'||t.wallet===filter||t.to===filter)&&(!q||(t.name||'').toLowerCase().includes(q)||wname(t.wallet).toLowerCase().includes(q)||(t.kind==='expense'&&CAT[catOf(t)].l.toLowerCase().includes(q))));
+ const groups={};list.forEach(t=>{(groups[dkey(new Date(t.at))]??=[]).push(t)});
+ const chips=S.wallets.length>1?`<div class="chips"><button class="sel${filter==='all'?' on':''}" data-a="filter" data-id="all">All</button>${S.wallets.map(w=>`<button class="sel${filter===w.id?' on':''}" data-a="filter" data-id="${w.id}">${esc(w.name)}</button>`).join('')}</div>`:'';
+ const body=Object.keys(groups).length?'<div class="grid">'+Object.entries(groups).map(([k,ts])=>{const sp=ts.filter(t=>t.kind==='expense').reduce((a,t)=>a+t.amt,0);
+  return `<div><div class="row" style="padding:0 4px 8px"><span class="t15">${dayLabel(k)}</span><span class="sub">${sp?'Spent '+peso(sp):''}</span></div><div class="card" style="padding:12px"><div class="inner">${ts.map(txRow).join('')}</div></div></div>`}).join('')+'</div>'
+  :(S.tx.length?emptyCard('search','No matches','Try another word or pick a different wallet.'):emptyCard('receipt','No history yet','Everything you log shows up here, grouped by day.','Log spending','new'));
+ return `<header style="display:flex;gap:10px;align-items:center"><button class="rb" data-a="go" data-p="${histBack}" aria-label="Back">${sv(I.back)}</button><h1 class="h1">History</h1></header>
+ <div class="search">${sv(I.search,18)}<input id="q" type="search" placeholder="Search by name, category or wallet" value="${esc(query)}" aria-label="Search history"></div>
+ ${chips}${body}`;
+}
+
+function insights(){
+ const now=new Date();if(!im)im=[now.getFullYear(),now.getMonth()];
+ const[y,m]=im,cur=y===now.getFullYear()&&m===now.getMonth();
+ const exp=S.tx.filter(t=>t.kind==='expense'&&inMonth(t,y,m)),spent=sum(exp);
+ const p=new Date(y,m-1,1),py=p.getFullYear(),pm=p.getMonth();
+ // For the current month, compare with the same number of days last month so it's fair
+ const prev=sum(S.tx.filter(t=>t.kind==='expense'&&inMonth(t,py,pm,cur?now.getDate():0)));
+ const pn=(cur?'this time in ':'')+monthName(py,pm),diff=spent-prev;
+ const cmp=!prev?'':diff<0?`${peso(-diff)} less than ${pn}`:diff>0?`${peso(diff)} more than ${pn}`:`Same as ${pn}`;
+ const days=cur?now.getDate():new Date(y,m+1,0).getDate();
+ const income=sum(S.tx.filter(t=>t.kind==='income'&&inMonth(t,y,m)));
+ const first=S.tx.length?new Date(Math.min(...S.tx.map(t=>Date.parse(t.at)))):now;
+ const atFirst=y*12+m<=first.getFullYear()*12+first.getMonth();
+ const by={};exp.forEach(t=>{const c=catOf(t);by[c]=(by[c]||0)+t.amt});for(const c in S.cbud)by[c]??=0;
+ const cats=Object.entries(by).sort((a,b)=>b[1]-a[1]);
+ const pl={};exp.forEach(t=>{const k=t.name.trim().toLowerCase();(pl[k]??={n:t.name.trim(),a:0,c:0});pl[k].a+=t.amt;pl[k].c++});
+ const places=Object.values(pl).sort((a,b)=>b.a-a.a).slice(0,5);
+ const mbar=`<div class="card mbar" data-tour="month-nav"><button class="rb" data-a="mon" data-v="-1" aria-label="Previous month"${atFirst?' disabled':''}>${sv(I.back)}</button><span class="t15">${monthName(y,m)} ${y}</span><button class="rb" data-a="mon" data-v="1" aria-label="Next month"${cur?' disabled':''}>${sv(I.chev)}</button></div>`;
+ const hero=`<section class="blk"><div class="cap">Spent in ${monthName(y,m)}</div><div class="amt">${peso(spent)}</div>${cmp?`<div class="cap" style="margin-top:4px">${cmp}</div>`:''}</section>`;
+ const bud=S.budget?`<div class="card"><div class="row"><span class="sub" style="font-size:14px">Budget ${peso(S.budget)} a month</span><button class="link" style="height:auto" data-a="budget">Edit</button></div>${budgetBar(spent,cur)}</div>`
+  :`<button class="sec" data-a="budget">${sv(I.plus,18)}Set a monthly budget</button>`;
+ const goalW=new Set(S.wallets.filter(w=>w.goal).map(w=>w.id)),savedM=Math.max(0,sum(S.tx.filter(t=>t.kind==='transfer'&&inMonth(t,y,m)&&goalW.has(t.to)&&!goalW.has(t.wallet)))-sum(S.tx.filter(t=>t.kind==='transfer'&&inMonth(t,y,m)&&goalW.has(t.wallet)&&!goalW.has(t.to))));
+ const stats=`<div class="g2"><div class="card stat"><div class="sub">Daily average</div><div class="t15">${peso(Math.round(spent/days))}</div></div><div class="card stat"><div class="sub">Money in</div><div class="t15">${peso(income)}</div></div></div>${goalW.size?`<div class="card stat"><div class="sub">Saved in ${monthName(y,m)}</div><div class="t15">${peso(savedM)}</div><div class="tiny" style="margin-top:2px">Money moved into your savings goals</div></div>`:''}${S.rec.length&&cur?`<div class="card stat"><div class="sub">Recurring bills</div><div class="t15">${peso(sum(S.rec))} a month</div><div class="tiny" style="margin-top:2px">${(r=>r?`${peso(r)} still to pay in ${monthName(y,m)}`:`All logged for ${monthName(y,m)}`)(sum(S.rec.filter(r=>(r.last||'')<ymLocal(now))))}</div></div>`:''}`;
+ const main=exp.length?`<div><div class="row" style="margin-bottom:10px"><h2 class="h2">Where it went</h2><button class="link" style="height:auto" data-a="cbud" data-tour="limits">${Object.keys(S.cbud).length?'Edit limits':'Set limits'}</button></div><div class="card" style="padding:12px" data-tour="cats"><div class="inner">${cats.map(([c,a])=>{const pc=spent?a/spent*100:0,lim=S.cbud[c],over=lim&&a>lim;
+  if(lim)return `<button class="li lirow catrow" data-a="catgo" data-v="${c}" aria-label="${CAT[c].h}: ${peso(a)} of ${peso(lim)} limit. Show entries"><span class="row"><span style="display:flex;gap:10px;align-items:center;min-width:0"><span style="color:var(--muted);display:flex">${sv(I[CAT[c].i],18)}</span><span class="nm">${CAT[c].h}</span></span><span class="amt2">${peso(a)}<span class="tiny" style="font-weight:400"> / ${peso(lim)}</span></span></span><span class="bar"><i style="width:${Math.min(100,a/lim*100)}%${over?';background:var(--red)':''}"></i></span><span class="tiny">${catLine(c,a,cur)}</span></button>`;
+  return `<button class="li lirow catrow" data-a="catgo" data-v="${c}" aria-label="${CAT[c].h}: ${peso(a)}, ${Math.round(pc)}% of spending. Show entries"><span class="row"><span style="display:flex;gap:10px;align-items:center;min-width:0"><span style="color:var(--muted);display:flex">${sv(I[CAT[c].i],18)}</span><span class="nm">${CAT[c].h}</span></span><span style="display:flex;gap:8px;align-items:baseline"><span class="tiny">${pc<1?'<1':Math.round(pc)}%</span><span class="amt2">${peso(a)}</span></span></span><span class="bar"><i style="width:${pc}%"></i></span></button>`}).join('')}</div></div></div>
+ <div><h2 class="h2" style="margin-bottom:10px">Top spending</h2><div class="card" style="padding:12px"><div class="inner">${places.map(x=>`<div class="li"><span class="ellip"><div style="font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(x.n)}</div><div class="tiny" style="margin-top:2px">${x.c} ${x.c===1?'time':'times'}</div></span><span class="amt2" style="font-weight:600;font-variant-numeric:tabular-nums">${peso(x.a)}</span></div>`).join('')}</div></div></div>`
+  :emptyCard('chart',`Nothing spent in ${monthName(y,m)}`,cur?'Log what you buy and you\'ll see where your money goes, by category.':'No spending was logged this month.',cur?'Log spending':'',cur?'new':'');
+ if(WIDE.matches)return `<h1 class="h1">Insights</h1><div class="cols"><div>${mbar}${hero}${main}</div><div>${bud}${stats}</div></div>`;
+ return `<h1 class="h1">Insights</h1>${mbar}${hero}${bud}${stats}${main}`;
+}
+
+function people(){
+ return `<header class="row"><h1 class="h1">People</h1><button class="rb" data-a="addperson" aria-label="Add person">${sv(I.plus)}</button></header>
+ ${S.people.length?`<div class="card" style="padding:12px"><div class="inner">${S.people.map(x=>`<button class="li lirow" data-a="person" data-id="${x.id}"><span style="display:flex;gap:12px;align-items:center;min-width:0"><span class="av" style="width:36px;height:36px;font-size:13px;flex-shrink:0">${esc(x.name[0].toUpperCase())}</span><span class="ellip"><div class="nm">${esc(x.name)}</div><div class="tiny">${[x.rel,x.qrs.length?`${x.qrs.length} ${x.qrs.length===1?'QR':'QRs'}`:'No QR yet'].filter(Boolean).join(' · ')}</div></span></span><span style="color:var(--faint);display:flex">${sv(I.chev,16)}</span></button>`).join('')}</div></div>
+ <p class="tiny" style="margin:0 4px">Tap someone to see their QR codes, save one as an image, or log money you sent them.</p>`
+  :emptyCard('users','No people yet','Save the QR codes of family and friends so sending them money is quick.','Add person','addperson')}`}
+function wallets(){
+ const hasPL=S.wallets.some(w=>w.type==='paylater'),tab=hasPL?S.wtab||'money':'money',pl=tab==='paylater';
+ const list=S.wallets.filter(w=>(w.type==='paylater')===pl);
+ const sw=hasPL?`<div class="wtabs" role="tablist" aria-label="Wallet group"><button role="tab" aria-selected="${!pl}" class="${pl?'':'on'}" data-a="wtab" data-v="money">Money</button><button role="tab" aria-selected="${pl}" class="${pl?'on':''}" data-a="wtab" data-v="paylater">Pay later</button></div>`:'';
+ let hero;
+ if(pl){let owed=0,lim=0,avail=0,anyLim=false;list.forEach(w=>{const f=plInfo(w,bal(w.id));owed+=f.owed;if(w.limit){anyLim=true;lim+=w.limit;avail+=f.avail}});
+  hero=`<section class="blk">${sw}<div class="cap">${anyLim?'Available credit':'You owe'}</div><div class="amt">${S.hide?'₱•••••':peso(anyLim?avail:owed)}</div>
+   <div class="cap" style="margin-top:4px">${anyLim?`Owe ${S.hide?'₱•••':peso(owed)} of ${S.hide?'₱•••':peso(lim)} limit`:'Add a credit limit to a pay later wallet to see what\'s available'}</div>
+   <div class="g2" style="margin-top:18px"><button class="pill" data-a="plpay">${sv(I.xfer,18)}Pay bill</button><button class="pill" data-a="plspend">${sv(I.out,18)}Spend</button></div></section>`}
+ else hero=`<section class="blk">${sw}<div class="cap">All wallets</div><div class="amt">${S.hide?'₱•••••':peso(total())}</div><div class="cap" style="margin-top:4px">${list.length} ${list.length===1?'wallet':'wallets'}</div></section>`;
+ return `<header class="row"><h1 class="h1">Wallets</h1><button class="rb" data-a="addwallet" aria-label="Add wallet">${sv(I.plus)}</button></header>
+ ${hero}
+ ${list.length?`<div class="wgrid" id="wgrid">${list.map(w=>{const ty=TYPES[w.type]||TYPES.cash,b=bal(w.id);
+  const amt=S.hide?'₱•••':w.type==='paylater'?(w.limit?`${peso(plInfo(w,b).avail)} left`:b<0?`Owe ${peso(-b)}`:'Paid up'):peso(b);
+  return `<button class="mcard" data-a="wallet" data-id="${w.id}" data-card="${w.prov||'default'}" aria-label="${esc(w.name)}, ${S.hide?'balance hidden':amt}. Press and hold to move"><span class="mc-ico">${sv(I[ty.i],18)}</span><span class="mc-name">${esc(w.name)}</span><span class="mc-bal">${amt}</span>${w.goal?`<span class="mc-goal" aria-label="${goalInfo(w).pct}% of goal"><i style="width:${goalInfo(w).pct}%"></i></span>`:''}</button>`}).join('')}</div>
+ <p class="tiny" style="margin:-8px 4px 0">${list.length>1?'Press and hold a card to move it. Home shows your wallets in this order. ':''}${pl?'Buying with pay later counts as spending. Pay the bill with a transfer from your bank, so it isn\'t counted twice.':'Each balance is the starting amount, minus what you spent from it, plus money added or moved in.'}</p>`
+  :emptyCard('wallet','No wallets yet','Add your cash, bank or e-wallet to start.','Add wallet','addwallet')}`;
+}
+
+function settings(){
+ const th=S.theme||'auto';const seg=(v,ic,l)=>`<button role="radio" aria-checked="${th===v}" class="${th===v?'on':''}" data-a="theme" data-v="${v}">${sv(I[ic],18)}${l}</button>`;
+ return `<header style="display:flex;gap:10px;align-items:center"><button class="rb" data-a="go" data-p="home" aria-label="Back to Home">${sv(I.back)}</button><h1 class="h1">Settings</h1></header>
+ <div class="masonry"><div class="card row"><div style="display:flex;gap:14px;align-items:center;min-width:0"><div class="ellip"><div class="tiny">Name</div><div style="font-size:16px;font-weight:600">${esc(S.name)}</div></div></div>
+  <button class="rb" style="border:none" data-a="editname" aria-label="Edit name">${sv(I.edit,18)}</button></div>
+ <div class="card" style="padding:12px"><div class="sub" style="display:flex;gap:8px;align-items:center;padding:2px 4px 10px;font-size:14px">${sv(I.sun,18)}Appearance</div>
+  <div class="seg3" role="radiogroup" aria-label="Appearance">${seg('light','sun','Day')}${seg('dark','moon','Night')}${seg('auto','phone','Auto')}</div>
+  <p class="tiny" style="margin:10px 4px 2px">Auto follows your phone's light or dark setting.</p></div>
+ <div class="card row"><div><div class="sub" style="font-size:14px">Monthly budget</div><div style="font-size:16px;font-weight:600;margin-top:2px">${S.budget?peso(S.budget):'Not set'}</div></div>
+  <button class="rb" style="border:none" data-a="budget" aria-label="${S.budget?'Edit':'Set'} monthly budget">${sv(S.budget?I.edit:I.plus,18)}</button></div>
+ <div class="card row"><div><div class="sub" style="font-size:14px">Recurring bills</div><div style="font-size:16px;font-weight:600;margin-top:2px">${S.rec.length?`${S.rec.length} ${S.rec.length===1?'bill':'bills'} · ${peso(sum(S.rec))} a month`:'None yet'}</div></div>
+  <button class="rb" style="border:none" data-a="bills" aria-label="Manage recurring bills">${sv(S.rec.length?I.edit:I.plus,18)}</button></div>
+ <div class="card row"><div><div class="sub" style="font-size:14px">Categories</div><div style="font-size:16px;font-weight:600;margin-top:2px">${CATS.length} categories${S.ccat.length?`, ${S.ccat.length} your own`:''}</div></div>
+  <button class="rb" style="border:none" data-a="cats" aria-label="Edit categories">${sv(I.edit,18)}</button></div>
+ <div class="card row"><div><div class="sub" style="font-size:14px">Category limits</div><div style="font-size:16px;font-weight:600;margin-top:2px">${(n=>n?`${n} ${n===1?'category':'categories'}`:'Not set')(Object.keys(S.cbud).length)}</div></div>
+  <button class="rb" style="border:none" data-a="cbud" aria-label="Set category limits">${sv(Object.keys(S.cbud).length?I.edit:I.plus,18)}</button></div>
+ <div class="card" style="padding:12px"><div class="sub" style="display:flex;gap:8px;align-items:center;padding:2px 4px 10px;font-size:14px">${sv(I.down,18)}Backup</div>
+  <div class="inner"><button class="li" style="width:100%" data-a="backup"><span>Save backup file</span>${sv(I.down,18)}</button>
+  <label class="li" style="width:100%;cursor:pointer"><span>Restore from backup file</span>${sv(I.up,18)}<input type="file" id="restore" accept="application/json,.json" hidden></label></div>
+  <p class="tiny" style="margin:10px 4px 2px">${S.lastBackup?`Last backup: ${shortDate(S.lastBackup)}. `:'No backup saved yet. '}Your data lives only on this device. Save a backup file to ${IOS?'Files or iCloud Drive':'your Files or Google Drive'} now and then so you never lose it. Saved QR codes are included.</p></div>
+ ${standalone()?'':`<div class="card" style="display:flex;gap:14px;align-items:flex-start"><div class="logo" style="width:44px;height:44px;border-radius:12px;flex-shrink:0">${LOGO(26)}</div><div><div class="t15">Use it like an app</div><div class="sub" style="margin-top:3px;font-size:13.5px">${IOS?'In Safari, tap Share, then Add to Home Screen.':ANDROID?'In Chrome, tap the ⋮ menu, then Install app or Add to Home screen.':'In Chrome or Edge, click the install icon in the address bar.'} Pitaka opens in its own window, works offline, and your data is kept safer.</div></div></div>`}
+ <button class="sec" data-a="tips">${sv(I.star,18)}Show tips again</button>
+ <div class="card about" style="padding:12px"><div class="sub" style="display:flex;gap:8px;align-items:center;padding:2px 4px 10px;font-size:14px">${sv(I.info,18)}About</div>
+  <div class="inner"><div class="li"><span>Pitaka</span><span class="sub">Version ${VERSION}</span></div>
+  <div class="li" style="justify-content:center"><span class="sub">Made by Fred</span></div>
+  <div class="li tiny">Bank and e-wallet names, logos and card designs belong to their owners. Pitaka isn't affiliated with or endorsed by any of them. They're shown only to help you recognize your own wallets.</div>
+  <div class="li tiny">Made with <a href="https://github.com/cozmo/jsQR" target="_blank" rel="noopener">jsQR</a> (Apache 2.0), <a href="https://github.com/kazuhikoarase/qrcode-generator" target="_blank" rel="noopener">qrcode-generator</a> (MIT) and the <a href="https://fonts.google.com/specimen/Onest" target="_blank" rel="noopener">Onest</a> font (SIL Open Font License).</div></div>
+  <p class="tiny" style="margin:10px 4px 2px">Your data stays on this device.</p></div>
+ <button class="sec danger" data-a="erase">${sv(I.trash,18)}Erase all data</button></div>`;
+}
+
+// History isn't in the bar: it opens from Home (See all, search) and from Insights categories, with a back button
+const NAV=[['home','Home','home'],['insights','Insights','chart'],['wallets','Wallets','wallet'],['people','People','users']];
+let histBack='home';
+function render(){
+ const root=$('#root');refreshCats();
+ if(!S.name){document.body.classList.remove('nav-on');root.innerHTML=welcome();return}
+ const v={home,insights,history,wallets,people,settings}[page]();
+ const nb=(p,l,i,c='')=>`<button class="${c}${page===p?' on':''}" data-a="go" data-p="${p}" data-page="${p}" aria-label="${l}"${page===p?' aria-current="page"':''}>${sv(I[i],22)}<span class="t">${l}</span></button>`;
+ root.innerHTML=`<main class="app">${v}</main><div class="navwrap"><nav class="nav" aria-label="Main"><div class="brandmark" aria-hidden="true"><span class="mark">${LOGO(22)}</span><span>Pitaka</span></div>${NAV.map(([p,l,i])=>nb(p,l,i)).join('')}${nb('settings','Settings','set','nav-set')}<span class="div" aria-hidden="true"></span><button class="act" data-a="new" aria-label="Log spending">${sv(I.plus,22)}<span class="t">Log spending</span></button></nav></div>`;
+ document.body.classList.add('nav-on');
+ const d=$('#deck');if(d)setupDeck(d);
+ const g=$('#wgrid');if(g)setupGrid(g);
+ fillCards();
+ if(tour)placeTour();else if(page==='home')maybeTour('main');else if(page==='insights'&&$('[data-tour="cats"]'))maybeTour('insights');else if(page==='wallets'&&$('#wgrid'))maybeTour('wallets');
+}
+
+/* ---------- guided tour ---------- */
+// A step's el can list fallbacks with |, first one on screen wins (Settings is in the sidebar on desktop, the header gear on phones)
+const TOURS={
+ main:[
+  {el:'[data-tour="spend"]',t:'Log spending',d:'Tap Spend each time you buy something. It comes out of the wallet you pick.'},
+  {el:'[data-tour="income"]',t:'Add money',d:'Got paid or received cash? Add it and that wallet goes up.'},
+  {el:'[data-tour="transfer"]',t:'Move money',d:'Withdrew cash, topped up GCash, paid a pay later bill or saved? Move it between wallets.'},
+  {el:'[data-tour="bills"]',t:'Bills due',d:'Monthly bills show here when they are due. Log or skip them in one tap.'},
+  {el:'[data-tour="month"]',t:'This month',d:"What you've spent so far. Set a budget to see how much is left each day."},
+  {el:'#deck',t:'Your wallets',d:'Swipe to switch wallets. Tap a card to flip it for its details and QR code.'},
+  {el:'[data-tour="recent"]',t:'Tap an entry',d:'See its receipt, then edit it, log it again, or delete it.'},
+  {el:'.nav [data-page="wallets"]',t:'Wallets',d:'Your cards, pay later apps and savings goals.'},
+  {el:'.nav [data-page="people"]',t:'People',d:'Save QR codes of family and friends so sending them money is quick.'},
+  {el:'.nav [data-page="settings"]|[data-tour="settings"]',t:'Settings',d:'Budgets, recurring bills, backup, appearance, and Show tips again.'}
+ ],
+ insights:[
+  {el:'[data-tour="month-nav"]',t:'Other months',d:'Go back to see any earlier month.'},
+  {el:'[data-tour="cats"]',t:'Tap a category',d:'See every entry in it, so you know what added up.'},
+  {el:'[data-tour="limits"]',t:'Category limits',d:'Set a monthly limit per category. Home warns you when one gets close.'}
+ ],
+ entry:[
+  {el:'.sheet [aria-label="Type"]',t:'Spend, add or move',d:'Switch between spending, money in, and moving money between wallets.'},
+  {el:'.sheet [aria-label="Category"]',t:'Category',d:"Picked for you from the name. Tap another one if it's wrong."},
+  {el:'.sheet [data-tour="payfrom"]',t:'Pay from',d:'Tap to pick a wallet. Its balance shows, and Pitaka warns you before you overspend.'},
+  {el:'.sheet [data-tour="repeat"]',t:'Repeat every month',d:'For bills and subscriptions. Pitaka reminds you on Home when it is due.'}
+ ],
+ wallets:[
+  {el:'.wtabs',t:'Money and pay later',d:'Switch between your wallets and your pay later apps.'},
+  {el:'#wgrid',t:'Your cards',d:'Tap a card to see or edit it. Press and hold to move it; Home follows this order.'},
+  {el:'main header [data-a="addwallet"]',t:'Add a wallet',d:'Cash, bank, e-wallet or pay later. You can add a savings goal too.'}
+ ],
+ receipt:[
+  {el:'.sheet [data-a="txedit"]',t:'Edit',d:'Change the amount, category, wallet or date.'},
+  {el:'.sheet [data-a="txagain"]',t:'Log again',d:'Log the same thing again for today in one tap.'}
+ ],
+ wallet:[
+  {el:'.sheet .pgrid',t:'Card design',d:'Pick your bank or app to use its card on Home.'},
+  {el:'.sheet #wl-goal',t:'Savings goal',d:'Set a target and Pitaka tracks your progress. Move money in with Transfer.'}
+ ]
+};
+
+let tour=null;
+const onScreen=sel=>{for(const s of sel.split('|')){const e=document.querySelector(s);if(!e)continue;const b=e.getBoundingClientRect();if(b.width&&b.height)return e}return null};
+function maybeTour(id,forSheet){
+ if(tour||S.tips[id])return;
+ setTimeout(()=>{
+  if(tour||S.tips[id]||!!$('#scrim')!==!!forSheet)return;
+  const steps=TOURS[id].filter(s=>onScreen(s.el));if(!steps.length)return;
+  tour={id,steps,i:0};
+  document.body.insertAdjacentHTML('beforeend',`<div class="tour" id="tour" role="dialog" aria-modal="true" aria-labelledby="tourT">
+   <div class="tour-ring"></div>
+   <div class="tour-tip"><div class="tour-arrow"></div><div class="t15" id="tourT"></div><div class="tour-d" id="tourD"></div>
+    <div class="row"><span class="tiny" id="tourN"></span><div style="display:flex;gap:4px;align-items:center">
+     <button class="tour-skip" data-tour-act="skip">Skip</button><button class="tour-next" data-tour-act="next">Next</button></div></div>
+   </div></div>`);
+  showStep();
+ },450);
+}
+function showStep(){
+ const st=tour.steps[tour.i],e=onScreen(st.el);if(!e)return nextStep();
+ if(!e.closest('.navwrap'))e.scrollIntoView({block:'center'});
+ const $id=id=>document.getElementById(id);
+ $id('tourT').textContent=st.t;$id('tourD').textContent=st.d;$id('tourN').textContent=`${tour.i+1} of ${tour.steps.length}`;
+ const next=document.querySelector('[data-tour-act="next"]');next.textContent=tour.i===tour.steps.length-1?'Done':'Next';
+ placeTour();next.focus({preventScroll:true});requestAnimationFrame(placeTour);
+}
+function placeTour(){
+ if(!tour)return;const e=onScreen(tour.steps[tour.i].el);if(!e)return;
+ const b=e.getBoundingClientRect(),pad=6,gap=16,vw=innerWidth,vh=innerHeight;
+ const ring=document.querySelector('.tour-ring'),tip=document.querySelector('.tour-tip'),arrow=document.querySelector('.tour-arrow');
+ Object.assign(ring.style,{left:`${b.left-pad}px`,top:`${b.top-pad}px`,width:`${b.width+pad*2}px`,height:`${b.height+pad*2}px`,
+  borderRadius:`${(parseFloat(getComputedStyle(e).borderTopLeftRadius)||10)+pad}px`});
+ const tw=tip.offsetWidth,th=tip.offsetHeight;
+ if(vw>=1024&&e.closest('.navwrap')){ // desktop sidebar: tip on the right
+  const y=Math.min(Math.max(b.top+b.height/2-th/2,8),vh-th-8);
+  Object.assign(tip.style,{left:`${b.right+pad+gap}px`,top:`${y}px`});
+  Object.assign(arrow.style,{left:'-6px',top:`${Math.min(Math.max(b.top+b.height/2-y-7,14),th-28)}px`,bottom:'auto'});return;
+ }
+ const below=b.bottom+pad+gap+th<=vh-8||b.top-pad-gap-th<8;
+ const x=Math.min(Math.max(b.left+b.width/2-tw/2,16),vw-tw-16);
+ const y=below?Math.min(b.bottom+pad+gap,vh-th-8):b.top-pad-gap-th;
+ Object.assign(tip.style,{left:`${x}px`,top:`${Math.max(8,y)}px`});
+ Object.assign(arrow.style,{left:`${Math.min(Math.max(b.left+b.width/2-x-7,18),tw-32)}px`,top:below?'-6px':'auto',bottom:below?'auto':'-6px'});
+}
+function nextStep(){if(!tour)return;tour.i++;tour.i>=tour.steps.length?endTour():showStep()}
+function endTour(){if(!tour)return;S.tips[tour.id]=true;persist();tour=null;document.getElementById('tour')?.remove()}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-tour-act]');if(b)b.dataset.tourAct==='next'?nextStep():endTour()});
+// Esc only closes the tour, not the sheet under it
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&tour){e.stopImmediatePropagation();endTour()}});
+// capture, so scrolling inside a sheet keeps the ring in place too
+addEventListener('resize',placeTour);addEventListener('scroll',placeTour,{passive:true,capture:true});
+
+/* ---------- sheets ---------- */
+// If a sheet is already open, swap its content in place so it doesn't slide in again. Same sheet redrawn (picking an icon, a chip) keeps its scroll spot.
+function openSheet(html){const k=sheet?.type||'',open=$('#scrim .sheet');
+ if(open){const same=open.dataset.k===k;open.innerHTML=`<div class="grab"></div>${html}`;open.dataset.k=k;if(!same)open.scrollTop=0;return}
+ document.body.insertAdjacentHTML('beforeend',`<div class="scrim" id="scrim"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="shT" data-k="${k}"><div class="grab"></div>${html}</div></div>`);document.body.style.overflow='hidden'}
+function closeSheet(keep){$('#scrim')?.remove();if(!keep){sheet=null;document.body.style.overflow=''}}
+const sheetHead=t=>`<div class="row"><h2 class="h2" id="shT">${t}</h2><button class="rb ghost" data-a="close" aria-label="Close">${sv(I.x)}</button></div>`;
+
+/* entry: expense / income / transfer */
+function openEntry(kind,tx){
+ const now=new Date();
+ sheet=tx?{type:'entry',id:tx.id,kind:tx.kind,name:tx.name||'',amt:plain(tx.amt),wallet:tx.wallet,to:tx.to||'',date:dkey(new Date(tx.at)),at:tx.at,cat:tx.kind==='expense'?catOf(tx):null,catSet:true}
+  :{type:'entry',kind:kind||'expense',name:'',amt:'',wallet:S.lastWallet&&W(S.lastWallet)?S.lastWallet:S.wallets[0]?.id||'',to:'',date:dkey(now),cat:null,catSet:false};
+ if(sheet.kind==='transfer'&&!sheet.to)sheet.to=S.wallets.find(w=>w.id!==sheet.wallet)?.id||'';
+ drawEntry();if(sheet.kind==='expense')maybeTour('entry',true);setTimeout(()=>{if(!tx)(sheet?.kind==='transfer'?$('#e-amt'):$('#e-name'))?.focus()},250);
+}
+function drawEntry(){
+ const D=sheet;const k=D.kind;
+ const title=D.id?{expense:'Edit spending',income:'Edit money in',transfer:'Edit transfer'}[k]:{expense:'Log spending',income:'Add money',transfer:'Transfer'}[k];
+ // Wallet dropdown: the field shows the chosen wallet; open, it lists your wallets with their logos
+ const wsub=id=>{const w=W(id),b=bal(id);if(S.hide)return'₱•••';if(w.type==='paylater'){const f=plInfo(w,b);return w.limit?`${peso(f.avail)} available · owe ${peso(f.owed)}`:`You owe ${peso(f.owed)}`}return peso(b)};
+ const wdrop=(field,excl)=>{const list=S.wallets.filter(w=>w.id!==excl),cur=W(D[field]),open=D.dd===field;
+  return `<div class="dd${open?' open':''}"><button class="dd-btn" data-a="ddopen" data-f="${field}" aria-expanded="${open}" aria-haspopup="listbox">
+   ${cur?`${txLogo(cur.id)}<span class="ellip"><span class="nm">${esc(cur.name)}</span><span class="tiny">${wsub(cur.id)}</span></span>`:`<span class="sub" style="font-size:15px">${list.length?'Choose a wallet':'No wallets yet'}</span>`}${sv(I.chev,18)}</button>
+   ${open?`<div class="dd-list" role="listbox">${list.length?list.map(w=>`<button class="dd-opt" role="option" aria-selected="${D[field]===w.id}" data-a="pick" data-f="${field}" data-id="${w.id}">${txLogo(w.id)}<span class="ellip"><span class="nm">${esc(w.name)}</span><span class="tiny">${wsub(w.id)}</span></span>${D[field]===w.id?sv(I.check,18):''}</button>`).join('')
+    :`<div class="dd-empty"><span class="sub">${S.wallets.length?'Add another wallet to move money to.':'Add your cash, bank or e-wallet first.'}</span><button class="sec" style="height:44px" data-a="ddadd" data-f="${field}">${sv(I.plus,18)}Add wallet</button></div>`}</div>`:''}</div>`};
+ const recents=k==='expense'&&!D.id?[...new Set(sorted().filter(t=>t.kind==='expense'&&t.name).map(t=>t.name))].slice(0,6):[];
+ const kinds=[['expense','Spend'],['income','Add money'],['transfer','Transfer']];
+ const b=bal(D.wallet);
+ openSheet(`${sheetHead(title)}
+ ${D.id?'':`<div class="kindseg" role="radiogroup" aria-label="Type">${kinds.map(([v,l])=>`<button class="sel${k===v?' on':''}" role="radio" aria-checked="${k===v}" data-a="kind" data-v="${v}">${l}</button>`).join('')}</div>`}
+ ${k==='transfer'?'':`<div><label class="lbl" for="e-name">${k==='income'?'Where it came from':'What you paid for'}</label><input class="field" id="e-name" maxlength="60" placeholder="${k==='income'?'Salary':'Groceries'}" value="${esc(D.name)}" autocomplete="off">
+ ${recents.length?`<div class="chips" style="margin-top:10px">${recents.map(n=>`<button class="sel" style="height:34px;font-size:12.5px" data-a="fill" data-v="${esc(n)}">${esc(n)}</button>`).join('')}</div>`:''}</div>`}
+ <div><label class="lbl" for="e-amt">Amount</label><input class="field" id="e-amt" inputmode="decimal" placeholder="₱0.00" value="${esc(D.amt)}" style="font-weight:600;font-variant-numeric:tabular-nums"><div class="tiny over" id="e-over"></div></div>
+ ${k==='expense'?`<div><span class="lbl">Category</span><div class="chips" role="radiogroup" aria-label="Category">${CATS.map(([id,l,ic])=>`<button class="sel${D.cat===id?' on':''}" role="radio" aria-checked="${D.cat===id}" data-a="cat" data-v="${id}">${sv(I[ic],16)}${esc(l)}</button>`).join('')}<button class="sel" data-a="newcat">${sv(I.plus,16)}New</button></div><div class="tiny" id="e-cb" style="margin-top:8px"></div></div>`:''}
+ <div data-tour="payfrom"><span class="lbl">${k==='expense'?'Pay from':k==='income'?'Add to':'From'}</span>${wdrop('wallet')}</div>
+ ${k==='transfer'?`<div><span class="lbl">To</span>${wdrop('to',D.wallet)}</div>`:''}
+ ${k==='transfer'?`<div><label class="lbl" for="e-name">Note (optional)</label><input class="field" id="e-name" maxlength="60" placeholder="ATM withdrawal" value="${esc(D.name)}" autocomplete="off"></div>`:''}
+ <div><label class="lbl" for="e-date">Date</label><input class="field" id="e-date" type="date" value="${D.date}" max="${dkey(new Date())}"></div>
+ ${k==='expense'&&!D.id&&!D.recId?`<label class="li reprow" data-tour="repeat" for="e-rep"><span><span style="display:block;font-weight:500">Repeat every month</span><span class="tiny">For bills and subscriptions. Pitaka reminds you when it's due.</span></span><input class="sw" type="checkbox" id="e-rep"${D.rep?' checked':''}></label>`:''}
+ ${D.recId?`<p class="tiny" style="margin:0 4px">Logging your monthly bill. It's marked done for ${monthName(new Date().getFullYear(),new Date().getMonth())}.</p>`:''}
+ <div class="err" id="e-err"></div>
+ <button class="cta" data-a="saveentry">${D.id?'Save changes':k==='expense'?'Save spending':k==='income'?'Add money':'Transfer'}</button>
+ ${D.id?`<button class="sec danger" data-a="delentry">${sv(I.trash,18)}Delete entry</button>`:''}`);
+ cbHint();overHint();
+}
+function cbHint(){const el=$('#e-cb');if(!el)return;const c=sheet.cat,lim=c&&S.cbud[c];if(!lim){el.textContent='';return}
+ const n=new Date(),left=lim-catSpent(c,n.getFullYear(),n.getMonth(),sheet.id);
+ el.innerHTML=left<0?`<span style="color:var(--red)">${CAT[c].h} is over its limit by ${peso(-left)} this month</span>`:`${CAT[c].h}: ${peso(left)} left of ${peso(lim)} this month`}
+// What a wallet can cover: its balance, or for pay later its available credit. null = no limit to check (pay later without a limit).
+// When editing, the entry's own effect is added back first.
+function canCover(wid,skip){const w=W(wid);if(!w)return null;let b=bal(wid);const t=skip&&S.tx.find(x=>x.id===skip);
+ if(t&&t.kind!=='income'&&t.wallet===wid)b+=t.amt;if(t&&t.kind==='transfer'&&t.to===wid)b-=t.amt;
+ if(w.type==='paylater')return w.limit?Math.max(0,w.limit-Math.max(0,-b)):null;return b}
+function overInfo(D){if(D.kind==='income')return null;const a=toC(D.amt),c=canCover(D.wallet,D.id);if(!(a>0)||c===null||a<=c)return null;return{a,c,w:W(D.wallet)}}
+function overHint(){const el=$('#e-over');if(!el)return;const o=overInfo(sheet);
+ el.textContent=o?(o.w.type==='paylater'?`That's more than your ${S.hide?'available credit':peso(o.c)+' available'} on ${o.w.name}.`:`That's ${S.hide?'more':peso(o.a-o.c)+' more'} than ${o.w.name} has${S.hide?'':` (${peso(o.c)})`}.`):''}
+function openOver(D,o){sheet={type:'over',back:D};const pl=o.w.type==='paylater';
+ openSheet(`${sheetHead(pl?`Only ${S.hide?'₱•••':peso(o.c)} available on ${esc(o.w.name)}`:`${esc(o.w.name)} only has ${S.hide?'₱•••':peso(o.c)}`)}
+ <p class="sub" style="font-size:14px;margin:0">${pl?`This is ${S.hide?'more':peso(o.a-o.c)+' more'} than your credit limit allows.`:`Saving this would leave it at ${S.hide?'below zero':peso(o.c-o.a)}. If you added money that isn't logged yet, update the balance first.`}</p>
+ <button class="cta" data-a="overback">Pick another wallet</button>
+ <button class="sec" data-a="overfix">${pl?'Update credit limit':`Update ${esc(o.w.name)}'s balance`}</button>
+ <button class="sec" data-a="overok">Save anyway</button>`)}
+function saveEntry(){
+ const D=sheet,err=$('#e-err');const amt=toC(D.amt);
+ if(D.kind!=='transfer'&&!D.name.trim()){err.textContent=D.kind==='income'?'Enter where the money came from':'Enter what you paid for';return}
+ if(!(amt>0)){err.textContent='Enter an amount above 0';return}
+ if(amt>99999999999){err.textContent='Enter a smaller amount';return}
+ if(!W(D.wallet)){err.textContent='Pick a wallet';return}
+ if(D.kind==='transfer'&&(!D.to||D.to===D.wallet||!W(D.to))){err.textContent='Pick a different wallet to move money to';return}
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(D.date)){err.textContent='Pick a date';return}
+ // new entries that spend more than the wallet has ask first; edits only show the hint
+ const ov=!D.id&&!D.force&&overInfo(D);if(ov){openOver(D,ov);return}
+ let at;const today=dkey(new Date());
+ if(D.at&&dkey(new Date(D.at))===D.date)at=D.at;
+ else if(D.date===today)at=new Date().toISOString();
+ else{const[y,m,d]=D.date.split('-').map(Number);at=new Date(y,m-1,d,12,0).toISOString()}
+ const rec={id:D.id||uid(),kind:D.kind,name:D.name.trim(),amt,wallet:D.wallet,at};if(D.kind==='transfer')rec.to=D.to;
+ if(D.kind==='expense')rec.cat=D.cat||guessCat(rec.name)||'others';
+ if(D.id){const i=S.tx.findIndex(t=>t.id===D.id);S.tx[i]=rec}else S.tx.push(rec);
+ // a new repeating bill starts counting from this entry's month; logging a due bill marks its month done
+ const em=D.date.slice(0,7);
+ if(D.rep&&!D.id&&D.kind==='expense')S.rec.push({id:uid(),name:rec.name,amt,wallet:D.wallet,cat:rec.cat,day:+D.date.slice(8,10),last:em});
+ if(D.recId){const r=S.rec.find(x=>x.id===D.recId);if(r&&(r.last||'')<em)r.last=em}
+ S.lastWallet=D.wallet;persist();closeSheet();render();
+ toast(D.id?'Changes saved':D.kind==='expense'?`Spending saved${S.hide?'':`. ${wname(rec.wallet)}: ${peso(bal(rec.wallet))}`}`:D.kind==='income'?`Money added to ${wname(rec.wallet)}`:'Transfer done');
+}
+
+/* QR codes: read from a photo with jsQR, drawn again with qrcode-generator. Both load only when needed, and sw.js keeps them for offline use. */
+const QRLIB={jsQR:['https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js','sha384-hStSInNIZ8ljtOVrmrgf7zdHMapaLBWoSnPTtF0nzsybp4+LuhDz6sHuEVpWIX8o'],
+ qrcode:['https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js','sha384-lQXOAyZwHXE55JFyrOMB7nY2Wv+m5ZWNtJcHrd1rceRQXAYNLak8ukN5TjBTcIwz']};
+const libP={};
+function lib(name){return libP[name]??=new Promise((ok,no)=>{if(window[name])return ok(window[name]);const[src,sri]=QRLIB[name],el=document.createElement('script');
+ el.src=src;el.integrity=sri;el.crossOrigin='anonymous';el.onload=()=>window[name]?ok(window[name]):no();el.onerror=()=>{delete libP[name];el.remove();no()};document.head.appendChild(el)})}
+// Bank or e-wallet from the BIC code inside the QR (first 4 letters)
+const BANKS={GXCH:'GCash',PAPH:'Maya',BNOR:'BDO',BOPI:'BPI',MBTC:'Metrobank',UBPH:'UnionBank',TLBP:'Landbank',SETC:'Security Bank',RCBC:'RCBC',CHBK:'China Bank',PNBM:'PNB',EWBC:'EastWest',AUBK:'AUB',DBPH:'DBP',PHTB:'PSBank'};
+function payInfo(p){const o=validQR(p)&&tlv(p);if(!o)return{};let bank='';
+ const subs=[];for(let t=26;t<=51;t++){const sub=o[String(t)]&&tlv(o[String(t)]);if(sub)subs.push(...Object.values(sub))}
+ for(const v of subs){const m=/^([A-Z]{4})PH[A-Z0-9]{2}/.exec(v);if(m&&BANKS[m[1]]){bank=BANKS[m[1]];break}}
+ if(!bank){const t=subs.join(' ').toLowerCase();bank=/paymaya|\bmaya\b/.test(t)?'Maya':/gcash|g-?xchange/.test(t)?'GCash':''}
+ return{name:(o['59']||'').trim(),bank}}
+async function readQR(file){const jsQR=await lib('jsQR');
+ const img=await new Promise((ok,no)=>{const u=URL.createObjectURL(file),i=new Image();i.onload=()=>{URL.revokeObjectURL(u);ok(i)};i.onerror=()=>{URL.revokeObjectURL(u);no()};i.src=u});
+ // Screenshots are big: try a smaller copy first (fast), then full size
+ for(const max of [1400,3000]){const k=Math.min(1,max/Math.max(img.naturalWidth,img.naturalHeight)),w=Math.round(img.naturalWidth*k),h=Math.round(img.naturalHeight*k);
+  const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d',{willReadFrequently:true});x.fillStyle='#fff';x.fillRect(0,0,w,h);x.drawImage(img,0,0,w,h);
+  const r=jsQR(x.getImageData(0,0,w,h).data,w,h);if(r?.data)return r.data;if(k===1)break}
+ return null}
+async function qrMatrix(p){const qrcode=await lib('qrcode');qrcode.stringToBytes=qrcode.stringToBytesFuncs['UTF-8'];const q=qrcode(0,'M');q.addData(p);q.make();return q}
+// Center logo area in module units (quiet zone of 4 included). About 5% of the code's area, well under what level H can recover.
+// Card designs: icons/<id>.png (960x600-ish) becomes the card front, and a small thumbnail in the Wallets list
+const CARDS={};
+// A wallet with no bank picked, or whose card image is missing, uses icons/default.png
+const cardImg=id=>CARDS[id]??=fetch(`icons/${id}.png`).then(r=>r.ok?`icons/${id}.png`:'').catch(()=>'').then(u=>u||(id!=='default'?cardImg('default'):''));
+function fillCards(){document.querySelectorAll('[data-card]:not(.img)').forEach(el=>cardImg(el.dataset.card).then(u=>{if(u){el.classList.add('img');el.style.backgroundImage=`url("${u}")`}}))}
+// Which bank a QR is from: what the QR says, else a bank name in the wallet name or QR label ("Maya savings")
+function bankOf(p,hint){let b=payInfo(p).bank;if(!b&&hint){const h=hint.toLowerCase();b=Object.values(BANKS).sort((x,y)=>y.length-x.length).find(n=>h.includes(n.toLowerCase()))||''}return b}
+const slug=b=>b.toLowerCase().replace(/[^a-z0-9]/g,'');
+const loadImg=src=>new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=src});
+function fillQR(){document.querySelectorAll('.qrbox[data-qr]').forEach(async el=>{
+ try{const q=await qrMatrix(el.dataset.qr),n=q.getModuleCount();let d='';for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(q.isDark(r,c))d+=`M${c+4} ${r+4}h1v1h-1z`;
+  el.innerHTML=`<svg viewBox="0 0 ${n+8} ${n+8}" shape-rendering="crispEdges" role="img" aria-label="QR code"><rect width="100%" height="100%" fill="#fff"/><path d="${d}" fill="#000"/></svg>`}
+ catch(e){el.textContent="Couldn't load the QR. Go online once, then try again."}})}
+// hint: the wallet name or QR label, used to name the bank when the QR doesn't
+function qrPanel(q,hint=''){const inf=payInfo(q.p),bank=bankOf(q.p,hint);
+ return `<div class="qrcard"><div class="qrbox" data-qr="${esc(q.p)}" data-hint="${esc(hint)}">Loading QR…</div><div><div class="t15">${esc(inf.name||'Name not shown in this QR')}</div><div class="sub" style="margin-top:2px">${esc([bank,q.acct].filter(Boolean).join(' · ')||'QR Ph')}</div></div></div>`}
+// The QR that the open sheet is showing, with a title for the saved image
+function curQR(){if(sheet?.type==='wqr'){const w=W(sheet.id);return w?.qr&&{q:w.qr,title:w.name,hint:w.name}}
+ if(sheet?.type==='person'){const x=P(sheet.id),q=x?.qrs.find(q=>q.id===sheet.q);return q&&{q,title:x.name,hint:q.label}}}
+async function saveQRImage(){const c=curQR();if(!c)return;let q;try{q=await qrMatrix(c.q.p)}catch(e){toast("Couldn't load the QR. Go online once, then try again.");return}
+ const inf=payInfo(c.q.p),n=q.getModuleCount(),W0=1080,H0=1320,cell=Math.floor(840/(n+8)),size=cell*(n+8),ox=(W0-size)/2,oy=120;
+ const cv=document.createElement('canvas');cv.width=W0;cv.height=H0;const x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,W0,H0);x.fillStyle='#000';
+ for(let r=0;r<n;r++)for(let k=0;k<n;k++)if(q.isDark(r,k))x.fillRect(ox+(k+4)*cell,oy+(r+4)*cell,cell,cell);
+ x.textAlign='center';x.font="600 52px Onest, -apple-system, sans-serif";x.fillText(inf.name||c.title,W0/2,oy+size+90,W0-120);
+ x.fillStyle='#6b6b6b';x.font="400 38px Onest, -apple-system, sans-serif";x.fillText([bankOf(c.q.p,c.hint)||c.q.label,c.q.acct].filter(Boolean).join(' · ')||'QR Ph',W0/2,oy+size+150,W0-120);
+ const blob=await new Promise(r=>cv.toBlob(r,'image/png')),fname=`${(c.title+' '+(c.q.label||inf.bank||'qr')).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'qr'}.png`,file=new File([blob],fname,{type:'image/png'});
+ if(navigator.canShare?.({files:[file]})){try{await navigator.share({files:[file]})}catch(e){}return}
+ const u=URL.createObjectURL(blob),l=document.createElement('a');l.href=u;l.download=fname;document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);toast('QR image saved')}
+function copyAcct(){const c=curQR();if(!c?.q.acct)return;navigator.clipboard?.writeText(c.q.acct).then(()=>toast('Number copied'),()=>toast("Couldn't copy. Press and hold the number instead."))}
+
+/* wallet QR */
+function openWalletQR(id){const w=W(id);if(!w)return;sheet={type:'wqr',id};
+ if(!w.qr){openSheet(`${sheetHead(esc(w.name)+' QR')}
+  <p class="sub" style="font-size:14px;margin:0">Add the QR Ph code from your ${esc(w.name)} app's Receive money screen. Then you can share it, or upload it in another bank or e-wallet app to move money here.</p>
+  <div class="card empty"><span class="ico">${sv(I.qr)}</span><div class="t15">No QR yet</div><div class="sub" style="max-width:30ch">Take a screenshot of your QR first, then pick it from your photos.</div></div>
+  <button class="cta" data-a="pickqr">${sv(I.img,18)}Choose from Photos</button>`);return}
+ openSheet(`${sheetHead(esc(w.name)+' QR')}${qrPanel(w.qr,w.name)}
+  <button class="cta" data-a="saveqr">${sv(I.down,18)}Save image</button>
+  ${w.qr.acct?`<button class="sec" data-a="copyacct">${sv(I.copy,18)}Copy number</button>`:''}
+  <div class="g2"><button class="sec" data-a="pickqr">${sv(I.img,18)}Replace</button><button class="sec danger" data-a="rmqr">${sv(I.trash,18)}Remove</button></div>
+  <p class="tiny" style="margin:0 4px">To move money here from another bank or e-wallet, save the image, then use Upload QR in that app.</p>`);
+ fillQR()}
+
+/* picking a QR from Photos */
+let qrTarget=null;
+function pickQR(){qrTarget=sheet?.type==='wqr'?{kind:'wallet',id:sheet.id}:sheet?.type==='person'?{kind:'person',id:sheet.id}:null;if(!qrTarget)return;
+ let i=$('#qrfile');if(!i){document.body.insertAdjacentHTML('beforeend','<input type="file" id="qrfile" accept="image/*" hidden>');i=$('#qrfile')}
+ lib('jsQR').catch(()=>{});i.click()}
+async function onQRFile(f){let data;
+ try{data=await readQR(f)}catch(e){toast(libP.jsQR?"Couldn't open that picture. Try another one.":"Couldn't load the QR reader. Go online once, then try again.");return}
+ if(!data){toast("Couldn't find a QR in that picture. Try a clearer screenshot.");return}
+ if(!validQR(data)){toast("That's not a QR Ph payment code. Use the QR from a Receive money screen.");return}
+ const t=qrTarget;if(!t||(t.kind==='wallet'?!W(t.id):!P(t.id)))return;
+ if(t.kind==='person'&&P(t.id).qrs.some(q=>q.p===data)){toast('This QR is already saved');openPerson(t.id,P(t.id).qrs.find(q=>q.p===data).id);return}
+ const inf=payInfo(data);sheet={type:'qrnew',t,p:data};
+ openSheet(`${sheetHead('Check this QR')}${qrPanel({p:data},t.kind==='wallet'?W(t.id).name:'')}
+  ${t.kind==='person'?`<div><label class="lbl" for="qr-label">Label</label><input class="field" id="qr-label" maxlength="30" placeholder="GCash" value="${esc(inf.bank)}" autocomplete="off"></div>`:''}
+  <div><label class="lbl" for="qr-acct">Account or mobile number (optional)</label><input class="field" id="qr-acct" maxlength="40" placeholder="0917 123 4567" autocomplete="off"><div class="tiny" style="margin-top:6px">Add it if you also want to copy the number later.</div></div>
+  <div class="err" id="qr-err"></div><button class="cta" data-a="saveqrnew">Save QR</button>`);
+ fillQR()}
+function saveNewQR(){const D=sheet,label=($('#qr-label')?.value||'').trim(),acct=$('#qr-acct').value.trim(),inf=payInfo(D.p);
+ if(D.t.kind==='wallet'){const w=W(D.t.id);w.qr={p:D.p,acct};const id=slug(bankOf(D.p)||'');if(!w.prov&&PROV[id]){w.prov=id;w.type=PROV[id].t}persist();render();openWalletQR(w.id)}
+ else{const x=P(D.t.id),q={id:uid(),label:label||inf.bank||`QR ${x.qrs.length+1}`,p:D.p,acct};x.qrs.push(q);persist();render();openPerson(x.id,q.id)}
+ toast('QR saved')}
+
+/* people */
+const P=id=>S.people.find(x=>x.id===id);
+function openPerson(id,qid){const x=P(id);if(!x)return;const cur=x.qrs.find(q=>q.id===qid)||x.qrs[0];sheet={type:'person',id,q:cur?.id};
+ openSheet(`${sheetHead(esc(x.name))}${x.rel?`<div class="sub" style="margin-top:-10px">${x.rel}</div>`:''}
+ ${cur?`<div class="chips" role="radiogroup" aria-label="QR codes">${x.qrs.map(q=>`<button class="sel${q.id===cur.id?' on':''}" role="radio" aria-checked="${q.id===cur.id}" data-a="pq" data-id="${q.id}">${esc(q.label||'QR')}</button>`).join('')}<button class="sel" data-a="pickqr">${sv(I.plus,16)}Add QR</button></div>
+  ${qrPanel(cur,cur.label)}
+  <div class="${cur.acct?'g2':''}"><button class="sec" data-a="saveqr">${sv(I.down,18)}Save image</button>${cur.acct?`<button class="sec" data-a="copyacct">${sv(I.copy,18)}Copy number</button>`:''}</div>`
+ :`<div class="card empty"><span class="ico">${sv(I.qr)}</span><div class="t15">No QR yet</div><div class="sub" style="max-width:30ch">Ask ${esc(x.name)} for a GCash, Maya or bank QR. Save the screenshot, then pick it here.</div><button class="sec" style="width:auto;height:44px;padding:0 18px" data-a="pickqr">${sv(I.img,18)}Choose from Photos</button></div>`}
+ <button class="cta" data-a="paylog">Log money sent</button>
+ <div class="${cur?'g2':''}"><button class="sec" data-a="editperson">${sv(I.edit,18)}Edit</button>${cur?`<button class="sec danger" data-a="rmpq">${sv(I.trash,18)}Remove QR</button>`:''}</div>`);
+ fillQR()}
+function openPersonEdit(id){const x=id&&P(id);sheet={type:'pedit',id:x?.id,name:x?.name||'',rel:x?.rel||''};drawPersonEdit();if(!x)setTimeout(()=>$('#p-name')?.focus(),250)}
+function drawPersonEdit(){const D=sheet;
+ openSheet(`${sheetHead(D.id?'Edit person':'Add person')}
+ <div><label class="lbl" for="p-name">Name</label><input class="field" id="p-name" maxlength="40" placeholder="Mama" value="${esc(D.name)}" autocomplete="off"></div>
+ <div><span class="lbl">Relationship (optional)</span><div class="chips">${RELS.map(r=>`<button class="sel${D.rel===r?' on':''}" data-a="prel" data-v="${r}">${r}</button>`).join('')}</div></div>
+ <div class="err" id="p-err"></div><button class="cta" data-a="saveperson">${D.id?'Save changes':'Add person'}</button>
+ ${D.id?`<button class="sec danger" data-a="delperson">${sv(I.trash,18)}Delete person</button>`:''}`)}
+function savePerson(){const D=sheet,name=D.name.trim();
+ if(!name){$('#p-err').textContent='Enter a name';return}
+ if(S.people.some(x=>x.id!==D.id&&x.name.toLowerCase()===name.toLowerCase())){$('#p-err').textContent='You already saved someone with this name';return}
+ let id=D.id;if(id){const x=P(id);x.name=name;x.rel=D.rel}else{id=uid();S.people.push({id,name,rel:D.rel,qrs:[]})}
+ persist();render();openPerson(id);toast(D.id?'Changes saved':'Person added')}
+
+/* recurring bills */
+function logBill(id){const r=S.rec.find(x=>x.id===id);if(!r)return;openEntry('expense');if(sheet?.type!=='entry')return;
+ const d=billDue(r);Object.assign(sheet,{name:r.name,amt:plain(r.amt),wallet:W(r.wallet)?r.wallet:sheet.wallet,cat:r.cat,catSet:true,recId:r.id,date:d&&d.diff<0?dkey(d.date):sheet.date});drawEntry()}
+function openBills(){sheet={type:'bills'};const tot=sum(S.rec);
+ openSheet(`${sheetHead('Recurring bills')}<p class="sub" style="font-size:14px;margin:0">Bills you log every month. Home shows them a few days before they're due.</p>
+ ${S.rec.length?`<div class="card" style="padding:12px"><div class="inner">${[...S.rec].sort((a,b)=>a.day-b.day).map(r=>`<button class="li lirow" data-a="billedit" data-id="${r.id}"><span style="display:flex;gap:12px;align-items:center;min-width:0">${txCat({kind:'expense',cat:r.cat,wallet:r.wallet})}<span class="ellip"><div class="nm">${esc(r.name)}</div><div class="tiny">Every month on day ${r.day} · ${esc(wname(r.wallet))}</div></span></span><span class="amt2">${peso(r.amt)}</span></button>`).join('')}</div></div>
+  <div class="tiny" style="margin:0 4px">About ${peso(tot)} a month in total.</div>`:`<div class="card empty"><span class="ico">${sv(I.receipt)}</span><div class="t15">No recurring bills yet</div><div class="sub" style="max-width:30ch">When you log spending, turn on Repeat every month.</div></div>`}
+ <button class="cta" data-a="billnew">${sv(I.plus,18)}Add a bill</button>`)}
+function openBillEdit(id){const r=S.rec.find(x=>x.id===id);if(!r)return;sheet={type:'billedit',id};
+ openSheet(`${sheetHead('Edit bill')}
+ <div><label class="lbl" for="b-name">Name</label><input class="field" id="b-name" maxlength="60" value="${esc(r.name)}"></div>
+ <div class="g2"><div><label class="lbl" for="b-amt">Amount</label><input class="field" id="b-amt" inputmode="decimal" value="${plain(r.amt)}" style="font-weight:600;font-variant-numeric:tabular-nums"></div><div><label class="lbl" for="b-day">Day of the month</label><input class="field" id="b-day" inputmode="numeric" maxlength="2" value="${r.day}"></div></div>
+ <div><label class="lbl" for="b-wal">Pay from</label><select class="field" id="b-wal">${S.wallets.map(w=>`<option value="${w.id}"${w.id===r.wallet?' selected':''}>${esc(w.name)}</option>`).join('')}</select></div>
+ <div><label class="lbl" for="b-cat">Category</label><select class="field" id="b-cat">${CATS.map(([c,l])=>`<option value="${c}"${c===r.cat?' selected':''}>${esc(l)}</option>`).join('')}</select></div>
+ <div class="tiny" style="margin:-6px 4px 0">Days 29–31 fall on the last day in shorter months.</div>
+ <div class="err" id="bl-err"></div><button class="cta" data-a="billsave">Save changes</button>
+ <button class="sec danger" data-a="billdel">${sv(I.trash,18)}Stop this bill</button>`)}
+function saveBill(){const r=S.rec.find(x=>x.id===sheet.id),err=$('#bl-err'),name=$('#b-name').value.trim(),amt=toC($('#b-amt').value),day=+$('#b-day').value;
+ if(!name){err.textContent='Enter a name';return}if(!(amt>0)){err.textContent='Enter an amount above 0';return}
+ if(!Number.isInteger(day)||day<1||day>31){err.textContent='Enter a day from 1 to 31';return}
+ Object.assign(r,{name,amt,day,wallet:$('#b-wal').value,cat:$('#b-cat').value});persist();render();openBills();toast('Bill saved')}
+
+/* monthly backup prompt: once a month, if no backup was saved this month */
+function monthlyBackup(){const cur=ymLocal(new Date());if(!S.name||S.tx.length<3||(S.lastBackup&&ymLocal(new Date(S.lastBackup))===cur)||S.bkAsk===cur||tour||$('#scrim'))return;
+ S.bkAsk=cur;persist();sheet={type:'bkask'};
+ openSheet(`${sheetHead('Monthly backup')}<p class="sub" style="font-size:14px;margin:0">It's a new month. Your entries live only on this phone, and iPhone can clear website data in rare cases. Save a backup file to ${IOS?'Files or iCloud Drive':'your Files or Google Drive'} so you never lose them.</p>
+ <div class="card row"><span class="sub">Last backup</span><span class="t15">${S.lastBackup?shortDate(S.lastBackup):'Never'}</span></div>
+ <button class="cta" data-a="backup">${sv(I.down,18)}Save backup</button><button class="sec" data-a="close">Not now</button>`)}
+
+/* categories */
+function openCats(){sheet={type:'cats'};
+ openSheet(`${sheetHead('Categories')}<p class="sub" style="font-size:14px;margin:0">Add your own, or rename any category. Your entries and limits stay with it.</p>
+ <div class="card" style="padding:12px"><div class="inner">${CATS.map(([id,l,ic])=>`<button class="li lirow" data-a="editcat" data-v="${id}"><span style="display:flex;gap:12px;align-items:center;min-width:0"><span style="color:var(--muted);display:flex">${sv(I[ic],18)}</span><span class="ellip"><div class="nm">${esc(l)}</div><div class="tiny">${id.startsWith('c_')?'Your own':S.cname[id]?`Renamed from ${CATS0.find(c=>c[0]===id)[1]}`:'Built in'}</div></span></span><span style="color:var(--faint);display:flex">${sv(I.chev,16)}</span></button>`).join('')}</div></div>
+ <button class="cta" data-a="newcat">${sv(I.plus,18)}Add category</button>`)}
+// back: the entry sheet to return to after adding a category from it
+function openCatEdit(id,back){const own=S.ccat.find(c=>c.id===id),b=CATS0.find(c=>c[0]===id);
+ sheet={type:'catedit',id:own||b?id:null,builtin:!!b,name:own?own.l:b?S.cname[id]||'':'',icon:own?own.i:b?b[2]:'star',back};drawCatEdit();if(!id)setTimeout(()=>$('#c-name')?.focus(),250)}
+function drawCatEdit(){const D=sheet,orig=D.builtin&&CATS0.find(c=>c[0]===D.id)[1];
+ openSheet(`${sheetHead(D.id?'Edit category':'New category')}
+ <div><label class="lbl" for="c-name">Name</label><input class="field" id="c-name" maxlength="20" placeholder="${D.builtin?esc(orig):'Pets'}" value="${esc(D.name)}" autocomplete="off">${D.builtin?`<div class="tiny" style="margin-top:6px">Leave empty to use ${esc(orig)}.</div>`:''}</div>
+ ${D.builtin?'':`<div><span class="lbl">Icon</span><div class="icopick" role="radiogroup" aria-label="Icon">${CICONS.map(k=>`<button class="${D.icon===k?'on':''}" role="radio" aria-checked="${D.icon===k}" aria-label="${k}" data-a="cicon" data-v="${k}">${sv(I[k],18)}</button>`).join('')}</div></div>`}
+ <div class="err" id="c-err"></div><button class="cta" data-a="savecat">${D.id?'Save changes':'Add category'}</button>
+ ${D.id&&!D.builtin?`<button class="sec danger" data-a="delcat">${sv(I.trash,18)}Delete category</button><p class="tiny" style="margin:-6px 4px 0;text-align:center">Its entries move to ${CAT.others.h}.</p>`:''}`)}
+function saveCat(){const D=sheet,name=$('#c-name').value.trim(),err=$('#c-err');
+ if(!name&&!D.builtin){err.textContent='Enter a name';return}
+ if(name&&CATS.some(([id,l])=>id!==D.id&&l.toLowerCase()===name.toLowerCase())){err.textContent='You already have a category with this name';return}
+ let id=D.id;
+ if(D.builtin){if(name&&name!==CATS0.find(c=>c[0]===id)[1])S.cname[id]=name;else delete S.cname[id]}
+ else if(id){const c=S.ccat.find(c=>c.id===id);c.l=name;c.i=D.icon}
+ else{if(S.ccat.length>=30){err.textContent='You can have up to 30 of your own categories';return}id='c_'+uid().slice(0,10).replace(/[^a-z0-9]/g,'');S.ccat.push({id,l:name,i:D.icon})}
+ persist();render();
+ if(D.back){sheet=D.back;sheet.cat=id;sheet.catSet=true;drawEntry()}else openCats();
+ toast(D.id?'Changes saved':'Category added')}
+
+/* budget */
+function openCatBudget(){
+ sheet={type:'cbud'};const n=new Date();
+ openSheet(`${sheetHead('Category limits')}<p class="sub" style="font-size:14px;margin:0">Set how much you want to spend on each category a month. Leave a box empty for no limit.</p>
+ <div class="card" style="padding:12px"><div class="inner">${CATS.map(([c,l,ic])=>`<div class="li"><label for="cb-${c}" style="display:flex;gap:10px;align-items:center;min-width:0"><span style="color:var(--muted);display:flex">${sv(I[ic],18)}</span><span><span style="display:block;font-weight:500">${esc(l)}</span><span class="tiny">${peso(catSpent(c,n.getFullYear(),n.getMonth()))} spent</span></span></label>
+  <input class="field cbin" id="cb-${c}" data-c="${c}" inputmode="decimal" placeholder="No limit" value="${plain(S.cbud[c]||0)}" style="width:110px;flex-shrink:0;height:42px;text-align:right;font-weight:600;font-variant-numeric:tabular-nums"></div>`).join('')}</div></div>
+ <div class="tiny" id="cb-sum"></div><div class="err" id="cb-err"></div><button class="cta" data-a="savecbud">Save limits</button>`);
+ cbSum();
+}
+function cbSum(){const el=$('#cb-sum');if(!el)return;let t=0;document.querySelectorAll('.cbin').forEach(i=>{const a=toC(i.value);if(a>0)t+=a});
+ el.textContent=t?`Limits add up to ${peso(t)} a month.${S.budget&&t>S.budget?` That's more than your monthly budget of ${peso(S.budget)}.`:''}`:''}
+function saveCatBudget(){const nb={};
+ for(const i of document.querySelectorAll('.cbin')){const v=i.value.trim();if(!v)continue;const a=toC(v),l=CAT[i.dataset.c].l;
+  if(!(a>0)){$('#cb-err').textContent=`Enter an amount above 0 for ${l}, or leave it empty`;i.focus();return}
+  if(a>99999999999){$('#cb-err').textContent=`Enter a smaller amount for ${l}`;i.focus();return}nb[i.dataset.c]=a}
+ const old=S.cbud;S.cbud=nb;persist();closeSheet();render();toast(Object.keys(nb).length?'Limits saved':'Limits removed',()=>{S.cbud=old})}
+function openBudget(){
+ sheet={type:'budget'};
+ openSheet(`${sheetHead('Monthly budget')}<p class="sub" style="font-size:14px;margin:0">How much you want to spend each month. Only spending counts, not transfers or money in.</p>
+ <div><label class="lbl" for="b-amt">Budget per month</label><input class="field" id="b-amt" inputmode="decimal" placeholder="₱15,000" value="${plain(S.budget)}" style="font-weight:600;font-variant-numeric:tabular-nums"></div>
+ <div class="err" id="b-err"></div><button class="cta" data-a="savebudget">Save budget</button>${S.budget?`<button class="sec danger" data-a="rmbudget">Remove budget</button>`:''}`);
+ setTimeout(()=>$('#b-amt')?.focus(),250);
+}
+
+/* wallet */
+function openWallet(id,back){
+ const w=id&&W(id);
+ sheet={type:'wallet',back,id:w?.id,name:w?.name||'',wtype:w?.type||(S.wallets.length?'bank':'cash'),prov:w?.prov||'',amt:w?plain(w.type==='paylater'?-bal(w.id):bal(w.id)):'',lim:w?.limit?plain(w.limit):'',goal:w?.goal?plain(w.goal):'',gby:w?.gby||''};
+ drawWallet();maybeTour('wallet',true);if(!w)setTimeout(()=>$('#wl-name')?.focus(),250);
+}
+function drawWallet(){
+ const D=sheet;const w=D.id&&W(D.id);
+ const recent=w?sorted().filter(t=>t.wallet===w.id||t.to===w.id).slice(0,5):[];
+ openSheet(`${sheetHead(w?esc(w.name):'Add wallet')}
+ <div class="mcard wprev" id="wl-prev" data-card="${PROVS[D.wtype]&&D.prov||'default'}" aria-hidden="true"><span class="mc-name"></span><span class="mc-bal"></span></div>
+ ${w?`<div class="card" style="padding:12px"><div class="sub" style="padding:4px 4px 10px;font-size:14px">Recent in this wallet</div><div class="inner">${recent.length?recent.map(txRow).join(''):'<div class="li"><span class="sub">Nothing logged yet</span></div>'}</div></div>`:''}
+ <div><label class="lbl" for="wl-name">Wallet name</label><input class="field" id="wl-name" maxlength="30" placeholder="BDO savings" value="${esc(D.name)}" autocomplete="off"></div>
+ <div><span class="lbl">Type</span><div class="chips">${Object.entries(TYPES).map(([k,t])=>`<button class="sel${D.wtype===k?' on':''}" data-a="wtype" data-v="${k}">${sv(I[t.i],16)}${t.l}</button>`).join('')}</div></div>
+ ${PROVS[D.wtype]?`<div><span class="lbl">Which ${{bank:'bank',ewallet:'e-wallet',paylater:'app'}[D.wtype]}? (optional)</span><div class="pgrid" role="radiogroup" aria-label="Card design">${[['','None'],...PROVS[D.wtype]].map(([id,n])=>`<button class="ptile${D.prov===id?' on':''}" role="radio" aria-checked="${D.prov===id}" data-a="wprov" data-v="${id}"><span class="pthumb" data-card="${id||'default'}"></span>${n}</button>`).join('')}</div><div class="tiny" style="margin-top:8px">Pick None if yours isn't listed.</div></div>`:''}
+ ${D.wtype==='paylater'?`<div><label class="lbl" for="wl-lim">Credit limit</label><input class="field" id="wl-lim" inputmode="decimal" placeholder="₱10,000.00" value="${esc(D.lim)}" style="font-weight:600;font-variant-numeric:tabular-nums"><div class="tiny" style="margin-top:6px">The most the app lets you use. Pay later isn't counted in your total balance.</div></div>`:''}
+ <div><label class="lbl" for="wl-amt">${D.wtype==='paylater'?'What you owe right now':'Balance right now'}</label><input class="field" id="wl-amt" inputmode="decimal" placeholder="₱0.00" value="${esc(D.amt)}" style="font-weight:600;font-variant-numeric:tabular-nums">
+ <div class="tiny" style="margin-top:6px">${D.wtype==='paylater'?'Enter 0 if you don\'t owe anything yet. Spending from it adds to what you owe. To pay it off, transfer money into it.':w?'Change this only if it doesn\'t match your real balance. Your history stays the same.':'Check your bank app or count your cash.'}</div></div>
+ ${D.wtype!=='paylater'?`<div><span class="lbl" style="font-size:14px;font-weight:600;color:var(--ink)">Savings goal (optional)</span><div class="g2"><div><label class="lbl" for="wl-goal">Goal amount</label><input class="field" id="wl-goal" inputmode="decimal" placeholder="₱50,000.00" value="${esc(D.goal)}" style="font-weight:600;font-variant-numeric:tabular-nums"></div><div><label class="lbl" for="wl-gby">Reach it by</label><div class="datewrap${D.gby?' has':''}"><input class="field" id="wl-gby" type="date" value="${esc(D.gby)}" min="${dkey(new Date())}"><span class="dateph" aria-hidden="true">Pick a date</span></div></div></div>
+  <div class="tiny" style="margin-top:6px" id="wl-ghint">${w?.goal?(gi=>gi.left?`${S.hide?'₱•••':peso(gi.b)} saved of ${peso(gi.g)}${gi.monthly?` · about ${peso(gi.monthly)} a month to reach it by ${gi.when}`:''}`:'Goal reached')(goalInfo(w)):'Set an amount to track it as savings. Add a date if you want a monthly target. Move money in with Transfer.'}</div></div>`:''}
+ <div class="err" id="wl-err"></div>
+ <button class="cta" data-a="savewallet">${w?'Save changes':'Add wallet'}</button>
+ ${w?`<button class="sec danger" data-a="delwallet">${sv(I.trash,18)}Delete wallet</button>`:''}`);
+ wlPrev();fillCards();
+}
+// The preview card at the top of the wallet sheet follows the name and amount as you type
+function wlPrev(){const p=$('#wl-prev');if(!p)return;const D=sheet,c=toC(D.amt),v=isNaN(c)?0:c,l=toC(D.lim||'');
+ p.querySelector('.mc-name').textContent=D.name.trim()||(PROV[D.prov]?.n)||'Wallet name';
+ p.querySelector('.mc-bal').textContent=D.wtype==='paylater'?(l>0?`${peso(Math.max(0,l-Math.abs(v)))} available`:`Owe ${peso(Math.abs(v))}`):peso(v)}
+function saveWallet(){
+ const D=sheet,err=$('#wl-err');const name=D.name.trim();const amt=D.amt.trim()===''?0:toC(D.amt);
+ if(!name){err.textContent='Enter a wallet name';return}
+ if(S.wallets.some(w=>w.id!==D.id&&w.name.toLowerCase()===name.toLowerCase())){err.textContent='You already have a wallet with this name';return}
+ if(isNaN(amt)){err.textContent=D.wtype==='paylater'?'Enter what you owe as a number, like 1500':'Enter the balance as a number, like 1500';return}
+ const prov=PROV[D.prov]?.t===D.wtype?D.prov:'';
+ const limTxt=D.wtype==='paylater'?(D.lim||'').trim():'',lim=limTxt?toC(limTxt):0;
+ if(limTxt&&!(lim>0)){err.textContent='Enter the credit limit as a number above 0, like 10000';return}
+ const goalTxt=D.wtype!=='paylater'?(D.goal||'').trim():'',goal=goalTxt?toC(goalTxt):0,gby=goal&&/^\d{4}-\d{2}-\d{2}$/.test(D.gby||'')?D.gby:'';
+ if(goalTxt&&!(goal>0)){err.textContent='Enter the savings goal as a number above 0, like 50000';return}
+ const target=D.wtype==='paylater'?-amt:amt;
+ if(D.id){const w=W(D.id);const diff=target-bal(w.id);w.name=name;w.type=D.wtype;w.start+=diff;if(prov)w.prov=prov;else delete w.prov;if(lim)w.limit=lim;else delete w.limit;if(goal)w.goal=goal;else delete w.goal;if(gby)w.gby=gby;else delete w.gby}
+ else S.wallets.push({id:uid(),name,type:D.wtype,start:target,...(prov?{prov}:{}),...(lim?{limit:lim}:{}),...(goal?{goal}:{}),...(gby?{gby}:{})});
+ if(D.back){persist();render();const e=D.back;if(!D.id){e[e.ddf||'wallet']=S.wallets.at(-1).id;if(e.kind==='transfer'&&e.to===e.wallet)e.to=''}sheet=e;drawEntry();toast(D.id?'Changes saved':'Wallet added');return}
+ persist();closeSheet();render();toast(D.id?'Changes saved':'Wallet added');
+}
+
+/* confirm */
+let confirmFn=null;
+function ask(title,text,btn,fn){confirmFn=fn;sheet={type:'confirm'};openSheet(`${sheetHead(title)}<p class="sub" style="font-size:15px;margin:0">${text}</p><button class="cta" data-a="yes">${btn}</button><button class="sec" data-a="close">Cancel</button>`)}
+
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{
+ if(e.target.id==='scrim'){closeSheet();return}
+ const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,id=b.dataset.id;
+ switch(a){
+  case 'start':{const n=$('#w-name').value.trim(),c=$('#w-cash').value.trim(),err=$('#w-err');const amt=c?toC(c):0;
+   if(!n){err.textContent='Enter your name';$('#w-name').focus();return}
+   if(isNaN(amt)||amt<0){err.textContent='Enter cash on hand as a number, like 500';return}
+   S.name=n;if(!S.wallets.length)S.wallets.push({id:uid(),name:'Cash on hand',type:'cash',start:amt});
+   persist();keepData();page='home';render();toast(`Welcome, ${n}`);break}
+  case 'go':if(b.dataset.p==='history'&&page!=='history')histBack=page;page=b.dataset.p;if(page==='insights')im=null;render();scrollTo(0,0);break;
+  case 'mon':{const d=new Date(im[0],im[1]+Number(b.dataset.v),1);im=[d.getFullYear(),d.getMonth()];render();break}
+  case 'catgo':query=CAT[b.dataset.v].l;filter='all';if(page!=='history')histBack=page;page='history';render();scrollTo(0,0);break;
+  case 'cat':sheet.cat=b.dataset.v;sheet.catSet=true;drawEntry();break;
+  case 'budget':openBudget();break;
+  case 'cbud':openCatBudget();break;
+  case 'tips':endTour();S.tips={};persist();page='home';render();scrollTo(0,0);break;
+  case 'savecbud':saveCatBudget();break;
+  case 'savebudget':{const a=toC($('#b-amt').value);if(!(a>0)){$('#b-err').textContent='Enter an amount above 0, like 15000';return}if(a>99999999999){$('#b-err').textContent='Enter a smaller amount';return}
+   S.budget=a;persist();closeSheet();render();toast('Budget saved');break}
+  case 'rmbudget':{const old=S.budget;S.budget=0;persist();closeSheet();render();toast('Budget removed',()=>{S.budget=old});break}
+  case 'undo':{const f=undoFn;undoFn=null;$('.toast')?.remove();if(f){f();persist();render();toast('Undone')}break}
+  case 'billlog':logBill(id);break;
+  case 'billskip':{const r=S.rec.find(x=>x.id===id),cur=ymLocal(new Date()),old=r.last;r.last=cur;persist();render();toast(`${r.name} skipped this month`,()=>{r.last=old});break}
+  case 'bills':openBills();break;
+  case 'billedit':openBillEdit(id);break;
+  case 'billsave':saveBill();break;
+  case 'billdel':{const r=S.rec.find(x=>x.id===sheet.id),at=S.rec.indexOf(r);S.rec.splice(at,1);persist();render();openBills();toast('Bill stopped',()=>{S.rec.splice(at,0,r)});break}
+  case 'billnew':openEntry('expense');if(sheet?.type==='entry'){sheet.rep=true;drawEntry()}break;
+  case 'snooze':S.backupSnooze=new Date().toISOString();persist();render();toast("We'll remind you next week");break;
+  case 'find':if(page!=='history')histBack=page;page='history';render();scrollTo(0,0);$('#q')?.focus();break;
+  case 'hide':S.hide=!S.hide;persist();render();break;
+  case 'filter':filter=id;render();break;
+  case 'new':openEntry(b.dataset.k||'expense');break;
+  case 'tx':openReceipt(id);break;
+  case 'txedit':{const t=S.tx.find(x=>x.id===sheet.id);if(t)openEntry(t.kind,t);break}
+  case 'txagain':{const t=S.tx.find(x=>x.id===sheet.id);if(!t)break;openEntry(t.kind);if(sheet?.type!=='entry')break;
+   Object.assign(sheet,{name:t.name||'',amt:plain(t.amt),wallet:W(t.wallet)?t.wallet:sheet.wallet,to:t.to&&W(t.to)?t.to:sheet.to});if(t.kind==='expense'){sheet.cat=catOf(t);sheet.catSet=true}drawEntry();break}
+  case 'wallet':openWallet(id);break;
+  case 'wcard':{const i=+b.dataset.i;if(i!==wi){wi=i;deckGo()}else flipCard(id);break}
+  case 'wdot':wi=+b.dataset.i;deckGo();break;
+  case 'wflip':flipCard(id);break;
+  case 'wtab':S.wtab=b.dataset.v;persist();render();break;
+  case 'plpay':case 'plspend':{const pls=S.wallets.filter(w=>w.type==='paylater');if(!pls.length)break;
+   // Pay bill: transfer from a money wallet into the pay later wallet you owe most on. Spend: log a purchase with pay later.
+   const owe=[...pls].sort((x,y)=>bal(x.id)-bal(y.id))[0];
+   if(a==='plspend'){openEntry('expense');if(sheet?.type==='entry'){sheet.wallet=pls[0].id;drawEntry()}break}
+   const from=S.wallets.find(w=>w.id===S.lastWallet&&w.type!=='paylater')||S.wallets.find(w=>w.type!=='paylater');
+   if(!from){toast('Add a cash, bank or e-wallet first to pay from');break}
+   openEntry('transfer');if(sheet?.type==='entry'){sheet.wallet=from.id;sheet.to=owe.id;drawEntry()}break}
+  case 'cats':openCats();break;
+  case 'editcat':openCatEdit(b.dataset.v);break;
+  case 'newcat':openCatEdit(null,sheet?.type==='entry'?sheet:null);break;
+  case 'cicon':sheet.icon=b.dataset.v;sheet.name=$('#c-name').value;drawCatEdit();break;
+  case 'savecat':saveCat();break;
+  case 'delcat':{const c=S.ccat.find(c=>c.id===sheet.id),at=S.ccat.indexOf(c),moved=S.tx.filter(t=>t.cat===c.id),lim=S.cbud[c.id];
+   S.ccat.splice(at,1);moved.forEach(t=>t.cat='others');delete S.cbud[c.id];persist();render();openCats();
+   toast(moved.length?`Category deleted. ${moved.length} ${moved.length===1?'entry':'entries'} moved to ${CAT.others.l}`:'Category deleted',()=>{S.ccat.splice(at,0,c);moved.forEach(t=>t.cat=c.id);if(lim)S.cbud[c.id]=lim});break}
+  case 'wqr':openWalletQR(id);break;
+  case 'pickqr':pickQR();break;
+  case 'saveqrnew':saveNewQR();break;
+  case 'saveqr':saveQRImage();break;
+  case 'copyacct':copyAcct();break;
+  case 'rmqr':{const w=W(sheet.id),old=w.qr;delete w.qr;persist();closeSheet();render();toast('QR removed',()=>{w.qr=old});break}
+  case 'person':openPerson(id);break;
+  case 'addperson':openPersonEdit();break;
+  case 'editperson':openPersonEdit(sheet.id);break;
+  case 'prel':sheet.rel=sheet.rel===b.dataset.v?'':b.dataset.v;drawPersonEdit();break;
+  case 'saveperson':savePerson();break;
+  case 'delperson':{const x=P(sheet.id),at=S.people.indexOf(x);S.people.splice(at,1);persist();closeSheet();render();toast('Person deleted',()=>{S.people.splice(at,0,x)});break}
+  case 'pq':openPerson(sheet.id,id);break;
+  case 'rmpq':{const x=P(sheet.id),at=x.qrs.findIndex(q=>q.id===sheet.q),q=x.qrs[at];x.qrs.splice(at,1);persist();render();openPerson(x.id);toast('QR removed',()=>{x.qrs.splice(at,0,q);if(sheet?.type==='person'&&sheet.id===x.id)openPerson(x.id,q.id)});break}
+  case 'paylog':{const x=P(sheet.id);openEntry('expense');if(sheet?.type==='entry'){sheet.name=x.name;sheet.cat=guessCat(x.name);drawEntry();setTimeout(()=>$('#e-amt')?.focus(),300)}break}
+  case 'addwallet':openWallet();break;
+  case 'close':closeSheet();break;
+  case 'kind':sheet.kind=b.dataset.v;if(sheet.kind==='expense'&&!sheet.catSet)sheet.cat=guessCat(sheet.name);if(sheet.kind==='transfer'&&(!sheet.to||sheet.to===sheet.wallet))sheet.to=S.wallets.find(w=>w.id!==sheet.wallet)?.id||'';drawEntry();break;
+  case 'overback':{const e=sheet.back;e.dd='wallet';sheet=e;drawEntry();break}
+  case 'overok':{const e=sheet.back;e.force=true;sheet=e;drawEntry();saveEntry();break}
+  case 'overfix':{const e=sheet.back;openWallet(e.wallet,e);break}
+  case 'ddopen':sheet.dd=sheet.dd===b.dataset.f?null:b.dataset.f;drawEntry();break;
+  case 'ddadd':{const back=sheet;back.dd=null;back.ddf=b.dataset.f;openWallet(null,back);break}
+  case 'pick':sheet.dd=null;sheet[b.dataset.f]=id;if(b.dataset.f==='wallet'&&sheet.to===id)sheet.to=S.wallets.find(w=>w.id!==id)?.id||'';drawEntry();break;
+  case 'fill':sheet.name=b.dataset.v;if(!sheet.catSet)sheet.cat=guessCat(sheet.name);drawEntry();$('#e-amt').focus();break;
+  case 'saveentry':saveEntry();break;
+  case 'delentry':{const t=S.tx.find(x=>x.id===sheet.id);S.tx=S.tx.filter(x=>x.id!==t.id);persist();closeSheet();render();toast('Entry deleted',()=>{S.tx.push(t)});break}
+  case 'wtype':sheet.wtype=b.dataset.v;if(PROV[sheet.prov]?.t!==sheet.wtype){if(sheet.name===PROV[sheet.prov]?.n)sheet.name='';sheet.prov=''}drawWallet();break;
+  case 'wprov':{const v=b.dataset.v,was=PROV[sheet.prov]?.n;sheet.prov=sheet.prov===v?'':v;
+   // fill the name if it's empty or still the previous pick's name
+   if(!sheet.name.trim()||sheet.name===was)sheet.name=sheet.prov?PROV[sheet.prov].n:'';drawWallet();break}
+  case 'savewallet':saveWallet();break;
+  case 'delwallet':{const w=W(sheet.id);const n=S.tx.filter(t=>t.wallet===w.id||t.to===w.id).length;
+   ask(`Delete ${esc(w.name)}?`,n?`This also deletes its ${n} ${n===1?'entry':'entries'}. Transfers with other wallets are removed from both sides.`:'This wallet has no entries.','Delete wallet',()=>{const at=S.wallets.indexOf(w),gone=S.tx.filter(t=>t.wallet===w.id||t.to===w.id);S.tx=S.tx.filter(t=>t.wallet!==w.id&&t.to!==w.id);S.wallets=S.wallets.filter(x=>x.id!==w.id);if(filter===w.id)filter='all';persist();toast('Wallet deleted',()=>{S.wallets.splice(at,0,w);S.tx.push(...gone)})});break}
+  case 'yes':{const f=confirmFn;confirmFn=null;closeSheet();f&&f();render();break}
+  case 'editname':sheet={type:'name'};openSheet(`${sheetHead('Edit name')}<div><label class="lbl" for="n-name">Your name</label><input class="field" id="n-name" maxlength="30" value="${esc(S.name)}" autocomplete="given-name"></div><div class="err" id="n-err"></div><button class="cta" data-a="savename">Save name</button>`);setTimeout(()=>$('#n-name')?.focus(),250);break;
+  case 'savename':{const n=$('#n-name').value.trim();if(!n){$('#n-err').textContent='Enter your name';return}S.name=n;persist();closeSheet();render();toast('Name saved');break}
+  case 'theme':S.theme=b.dataset.v;applyTheme(S.theme);persist();render();break;
+  case 'backup':{if(sheet?.type==='bkask')closeSheet();S.lastBackup=new Date().toISOString();delete S.backupSnooze;persist();render();const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const u=URL.createObjectURL(blob);const l=document.createElement('a');l.href=u;l.download=`pitaka-backup-${dkey(new Date())}.json`;document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);toast('Backup file saved');break}
+  case 'erase':ask('Erase all data?','This deletes your name, wallets and every entry on this device. Save a backup file first if you might need it.','Erase all data',()=>{const old=S;S=blank();try{localStorage.removeItem(KEY)}catch(e){}applyTheme('auto');page='home';filter='all';query='';toast('All data erased',()=>{S=old;applyTheme(S.theme)})});break;
+ }
+});
+document.addEventListener('input',e=>{
+ const t=e.target;
+ if(t.id==='q'){query=t.value;const pos=t.selectionStart;render();const q=$('#q');q.focus();q.setSelectionRange(pos,pos);return}
+ if(!sheet)return;
+ if(t.id==='e-name'){sheet.name=t.value;
+  // Pick the category as you type, without redrawing (that would close the keyboard)
+  if(sheet.kind==='expense'&&!sheet.catSet){sheet.cat=guessCat(t.value);document.querySelectorAll('[data-a="cat"]').forEach(c=>{const on=c.dataset.v===sheet.cat;c.classList.toggle('on',on);c.setAttribute('aria-checked',on)});cbHint()}}
+ else if(t.id==='e-amt'){sheet.amt=t.value;overHint()}else if(t.id==='e-rep')sheet.rep=t.checked;else if(t.id==='e-date')sheet.date=t.value;
+ else if(t.classList.contains('cbin'))cbSum();
+ else if(t.id==='p-name')sheet.name=t.value;
+ else if(t.id==='wl-name'){sheet.name=t.value;wlPrev()}else if(t.id==='wl-amt'){sheet.amt=t.value;wlPrev()}else if(t.id==='wl-goal')sheet.goal=t.value;else if(t.id==='wl-gby'){sheet.gby=t.value;t.parentNode.classList.toggle('has',!!t.value)}else if(t.id==='wl-lim'){sheet.lim=t.value;wlPrev()}
+ const err=$('#e-err')||$('#wl-err')||$('#b-err')||$('#cb-err')||$('#p-err')||$('#c-err');if(err)err.textContent='';
+});
+document.addEventListener('change',e=>{
+ if(e.target.id==='qrfile'){const f=e.target.files[0];e.target.value='';if(f)onQRFile(f);return}
+ if(e.target.id!=='restore')return;const f=e.target.files[0];e.target.value='';if(!f)return;
+ const r=new FileReader();r.onload=()=>{let d;try{d=JSON.parse(r.result)}catch(x){}
+  if(!d||d.app!=='pitaka'||!Array.isArray(d.wallets)||!Array.isArray(d.tx)){toast("That file isn't a Pitaka backup");return}
+  const{s,dropped}=normalize(d);
+  if(!s.name)s.name=S.name;
+  ask('Restore this backup?',`It has ${s.wallets.length} ${s.wallets.length===1?'wallet':'wallets'} and ${s.tx.length} ${s.tx.length===1?'entry':'entries'}.${dropped?` ${dropped} damaged ${dropped===1?'item':'items'} will be skipped.`:''} It replaces everything on this device now.`,'Restore backup',()=>{const old=S;S=s;applyTheme(S.theme);persist();filter='all';page='home';toast('Backup restored',()=>{S=old;applyTheme(S.theme)})})};
+ r.readAsText(f);
+});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'&&$('#scrim'))closeSheet();
+ if(e.key==='Enter'&&e.target.matches('.field')){const c=e.target.closest('.sheet,.welcome')?.querySelector('.cta');if(c){e.preventDefault();c.click()}}
+});
+matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{});
+
+// Ask the browser not to clear Pitaka's storage on its own (iOS Safari can after 7 days without a visit)
+function keepData(){try{navigator.storage?.persist?.().catch(()=>{})}catch(e){}}
+applyTheme(S.theme);render();if(S.name){keepData();setTimeout(monthlyBackup,1500)}
+// Look for a new version on every launch and whenever the app comes back to the front (iOS keeps Home Screen apps alive).
+// When a new version takes over, reload once so the page and images all come from it, not from the old saved copy.
+if('serviceWorker' in navigator&&location.protocol==='https:'){
+ const sw=navigator.serviceWorker,hadOld=!!sw.controller;let reloaded=false;
+ sw.addEventListener('controllerchange',()=>{if(hadOld&&!reloaded){reloaded=true;location.reload()}});
+ addEventListener('load',()=>sw.register('sw.js',{updateViaCache:'none'}).then(r=>{r.update().catch(()=>{});
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')r.update().catch(()=>{})})}).catch(()=>{}))}
+</script>
+</body>
+</html>

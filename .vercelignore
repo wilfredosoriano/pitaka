@@ -1,0 +1,3 @@
+# Never upload these; this is a static site, so every uploaded file is public
+.env*
+.DS_Store

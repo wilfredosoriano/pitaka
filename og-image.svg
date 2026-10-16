@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<rect width="1200" height="630" fill="#000"/>
+<rect x="80" y="195" width="240" height="240" rx="56" fill="#fff"/>
+<g transform="translate(134 249) scale(2.357142857142857) translate(-4 -3)" fill="#000"><circle cx="22" cy="9" r="6"/><path d="M13 18H43a9 9 0 0 1 9 9v2H46a9 9 0 0 0 0 18h6v2a9 9 0 0 1-9 9H13a9 9 0 0 1-9-9V27a9 9 0 0 1 9-9z"/><path fill-rule="evenodd" d="M46 32h8a6 6 0 0 1 0 12h-8a6 6 0 0 1 0-12zM50 35.5a2.5 2.5 0 1 0 0 5a2.5 2.5 0 1 0 0-5z"/></g>
+<text x="384" y="300" font-family="Onest" font-weight="700" font-size="120" letter-spacing="-2" fill="#fff">Pitaka</text>
+<text font-family="Onest" font-weight="400" font-size="36" fill="#E6E6E6"><tspan x="386" y="372">Track your cash, bank and e-wallets.</tspan><tspan x="386" y="420">Log spending, balances update for you.</tspan></text>
+<text x="386" y="480" font-family="Onest" font-weight="400" font-size="22" fill="#8F8F8F">pitaka-ko.vercel.app</text>
+</svg>

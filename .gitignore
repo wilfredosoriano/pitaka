@@ -1,0 +1,18 @@
+# Deploy settings and secrets (Vercel login token lives in .env.local)
+.vercel
+.env*
+
+# Claude Code files
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+
+# macOS and editor clutter
+.DS_Store
+*.swp
+.vscode/
+.idea/
+
+# Dependencies and logs, if ever added
+node_modules/
+*.log
