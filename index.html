@@ -940,7 +940,7 @@ function drawEntry(){
  ${k==='transfer'?`<div><span class="lbl">To</span>${wdrop('to',D.wallet)}</div>`:''}
  ${k==='transfer'?`<div><label class="lbl" for="e-name">Note (optional)</label><input class="field" id="e-name" maxlength="60" placeholder="ATM withdrawal" value="${esc(D.name)}" autocomplete="off"></div>`:''}
  <div><label class="lbl" for="e-date">Date</label><input class="field" id="e-date" type="date" value="${D.date}" max="${dkey(new Date())}"></div>
- ${k==='expense'&&!D.id&&!D.recId?`<label class="li reprow" data-tour="repeat" for="e-rep"><span><span style="display:block;font-weight:500">Repeat every month</span><span class="tiny">For bills and subscriptions. Pitaka reminds you when it's due.</span></span><input class="sw" type="checkbox" id="e-rep"${D.rep?' checked':''}></label>`:''}
+ ${k==='expense'&&!D.id&&!D.recId?`<label class="li reprow" data-tour="repeat" for="e-rep"><span><span style="display:block;font-weight:500">Repeat every month</span><span class="tiny">For bills and subscriptions. Pitaka reminds you when it's due.</span></span><input class="sw" type="checkbox" id="e-rep"${D.rep?' checked':''}></label>${D.rep?`<div><label class="lbl" for="e-due">Due date</label><div class="datewrap${D.due?' has':''}"><input class="field" id="e-due" type="date" value="${esc(D.due||'')}"><span class="dateph" aria-hidden="true">Pick a date</span></div><div class="tiny" style="margin-top:6px">${D.due?`Pitaka reminds you on day ${+D.due.slice(8)} every month. This payment counts for ${monthName(new Date().getFullYear(),new Date().getMonth())}.`:'The day the bill is due each month, not the day you paid.'}</div></div>`:''}`:''}
  ${D.recId?`<p class="tiny" style="margin:0 4px">Logging your monthly bill. It's marked done for ${monthName(new Date().getFullYear(),new Date().getMonth())}.</p>`:''}
  <div class="err" id="e-err"></div>
  <button class="cta" data-a="saveentry">${D.id?'Save changes':k==='expense'?'Save spending':k==='income'?'Add money':'Transfer'}</button>
@@ -972,6 +972,7 @@ function saveEntry(){
  if(!W(D.wallet)){err.textContent='Pick a wallet';return}
  if(D.kind==='transfer'&&(!D.to||D.to===D.wallet||!W(D.to))){err.textContent='Pick a different wallet to move money to';return}
  if(!/^\d{4}-\d{2}-\d{2}$/.test(D.date)){err.textContent='Pick a date';return}
+ if(D.rep&&!D.id&&D.kind==='expense'&&!/^\d{4}-\d{2}-\d{2}$/.test(D.due||'')){err.textContent='Pick the bill\'s due date';return}
  // new entries that spend more than the wallet has ask first; edits only show the hint
  const ov=!D.id&&!D.force&&overInfo(D);if(ov){openOver(D,ov);return}
  let at;const today=dkey(new Date());
@@ -983,7 +984,7 @@ function saveEntry(){
  if(D.id){const i=S.tx.findIndex(t=>t.id===D.id);S.tx[i]=rec}else S.tx.push(rec);
  // a new repeating bill starts counting from this entry's month; logging a due bill marks its month done
  const em=D.date.slice(0,7);
- if(D.rep&&!D.id&&D.kind==='expense')S.rec.push({id:uid(),name:rec.name,amt,wallet:D.wallet,cat:rec.cat,day:+D.date.slice(8,10),last:em});
+ if(D.rep&&!D.id&&D.kind==='expense')S.rec.push({id:uid(),name:rec.name,amt,wallet:D.wallet,cat:rec.cat,day:+D.due.slice(8,10),last:em});
  if(D.recId){const r=S.rec.find(x=>x.id===D.recId);if(r&&(r.last||'')<em)r.last=em}
  S.lastWallet=D.wallet;persist();closeSheet();render();
  toast(D.id?'Changes saved':D.kind==='expense'?`Spending saved${S.hide?'':`. ${wname(rec.wallet)}: ${peso(bal(rec.wallet))}`}`:D.kind==='income'?`Money added to ${wname(rec.wallet)}`:'Transfer done');
@@ -1256,7 +1257,7 @@ document.addEventListener('click',e=>{
   case 'billedit':openBillEdit(id);break;
   case 'billsave':saveBill();break;
   case 'billdel':{const r=S.rec.find(x=>x.id===sheet.id),at=S.rec.indexOf(r);S.rec.splice(at,1);persist();render();openBills();toast('Bill stopped',()=>{S.rec.splice(at,0,r)});break}
-  case 'billnew':openEntry('expense');if(sheet?.type==='entry'){sheet.rep=true;drawEntry()}break;
+  case 'billnew':openEntry('expense');if(sheet?.type==='entry'){sheet.rep=true;sheet.due=sheet.date;drawEntry()}break;
   case 'snooze':S.backupSnooze=new Date().toISOString();persist();render();toast("We'll remind you next week");break;
   case 'find':if(page!=='history')histBack=page;page='history';render();scrollTo(0,0);$('#q')?.focus();break;
   case 'hide':S.hide=!S.hide;persist();render();break;
@@ -1335,7 +1336,7 @@ document.addEventListener('input',e=>{
  if(t.id==='e-name'){sheet.name=t.value;
   // Pick the category as you type, without redrawing (that would close the keyboard)
   if(sheet.kind==='expense'&&!sheet.catSet){sheet.cat=guessCat(t.value);document.querySelectorAll('[data-a="cat"]').forEach(c=>{const on=c.dataset.v===sheet.cat;c.classList.toggle('on',on);c.setAttribute('aria-checked',on)});cbHint()}}
- else if(t.id==='e-amt'){sheet.amt=t.value;overHint()}else if(t.id==='e-rep')sheet.rep=t.checked;else if(t.id==='e-date')sheet.date=t.value;
+ else if(t.id==='e-amt'){sheet.amt=t.value;overHint()}else if(t.id==='e-rep'){sheet.rep=t.checked;if(t.checked&&!sheet.due)sheet.due=sheet.date;drawEntry()}else if(t.id==='e-due'){sheet.due=t.value;drawEntry()}else if(t.id==='e-date')sheet.date=t.value;
  else if(t.classList.contains('cbin'))cbSum();
  else if(t.id==='p-name')sheet.name=t.value;
  else if(t.id==='wl-name'){sheet.name=t.value;wlPrev()}else if(t.id==='wl-amt'){sheet.amt=t.value;wlPrev()}else if(t.id==='wl-goal')sheet.goal=t.value;else if(t.id==='wl-gby'){sheet.gby=t.value;t.parentNode.classList.toggle('has',!!t.value)}else if(t.id==='wl-lim'){sheet.lim=t.value;wlPrev()}
